@@ -1,0 +1,21 @@
+# tap repositories and their packages
+
+tap homebrew/core
+brew bash-completion
+brew coreutils
+brew cowsay
+brew curl
+brew fortune
+brew git
+brew openssl
+brew pyenv
+brew vim
+brew wget
+
+tap caskroom/cask
+cask slack
+cask sourcetree
+cask pycharm
+
+tap rcmdnk/file
+brew brew-file
