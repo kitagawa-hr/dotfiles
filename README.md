@@ -7,11 +7,13 @@ $ git clone https://github.com/cancerscan/dotfiles
 ```
 ### 2. 設定ファイルの配置
 ```
-$ source ~/dotfiles/bin/deploy.sh
+$ cd ~/dotfiles
+$ ./bin/deploy.sh
 ```
 ### 3. 必要なパッケージのインストール
 ```
-$ source ~/dotfiles/bin/install.sh
+$ cd ~/dotfiles
+$ ./bin/install.sh
 ```
 ## Python環境構築手順
 ### pyenv
