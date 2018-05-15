@@ -1,0 +1,1 @@
+export MAILCHECK=0
