@@ -9,13 +9,13 @@ brew fortune
 brew git
 brew openssl
 brew pyenv
-brew vim
+brew nvim
 brew wget
-
+brew peco
+brew zsh
 tap caskroom/cask
 cask slack
 cask sourcetree
-cask pycharm-ce
 
 tap rcmdnk/file
 brew brew-file
