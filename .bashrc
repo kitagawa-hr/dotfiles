@@ -26,9 +26,10 @@ if type brew > /dev/null 2>&1; then
     if [ -f $(brew --prefix)/etc/brew-wrap ];then
         source $(brew --prefix)/etc/brew-wrap
     fi
-fi# --------------------------------------
+fi
+# --------------------------------------
 # enable bash-completion
 # --------------------------------------
 if [ -f /usr/local/Cellar/bash-completion/1.3_1/etc/profile.d/bash_completion.sh ]; then
   . /usr/local/Cellar/bash-completion/1.3_1/etc/profile.d/bash_completion.sh
-fi
+fi 

@@ -1,4 +1,4 @@
-export MAILCHECK=0
+
 
 # zplug
 source ~/.zplug/init.zsh
@@ -17,7 +17,7 @@ zplug "chrissicool/zsh-256color"
 # 簡単にgitrootへcd
 zplug "mollifier/cd-gitroot"
 # 移動強化
-zplug "b4b4r07/enhancd", use:enhancd.sh
+
 # 補完強化
 zplug "zsh-users/zsh-completions"
 # インタラクティブフィルタ
@@ -76,7 +76,70 @@ autoload -U compinit; compinit
 
 # 入力したコマンドが存在せず、かつディレクトリ名と一致するなら、ディレクトリに cd する
 setopt auto_cd
+#移動強化
+#~/.peco/z-pathsにpathを追加
+#z add でディレクトリを追加 z editで一覧
+#https://qiita.com/junkoda/items/69b9360ca0f843342eb1
+function _z {
+  compadd `cat $HOME/.peco/z-paths | sed 's|.*/||'`
+}
 
+compdef _z z
+
+# z <dir>
+# z add . : add current directory to directory list
+# z edit  : edit the directory list with $ZEDIT
+
+function z() {
+  local PCD_FILE=$HOME/.peco/z-paths
+  local PCD_RETURN
+  local ZEDIT=${EDITOR:-emacs} # set your favourite editor
+
+  if [ $1 ] && [ $1 = "add" ]; then
+    # z add <dir>
+    if [ $2 ]; then
+      local ADD_DIR=$2
+      if [ $2 = "." ]; then
+        ADD_DIR=$(pwd) 
+      fi
+      echo "Adding $ADD_DIR to $PCD_FILE"
+      echo $ADD_DIR >> $PCD_FILE
+    fi
+  elif [ $1 ] && [ $1 = "edit" ]; then
+    # z edit
+    $ZEDIT $PCD_FILE
+  elif [ $1 ] && [ $1 = "." ]; then
+    PCD_RETURN=$(/bin/ls -F | grep /$ | sort | peco)
+  elif [ $1 ]; then
+    # z <dir> unique matching
+    local GREP_RETURN
+    local grepcmd="cat $PCD_FILE"
+    for pat in $*
+    do
+      grepcmd="$grepcmd | grep -e '/$pat'"
+    done
+
+    grepcmd=`echo $grepcmd | sed "s/'$/\$'/"`
+
+    GREP_RETURN=`eval $grepcmd`
+    echo "grep return = $GREP_RETURN"
+
+    if [ `expr "$GREP_RETURN" : '.*'` -ne 0 -a \
+     $(echo $GREP_RETURN | wc -l) -eq 1 ]; then
+      # unique match
+      PCD_RETURN=$GREP_RETURN
+    else
+      PCD_RETURN=$(cat $PCD_FILE | sort | peco --query "$*")
+    fi
+  else
+    PCD_RETURN=$(cat $PCD_FILE | sort | peco)
+  fi
+
+  if [ $PCD_RETURN ]; then
+    echo $PCD_RETURN
+    cd $PCD_RETURN
+  fi
+}
 
 # "~hoge" が特定のパス名に展開されるようにする（ブックマークのようなもの）
 # 例： cd ~hoge と入力すると /long/path/to/hogehoge ディレクトリに移動
@@ -154,3 +217,10 @@ setopt hist_reduce_blanks
 setopt hist_save_no_dups
 # historyコマンドは履歴に登録しない
 setopt hist_no_store
+#spark                                                                                                                                                        
+export SPARK_HOME=/usr/local/spark/spark-1.6.2-bin-hadoop2.6
+export PATH=$PATH:$SPARK_HOME/bin
+#jupyter spark
+export PYSPARK_PYTHON=$PYENV_ROOT/shims/python #環境に合わせてパスを合わせること
+export PYSPARK_DRIVER_PYTHON=$PYENV_ROOT/shims/jupyter
+export PYSPARK_DRIVER_PYTHON_OPTS="notebook"
