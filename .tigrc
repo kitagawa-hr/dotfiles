@@ -1,0 +1,26 @@
+# Show commit ID in left of main view
+set main-view = id date author:email-user commit-title:graph=yes,refs=yes
+
+# Show line number in blame view
+set blame-view  = date:default author:email-user id:yes,color line-number:yes,interval=1 text
+
+# bind generic G none
+# # alias vim-like behavior
+bind main g move-first-line
+bind main G move-last-line
+bind diff g move-first-line
+bind diff G move-last-line
+bind generic S view-stash
+bind generic y none
+bind main y !@sh -c "echo -n %(commit) | xclip -selection c"
+
+# # Show line nuber
+# set pager-view  = line-number:yes,interval=1 text
+# set stage-view  = line-number:yes,interval=1 text
+# set log-view    = line-number:yes,interval=1 text
+# set blob-view   = line-number:yes,interval=1 text
+# set diff-view   = line-number:yes,interval=1 text:yes,commit-title-overflow=no
+
+# Execute rebase -i on selected commit in main view or diff view.
+bind main R !git rebase -i %(commit)
+bind diff R !git rebase -i %(commit)

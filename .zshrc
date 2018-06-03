@@ -224,3 +224,8 @@ export PATH=$PATH:$SPARK_HOME/bin
 export PYSPARK_PYTHON=$PYENV_ROOT/shims/python #環境に合わせてパスを合わせること
 export PYSPARK_DRIVER_PYTHON=$PYENV_ROOT/shims/jupyter
 export PYSPARK_DRIVER_PYTHON_OPTS="notebook"
+export XDG_CONFIG_HOME="$HOME/.config"
+
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
