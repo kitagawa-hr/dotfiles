@@ -34,3 +34,4 @@ if [ -f /usr/local/Cellar/bash-completion/1.3_1/etc/profile.d/bash_completion.sh
   . /usr/local/Cellar/bash-completion/1.3_1/etc/profile.d/bash_completion.sh
 fi 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+PYTHONPATH='/Users/kitagawaharuki/da-workflow'

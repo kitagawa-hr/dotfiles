@@ -1,5 +1,3 @@
-
-
 # zplug
 source ~/.zplug/init.zsh
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
@@ -229,3 +227,4 @@ export XDG_CONFIG_HOME="$HOME/.config"
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+PYTHONPATH='/Users/kitagawaharuki/da-workflow'
