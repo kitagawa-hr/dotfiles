@@ -1,5 +1,4 @@
 " python interpreter
-let g:python_host_prog = $PYENV_ROOT . '/shims/python2'
 let g:python3_host_prog = $PYENV_ROOT . '/shims/python3'
 set mouse=a
 set clipboard+=unnamedplus

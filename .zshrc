@@ -1,4 +1,5 @@
 
+export EDITOR='nvim'
 # OS別設定読み込み
 case ${OSTYPE} in
     darwin*)

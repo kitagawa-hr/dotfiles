@@ -1,10 +1,7 @@
 # 環境変数
 export LANG=ja_JP.UTF-8
 export PATH="$HOME/bin:$PATH"
-# SPARK
-export SPARK_HOME=/usr/local/spark/spark-1.6.2-bin-hadoop2.6
-export PATH=$PATH:$SPARK_HOME/bin
-
+export PATH="/usr/local/bin:$PATH"
 # jupyter spark
 export PYSPARK_PYTHON=$PYENV_ROOT/shims/python #環境に合わせてパスを合わせること
 export PYSPARK_DRIVER_PYTHON=$PYENV_ROOT/shims/jupyter
@@ -14,15 +11,19 @@ export XDG_CONFIG_HOME="$HOME/.config"
 # PYTHONPATH
 export PYTHONPATH="/Users/kitagawaharuki/da-workflow"
 
-## Set path for pyenv
+## pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
 if [ -d "${PYENV_ROOT}" ]; then
     export PATH=${PYENV_ROOT}/bin:$PATH
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
 fi
+# SPARK
+export SPARK_HOME=/usr/local/spark/spark-1.6.2-bin-hadoop2.6
+export PATH=$PATH:$SPARK_HOME/bin
 
-### History ###
+
+###################### History #######################
 # 入力したコマンドがすでにコマンド履歴に含まれる場合、履歴から古いほうのコマンドを削除する
 # コマンド履歴とは今まで入力したコマンドの一覧のことで、上下キーでたどれる
 setopt hist_ignore_all_dups
