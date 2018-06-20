@@ -1,5 +1,8 @@
 
 #!/usr/local/bin/zsh
+# 色を使用出来るようにする
+autoload -Uz colors
+colors
 
 # load settings
 source ~/.zsh/completion.zsh
@@ -9,7 +12,6 @@ source ~/.zsh/fzf.zsh
 source ~/.zsh/alias.zsh
 source ~/.zsh/keybind.zsh
 source ~/.zsh/zplug.zsh
-export EDITOR='nvim'
 # OS別設定読み込み
 case ${OSTYPE} in
     darwin*)
@@ -27,9 +29,6 @@ fi
 
 
 
-# 色を使用出来るようにする
-autoload -Uz colors
-colors
 
 # Python
 # Init pyenv
