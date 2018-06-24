@@ -8,4 +8,4 @@ alias ....='cd ../../..'
 alias rm='rm -i'
 alias mv='mv -i'
 alias gs='git status'
-
+alias oni='/Applications/Oni.app/Contents/MacOS/Oni'
