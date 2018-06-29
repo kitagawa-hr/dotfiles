@@ -1,5 +1,4 @@
-#自動補間
-autoload -U compinit; compinit
+
 
 
 
