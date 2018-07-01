@@ -23,6 +23,13 @@ zplug "peco/peco", \
     as:command, \
     from:gh-r, \
     frozen:1
+zplug "mafredri/zsh-async",\
+    from:github
+
+zplug "sindresorhus/pure",\
+    use:pure.zsh, \
+    from:github,\ 
+    as:theme
 
 zplug "junegunn/fzf-bin", \
     as:command, \
