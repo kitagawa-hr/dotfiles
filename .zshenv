@@ -19,6 +19,7 @@ export PYTHONPATH="/Users/kitagawaharuki/da-workflow"
 export PYTHONPATH="$PYTHONPATH:/Users/kitagawaharuki/DBPJ"
 ## pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
 
 if [ -e ~/.pyenv ]; then
     eval "$(pyenv init -)"
