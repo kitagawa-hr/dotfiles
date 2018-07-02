@@ -27,9 +27,9 @@ zplug "mafredri/zsh-async",\
     from:github
 
 zplug "sindresorhus/pure",\
-    use:pure.zsh, \
-    from:github,\ 
-    as:theme
+    as:theme,\
+    use:pure.zsh,\
+    from:github
 
 zplug "junegunn/fzf-bin", \
     as:command, \
