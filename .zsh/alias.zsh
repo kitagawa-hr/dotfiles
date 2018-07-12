@@ -7,6 +7,14 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias rm='rm -i'
 alias mv='mv -i'
-alias gs='git status'
 alias oni='/Applications/Oni.app/Contents/MacOS/Oni'
+alias sed='gsed'
+# git
+alias gs='git status'
+alias gss='git status --short --branch'
+alias gr="git log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'"
+alias push='git push'
+alias add='git add'
+alias pull='git pull'
+alias commit='git commit'
 eval $(thefuck --alias)
