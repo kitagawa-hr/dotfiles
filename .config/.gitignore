@@ -1,6 +1,6 @@
 .DS_Store
 git
 configstore
-nvim/.*
+^nvim/*
 thefuck
 
