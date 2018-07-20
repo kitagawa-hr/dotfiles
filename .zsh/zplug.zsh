@@ -75,7 +75,4 @@ fi
 # load zsh plugins
 zplug load
 
-if (which zprof > /dev/null) ;then
-  zprof | less
-fi
 

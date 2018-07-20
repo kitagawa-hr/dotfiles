@@ -4,10 +4,6 @@ export LANG=ja_JP.UTF-8
 export PATH="$HOME/bin:$PATH"
 export PATH="/usr/local/bin:$PATH"
 export EDITOR='nvim'
-# jupyter spark
-export PYSPARK_PYTHON=$PYENV_ROOT/shims/python #環境に合わせてパスを合わせること
-export PYSPARK_DRIVER_PYTHON=$PYENV_ROOT/shims/jupyter
-export PYSPARK_DRIVER_PYTHON_OPTS="notebook"
 export XDG_CONFIG_HOME="$HOME/.config"
 
 #自動補間
@@ -32,9 +28,6 @@ if [ -e ~/.pyenv/plugins/virtualenv ]; then
     eval "$(pyenv virtualenv-init -)"
 fi 
 
-# SPARK
-export SPARK_HOME=/usr/local/spark/spark-1.6.2-bin-hadoop2.6
-export PATH=$PATH:$SPARK_HOME/bin
 
 
 ###################### History #######################
