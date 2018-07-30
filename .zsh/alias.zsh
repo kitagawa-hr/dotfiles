@@ -21,3 +21,5 @@ alias add='git add'
 alias pull='git pull'
 alias commit='git commit'
 eval $(thefuck --alias)
+alias g='cd $(ghq root)/$(ghq list | peco)'
+alias gh='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
