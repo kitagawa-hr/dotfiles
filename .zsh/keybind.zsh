@@ -1,3 +1,3 @@
-# vim key bind
+# vi key bind
 bindkey -v
 
