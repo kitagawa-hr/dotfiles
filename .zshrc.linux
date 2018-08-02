@@ -10,3 +10,4 @@ alias ls='ls --color=auto'
 
 export PATH=/home/haruki/.nimble/bin:$PATH
 
+export PATH='/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin':"$PATH"

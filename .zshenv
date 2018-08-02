@@ -3,6 +3,7 @@
 export LANG=ja_JP.UTF-8
 export PATH="$HOME/bin:$PATH"
 export PATH="/usr/local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 export EDITOR='nvim'
 export XDG_CONFIG_HOME="$HOME/.config"
 
