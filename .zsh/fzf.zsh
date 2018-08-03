@@ -2,8 +2,6 @@
 export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 
-alias -g B='`git branch --all | grep -v HEAD | fzf -m`'
-
 # Checkout git branch (including remote branches)
 fzf-git-branch-checkout() {
     local BRANCHES BRANCH
@@ -28,7 +26,7 @@ function fzf-cmd-history() {
     fi
 }
 zle -N fzf-cmd-history
-
+bindkey '^R' fzf-cmd-history
 
 # Move repository dir of ghq managenemt
 function fzf-ghq=repository() {
@@ -68,10 +66,11 @@ fzf-vim-open-file() {
         -prune -o -name CVS \
         -prune \
     \) | fzf +m)
-    [[ -n "$FILE" ]] && ${EDITOR:-vim} "${files[@]}"
+    [[ -n "$FILE" ]] && ${EDITOR:-nvim} "${files[@]}"
     if [ -n "$FILE" ]; then
-        BUFFER="${EDITOR:-vim} $FILE"
+        BUFFER="${EDITOR:-nvim} $FILE"
     fi
     zle accept-line
 }
 zle -N fzf-vim-open-file
+bindkey '^O' fzf-vim-open-file

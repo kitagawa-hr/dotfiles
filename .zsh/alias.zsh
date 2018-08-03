@@ -20,6 +20,7 @@ alias gr="git log --graph --date=short --decorate=short --pretty=format:'%Cgreen
 alias g='cd $(ghq root)/$(ghq list | peco)'
 alias gh='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
 alias gch='git checkout `git branch | peco | sed -e "s/\* //g" | awk "{print \$1}"`'
+alias gca='git checkout `git branch --all | peco | sed -e "s/\* //g" | awk "{print \$1}"`'
 alias gb='git branch'
 alias cm='git commit -m'
 alias push='git push'
