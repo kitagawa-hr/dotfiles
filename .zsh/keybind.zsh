@@ -1,3 +1,4 @@
+# vi key bind
 bindkey -v
 # vim key bind
 bindkey -M viins 'jj' vi-cmd-mode

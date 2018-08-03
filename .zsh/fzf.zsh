@@ -26,6 +26,7 @@ function fzf-cmd-history() {
     fi
 }
 zle -N fzf-cmd-history
+
 bindkey '^R' fzf-cmd-history
 
 # Move repository dir of ghq managenemt
@@ -73,4 +74,9 @@ fzf-vim-open-file() {
     zle accept-line
 }
 zle -N fzf-vim-open-file
+<<<<<<< HEAD
 bindkey '^O' fzf-vim-open-file
+=======
+
+bindkey '\C-O' fzf-vim-open-file
+>>>>>>> 17834a305c7d4ed871c2cc0a55c1707746a4d6e5
