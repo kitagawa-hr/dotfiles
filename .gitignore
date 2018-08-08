@@ -3,4 +3,4 @@
 .jupyter
 .config/*
 !nvim
-
+!karabiner
