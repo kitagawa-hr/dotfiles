@@ -22,6 +22,18 @@ case ${OSTYPE} in
         ;;
 esac
 
+# pyenv init
+if [ -e ~/.pyenv ]; then
+    eval "$(pyenv init -)"
+    if type aws > /dev/null 2>&1; then
+        source "$(pyenv which aws_zsh_completer.sh)"
+    fi
+fi
+
+# Init pyenv-virtualenv
+if [ -e ~/.pyenv/plugins/virtualenv ]; then
+    eval "$(pyenv virtualenv-init -)"
+fi 
 # auto zcompile
 if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
    zcompile ~/.zshrc

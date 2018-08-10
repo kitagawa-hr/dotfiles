@@ -10,24 +10,15 @@ export XDG_CONFIG_HOME="$HOME/.config"
 #自動補間
 autoload -U compinit
 compinit
-
+# GOPATHH
+export GOPATH="${HOME}/go"
+export PATH="$GOPATH/bin:$PATH"
 # PYTHONPATH
-export PYTHONPATH="/Users/kitagawaharuki/da-workflow"
+export PYTHONPATH="${HOME}/da-workflow"
 export PYTHONPATH="$PYTHONPATH:/Users/kitagawaharuki/DBPJ"
 ## pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-
-if [ -e ~/.pyenv ]; then
-    eval "$(pyenv init -)"
-    if type aws > /dev/null 2>&1; then
-        source "$(pyenv which aws_zsh_completer.sh)"
-    fi
-fi
-# Init pyenv-virtualenv
-if [ -e ~/.pyenv/plugins/virtualenv ]; then
-    eval "$(pyenv virtualenv-init -)"
-fi 
 
 
 

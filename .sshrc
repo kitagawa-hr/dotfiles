@@ -1,0 +1,8 @@
+source $SSHHOME/.sshrc.d/.bash_profile
+source $SSHHOME/.sshrc.d/.bashrc
+source $SSHHOME/.sshrc.d/bash_alias.sh
+source $SSHHOME/.sshrc.d/bash_prompt.sh
+export VIMINIT='source $SSHHOME/.sshrc.d/.vimrc'
+export MANPAGER=less
+export PAGER=less
+
