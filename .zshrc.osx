@@ -1,4 +1,3 @@
 alias ls='ls -G'
-alias charm='/Applications/PyCharm\ CE.app/Contents/MacOS/pycharm'
 export PYCHARM_PROPERTIES="$HOME/.pycharm"
 
