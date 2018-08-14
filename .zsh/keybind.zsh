@@ -95,8 +95,8 @@ _peco-select-history() {
         fi
     fi
 }
-# zle -N _peco-select-history
-# bindkey '^r' _peco-select-history
+zle -N _peco-select-history
+bindkey '^r' _peco-select-history
 
 do-enter() {
     if [[ -n $BUFFER ]]; then
@@ -215,3 +215,65 @@ globalias() {
 zle -N globalias
 
 bindkey " " globalias
+
+
+# Default layout
+export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
+export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
+
+# Checkout git branch (including remote branches)
+fzf-git-branch-checkout() {
+    local BRANCHES BRANCH
+    BRANCHES=`git branch --all | grep -v HEAD`
+    BRANCH=`echo "$BRANCHES" | fzf -d $(( 2 + $(wc -l <<< "$BRANCHES") )) +m`
+    if [ -n "$BRANCH" ]; then
+        git checkout $(echo "$BRANCH" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+    fi
+    zle accept-line
+}
+zle -N fzf-git-branch-checkout
+bindkey "^S" fzf-git-branch-checkout
+
+# Move repository dir of ghq managenemt
+function fzf-ghq=repository() {
+    local GHQ_ROOT=`ghq root`
+    local REPO=`ghq list -p | sed -e 's;'${GHQ_ROOT}/';;g' |fzf +m`
+    if [ -n "${REPO}" ]; then
+        BUFFER="cd ${GHQ_ROOT}/${REPO}"
+    fi
+    zle accept-line
+}
+zle -N fzf-ghq=repository
+bindkey "^T" fzf-ghq=repository
+
+
+# ssh selected host
+function fzf-ssh-host() {
+    local SSH_HOST=$(awk '
+        tolower($1)=="host" {
+            for (i=2; i<=NF; i++) {
+                if ($i !~ "[*?]") {
+                    print $i
+                }
+            }
+        }
+    ' ~/.ssh/config | sort | fzf +m)
+    if [ -n "$SSH_HOST" ]; then
+        BUFFER="ssh $SSH_HOST"
+    fi
+    zle accept-line
+}
+zle -N fzf-ssh-host
+
+# open file with editor
+fzf-vim-open-file() {
+    local FILE=$(rg --files --hidden -g \
+        '!*.git' | fzf +m)
+    [[ -n "$FILE" ]] && ${EDITOR:-nvim} "${files[@]}"
+    if [ -n "$FILE" ]; then
+        BUFFER="${EDITOR:-nvim} $FILE"
+    fi
+    zle accept-line
+}
+zle -N fzf-vim-open-file
+bindkey '^O' fzf-vim-open-file

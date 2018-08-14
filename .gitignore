@@ -1,8 +1,6 @@
 .DS_Store
 .json
 .jupyter
-.config/*
-!nvim
 .my.cnf
 .peco/*
 !config.json
