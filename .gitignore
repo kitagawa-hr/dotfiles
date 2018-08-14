@@ -4,3 +4,4 @@
 .my.cnf
 .peco/*
 !config.json
+.idea
