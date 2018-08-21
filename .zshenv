@@ -10,7 +10,9 @@ export XDG_CONFIG_HOME="$HOME/.config"
 #自動補間
 autoload -U compinit
 compinit
-# GOPATHH
+#nim
+export PATH=${HOME}/.nimble/bin:$PATH
+# GO
 export GOPATH="${HOME}/go"
 export PATH="$GOPATH/bin:$PATH"
 # PYTHONPATH
