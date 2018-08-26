@@ -5,6 +5,7 @@ export PATH="$HOME/bin:$PATH"
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export EDITOR='nvim'
+export PAGER=/usr/local/bin/vimpager
 export XDG_CONFIG_HOME="$HOME/.config"
 
 #自動補間
