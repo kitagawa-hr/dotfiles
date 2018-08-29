@@ -5,3 +5,4 @@
 .peco/*
 !config.json
 .idea
+*.zwc
