@@ -26,6 +26,10 @@ alias pull='git pull'
 alias commit='git commit'
 eval $(thefuck --alias)
 
+
+# nim
+alias nimcr='nim compile --verbosity:0 --hints:off --run'
+
 # python
 alias grepip='pip3 freeze | fzf | xargs echo'
 

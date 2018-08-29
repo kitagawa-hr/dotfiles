@@ -26,10 +26,12 @@ zplug "peco/peco", \
 zplug "mafredri/zsh-async",\
     from:github
 
-zplug "sindresorhus/pure",\
-    as:theme,\
-    use:pure.zsh,\
-    from:github
+# zplug "sindresorhus/pure",\
+#     as:theme,\
+#     use:pure.zsh,\
+#     from:github
+
+zplug "b-ryan/powerline-shell"
 
 zplug "junegunn/fzf-bin", \
     as:command, \

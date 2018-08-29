@@ -1,5 +1,16 @@
-PROMPT="%{$fg[green]%}%n%(!.#.$) %{$reset_color%}"
-PROMPT2="%{$fg[green]%}%_> %{$reset_color%}"
-SPROMPT="%{$fg[red]%}correct: %R -> %r [nyae]? %{$reset_color%}"
-RPROMPT="%{$fg[cyan]%}[%~]%{$reset_color%}"
+function powerline_precmd() {
+    PS1="$(powerline-shell --shell zsh $?)"
+}
 
+function install_powerline_precmd() {
+  for s in "${precmd_functions[@]}"; do
+    if [ "$s" = "powerline_precmd" ]; then
+      return
+    fi
+  done
+  precmd_functions+=(powerline_precmd)
+}
+
+if [ "$TERM" != "linux" ]; then
+    install_powerline_precmd
+fi
