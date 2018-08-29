@@ -5,14 +5,14 @@
     "cwd",
     "git",
     "hg",
-    "jobs",
-    "root"
+    "jobs"
   ],
   "cwd":{
-    "mode":"plain",
+    "mode":"fancy",
     "max_depth": 3,
     "max_dir_size": 8
-  }
+  },
+  "theme":"~/.config/powerline-shell/default.py"
 }
 
 

@@ -6,3 +6,4 @@
 !config.json
 .idea
 *.zwc
+__pycache__
