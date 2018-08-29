@@ -1,7 +1,3 @@
-if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
-  zcompile ~/.zshrc
-fi
-
 # zplug settings
 source $HOME/.zplug/init.zsh
 
@@ -17,14 +13,17 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug "b4b4r07/enhancd", \
     use:init.sh
 
-zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-completions", \
+  lazy:true
 
 zplug "peco/peco", \
     as:command, \
     from:gh-r, \
     frozen:1
+
 zplug "mafredri/zsh-async",\
-    from:github
+    from:github, \
+    lazy:true
 
 # zplug "sindresorhus/pure",\
 #     as:theme,\
@@ -32,6 +31,7 @@ zplug "mafredri/zsh-async",\
 #     from:github
 
 zplug "b-ryan/powerline-shell"
+zplug "supercrabtree/k"
 
 zplug "junegunn/fzf-bin", \
     as:command, \
@@ -61,7 +61,14 @@ zplug "motemen/ghq", \
     from:gh-r, \
     rename-to:ghq
 
-zplug "greymd/tmux-xpanes"
+# zplug "greymd/tmux-xpanes"
+
+#zplug "b4b4r07/gomi", \
+#    as:command, \
+#    from:gh-r, \
+#    rename-to:gomi, \
+#    lazy:true
+    
 
 # Set enhancd filters
 export ENHANCD_FILTER=fzf:peco

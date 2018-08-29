@@ -1,7 +1,9 @@
 # application
 alias jb='jupyter notebook'
 alias jl='jupyter lab'
+alias sp3='~/.pyenv/shims/spyder3'
 alias vi='nvim'
+alias oni='/Applications/Oni.app/Contents/MacOS/Oni'
 
 # commands 
 alias la='ls -a'
@@ -26,10 +28,5 @@ alias pull='git pull'
 alias commit='git commit'
 eval $(thefuck --alias)
 
-
-# nim
-alias nimcr='nim compile --verbosity:0 --hints:off --run'
-
-# python
-alias grepip='pip3 freeze | fzf | xargs echo'
-
+# zplug
+alias zp='hub browse $(zplug list | fzf)'

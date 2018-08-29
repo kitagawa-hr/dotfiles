@@ -269,7 +269,6 @@ zle -N fzf-ssh-host
 fzf-vim-open-file() {
     local FILE=$(rg --files --hidden -g \
         '!*.git' | fzf +m)
-    [[ -n "$FILE" ]] && ${EDITOR:-nvim} "${files[@]}"
     if [ -n "$FILE" ]; then
         BUFFER="${EDITOR:-nvim} $FILE"
     fi
