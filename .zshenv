@@ -18,7 +18,7 @@ export GOPATH="${HOME}/go"
 export PATH="$GOPATH/bin:$PATH"
 # PYTHONPATH
 export PYTHONPATH="${HOME}/da-workflow"
-export PYTHONPATH="$PYTHONPATH:/Users/kitagawaharuki/DBPJ"
+export PYTHONPATH="$PYTHONPATH:${HOME}/kenshin_database"
 ## pyenv
 export PYENV_ROOT="${HOME}/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"

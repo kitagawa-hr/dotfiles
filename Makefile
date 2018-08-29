@@ -1,4 +1,4 @@
-EXCLUSIONS := .DS_Store .git .gitmodules .travis.yml
+EXCLUSIONS := .DS_Store .git .gitmodules .travis.yml bin
 CANDIDATES := $(wildcard .??*) bin
 DOTFILES   := $(filter-out $(EXCLUSIONS), $(CANDIDATES))
 DOTPATH    := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
@@ -11,7 +11,7 @@ DOTPATH    := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
 list: ## Show dot files in this repo
 	@$(foreach val, $(DOTFILES), /bin/ls -dF $(val);)
 
-deploy: ## do `ln -sfnv $DOTFILES ~`
+deploy: ## do `ln -sfnv $DOTFILES $HOME`
 	@$(foreach val, $(DOTFILES), ln -sfnv $(abspath $(val)) $(HOME)/$(val);)
 
 install: ## install brewfiles

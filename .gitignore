@@ -5,3 +5,5 @@
 .peco/*
 !config.json
 .idea
+*.zwc
+__pycache__
