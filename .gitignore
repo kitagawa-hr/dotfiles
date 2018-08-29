@@ -3,7 +3,7 @@
 .jupyter
 .my.cnf
 .peco/*
-!config.json
+.config/*
 .idea
 *.zwc
 __pycache__

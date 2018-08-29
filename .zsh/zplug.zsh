@@ -71,8 +71,6 @@ zplug "motemen/ghq", \
 #    lazy:true
     
 
-zplug "b4b4r07/ultimate", as:theme
-
 zplug "felixr/docker-zsh-completion"
 
 # Set enhancd filters
