@@ -98,6 +98,18 @@ _peco-select-history() {
 zle -N _peco-select-history
 bindkey '^r' _peco-select-history
 
+function is_git_repo()
+{
+    dir="${1:-$PWD}"
+    dirname=$(dirname "$dir")
+
+    [ -d "$dir/.git" ]   && return 0
+    [ "$dirname" = "/" ] && return 1
+
+    is_git_repo "$dirname"
+    return $?
+}
+
 do-enter() {
     if [[ -n $BUFFER ]]; then
         zle accept-line

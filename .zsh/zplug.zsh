@@ -26,10 +26,10 @@ zplug "peco/peco", \
 zplug "mafredri/zsh-async",\
     from:github
 
-zplug "sindresorhus/pure",\
-    as:theme,\
-    use:pure.zsh,\
-    from:github
+# zplug "sindresorhus/pure",\
+#     as:theme,\
+#     use:pure.zsh,\
+#     from:github
 
 zplug "junegunn/fzf-bin", \
     as:command, \
@@ -61,6 +61,10 @@ zplug "motemen/ghq", \
 
 zplug "greymd/tmux-xpanes"
 
+zplug "b4b4r07/ultimate", as:theme
+
+zplug "felixr/docker-zsh-completion"
+
 # Set enhancd filters
 export ENHANCD_FILTER=fzf:peco
 
@@ -74,5 +78,4 @@ fi
 
 # load zsh plugins
 zplug load
-
 
