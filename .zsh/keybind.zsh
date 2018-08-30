@@ -288,3 +288,59 @@ fzf-vim-open-file() {
 }
 zle -N fzf-vim-open-file
 bindkey '^O' fzf-vim-open-file
+
+# ghq-status
+ghq-status(){
+  # Configure colors, if available.
+  if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    c_reset='\e[0m'
+    c_user='\e[0;32m'
+    c_path='\e[1;34m'
+    c_git_clean='\e[0;37m'
+    c_git_staged='\e[0;32m'
+    c_git_unstaged='\e[0;31m'
+  else
+    c_reset=
+    c_user=
+    c_path=
+    c_git_clean=
+    c_git_staged=
+    c_git_unstaged=
+  fi
+  CUR_DIR=`pwd`
+  GHQ_ROOT=`ghq root`
+  GHQ_LIST=(`ghq list`)
+
+  GIT_HEAD=`cat .git/HEAD`
+  GIT_BRANCH=${GIT_HEAD##*/}
+
+  if [ ${#GIT_BRANCH} -eq 40 ]; then
+    GIT_BRANCH="(no branch)"
+  fi
+  printf "\n"
+  for d in $GHQ_LIST;do
+    cd ${GHQ_ROOT}/$d
+    STATUS=`git status --porcelain`
+    if [ -z "$STATUS" ]; then
+      git_color="${c_git_clean}"
+      git_st="clean"
+    else
+      FILE_NUM=`git status --porcelain | wc -l`
+      echo -e "$STATUS" | grep -q '^ [A-Z\?]'
+      if [ $? -eq 0 ]; then
+        git_color="${c_git_unstaged}"
+        git_st="unstaged ${FILE_NUM}"
+      else
+        git_color="${c_git_staged}"
+        git_st="staged ${FILE_NUM}"
+      fi
+    fi
+    
+    printf "${d}: ${c_user}${GIT_BRANCH}${c_reset} =>\
+      ${git_color}${git_st}${c_reset}\n"
+  done
+  cd ${CUR_DIR}
+  zle accept-line
+}
+zle -N ghq-status
+bindkey '^N' ghq-status
