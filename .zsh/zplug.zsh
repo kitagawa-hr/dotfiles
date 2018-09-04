@@ -62,6 +62,12 @@ zplug "motemen/ghq", \
     from:gh-r, \
     rename-to:ghq
 
+zplug "k0kubun/sqldef", \
+    from:gh-r, \
+    rename-to:mysqldef, \
+    as:command, \
+    use:"*mysqldef*darwin*amd64*"
+
 # zplug "greymd/tmux-xpanes"
 
 #zplug "b4b4r07/gomi", \
