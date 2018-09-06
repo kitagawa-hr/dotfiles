@@ -2,7 +2,6 @@
 bindkey -v
 # vim key bind
 bindkey -M viins 'jj' vi-cmd-mode
-
 # Add emacs-like keybind to viins mode
 bindkey -M viins '^F'  forward-char
 bindkey -M viins '^B'  backward-char
@@ -35,15 +34,15 @@ bindkey -M vicmd '?'   vi-history-search-backward
 bindkey -M vicmd 'gg' beginning-of-line
 bindkey -M vicmd 'G'  end-of-line
 
-
 # Insert a last word
 zle -N insert-last-word smart-insert-last-word
 zstyle :insert-last-word match '*([^[:space:]][[:alpha:]/\\]|[[:alpha:]/\\][^[:space:]])*'
 bindkey -M viins '^]' insert-last-word
 
+
 # Surround a forward word by single quote
 quote-previous-word-in-single() {
-    modify-current-argument '${(qq)${(Q)ARG}}'
+ '${(qq)${(Q)ARG}}'
     zle vi-forward-blank-word
 }
 zle -N quote-previous-word-in-single
@@ -63,18 +62,7 @@ bindkey -M viins "$terminfo[kcbt]" reverse-menu-complete
 #
 # functions
 #
-_delete-char-or-list-expand() {
-    if [ -z "$RBUFFER" ]; then
-        zle list-expand
-    else
-        zle delete-char
-    fi
-}
-zle -N _delete-char-or-list-expand
-bindkey '^D' _delete-char-or-list-expand
-
-# Ctrl-R
-_peco-select-history() {
+_fzf-select-history() {
     if true; then
         BUFFER="$(
         history 1 \
@@ -95,8 +83,19 @@ _peco-select-history() {
         fi
     fi
 }
-zle -N _peco-select-history
-bindkey '^r' _peco-select-history
+zle -N _fzf-select-history
+bindkey '^r' _fzf-select-history
+
+_delete-char-or-list-expand() {
+    if [ -z "$RBUFFER" ]; then
+        zle list-expand
+    else
+        zle delete-char
+    fi
+}
+zle -N _delete-char-or-list-expand
+bindkey '^D' _delete-char-or-list-expand
+
 
 function is_git_repo()
 {
@@ -144,76 +143,6 @@ do-enter() {
 zle -N do-enter
 bindkey '^m' do-enter
 
-peco-select-gitadd() {
-    local selected_file_to_add
-    selected_file_to_add="$(
-    git status --porcelain \
-        | perl -pe 's/^( ?.{1,2} )(.*)$/\033[31m$1\033[m$2/' \
-        | fzf --ansi --exit-0 \
-        | awk -F ' ' '{print $NF}' \
-        | tr "\n" " "
-    )"
-
-    if [ -n "$selected_file_to_add" ]; then
-        BUFFER="git add $selected_file_to_add"
-        CURSOR=$#BUFFER
-        zle accept-line
-    fi
-    zle reset-prompt
-}
-zle -N peco-select-gitadd
-bindkey '^g^a' peco-select-gitadd
-
-exec-oneliner() {
-    local oneliner_f
-    oneliner_f="${ONELINER_FILE:-~/.commnad.list}"
-
-    [[ ! -f $oneliner_f || ! -s $oneliner_f ]] && return
-
-    local cmd q k res accept
-    while accept=0; cmd="$(
-        cat <$oneliner_f \
-            | sed -e '/^#/d;/^$/d' \
-            | perl -pe 's/^(\[.*?\]) (.*)$/$1\t$2/' \
-            | perl -pe 's/(\[.*?\])/\033[31m$1\033[m/' \
-            | perl -pe 's/^(: ?)(.*)$/$1\033[30;47;1m$2\033[m/' \
-            | perl -pe 's/^(.*)([[:blank:]]#[[:blank:]]?.*)$/$1\033[30;1m$2\033[m/' \
-            | perl -pe 's/(!)/\033[31;1m$1\033[m/' \
-            | perl -pe 's/(\|| [A-Z]+ [A-Z]+| [A-Z]+ )/\033[35;1m$1\033[m/g' \
-            | fzf --ansi --multi --no-sort --tac --query="$q" \
-            --print-query --expect=ctrl-v --exit-0
-            )"; do
-        q="$(head -1 <<< "$cmd")"
-        k="$(head -2 <<< "$cmd" | tail -1)"
-        res="$(sed '1,2d;/^$/d;s/[[:blank:]]#.*$//' <<< "$cmd")"
-        [ -z "$res" ] && continue
-        if [ "$k" = "ctrl-v" ]; then
-            vim "$oneliner_f" < /dev/tty > /dev/tty
-        else
-            cmd="$(perl -pe 's/^(\[.*?\])\t(.*)$/$2/' <<<"$res")"
-            if [[ $cmd =~ "!$" || $cmd =~ "! *#.*$" ]]; then
-                accept=1
-                cmd="$(sed -e 's/!.*$//' <<<"$cmd")"
-            fi
-            break
-        fi
-    done
-
-    local len
-    if [[ -n $cmd ]]; then
-        BUFFER="$(tr -d '@' <<<"$cmd" | perl -pe 's/\n/; /' | sed -e 's/; $//')"
-        len="${cmd%%@*}"
-        CURSOR=${#len}
-        if [[ $accept -eq 1 ]]; then
-            zle accept-line
-        fi
-    fi
-    #zle reset-prompt
-    zle redisplay
-}
-zle -N exec-oneliner
-bindkey '^x^x' exec-oneliner
-
 # expand global aliases by space
 # http://blog.patshead.com/2012/11/automatically-expaning-zsh-global-aliases---simplified.html
 globalias() {
@@ -229,11 +158,8 @@ zle -N globalias
 bindkey " " globalias
 
 
-# Default layout
-export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
-export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 
-# Checkout git branch (including remote branches)
+ #Checkout git branch (including remote branches)
 fzf-git-branch-checkout() {
     local BRANCHES BRANCH
     BRANCHES=`git branch --all | grep -v HEAD`
@@ -245,19 +171,6 @@ fzf-git-branch-checkout() {
 }
 zle -N fzf-git-branch-checkout
 bindkey "^S" fzf-git-branch-checkout
-
-# Move repository dir of ghq managenemt
-function fzf-ghq=repository() {
-    local GHQ_ROOT=`ghq root`
-    local REPO=`ghq list -p | sed -e 's;'${GHQ_ROOT}/';;g' |fzf +m`
-    if [ -n "${REPO}" ]; then
-        BUFFER="cd ${GHQ_ROOT}/${REPO}"
-    fi
-    zle accept-line
-}
-zle -N fzf-ghq=repository
-bindkey "^T" fzf-ghq=repository
-
 
 # ssh selected host
 function fzf-ssh-host() {
@@ -319,7 +232,7 @@ git_status(){
       git_st="unstaged ${FILE_NUM}"
     else
       git_color="${c_git_staged}"
-      git_st="staged${FILE_NUM}"
+      git_st="staged ${FILE_NUM}"
     fi
   fi 
   printf "${c_branch}${GIT_BRANCH}${c_reset}"
@@ -342,3 +255,4 @@ ghq-status(){
 }
 zle -N ghq-status
 bindkey '^N' ghq-status
+

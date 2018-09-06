@@ -24,6 +24,7 @@ source ~/.zsh/prompt.zsh
 source ~/.zsh/alias.zsh
 source ~/.zsh/keybind.zsh
 source ~/.zsh/zplug.zsh
+source ~/.fzf.zsh
 # OS別設定読み込み
 case ${OSTYPE} in
     darwin*)
