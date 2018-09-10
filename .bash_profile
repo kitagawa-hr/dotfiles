@@ -25,3 +25,5 @@ if type pyenv > /dev/null 2>&1; then
     export CFLAGS="-I$(brew --prefix openssl)/include"
     export LDFLAGS="-L$(brew --prefix openssl)/lib"
 fi
+
+export PATH="$HOME/.cargo/bin:$PATH"
