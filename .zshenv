@@ -5,7 +5,6 @@ export PATH="$HOME/bin:$PATH"
 export PATH="/usr/local/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export EDITOR='nvim'
-export PAGER=/usr/local/bin/vimpager
 export XDG_CONFIG_HOME="$HOME/.config"
 
 #自動補間
@@ -43,18 +42,6 @@ zstyle ':completion:*:default' menu select=1
 # ここではデフォルトのセットから / を抜いたものとする
 # こうすると、 Ctrl-W でカーソル前の1単語を削除したとき、 / までで削除が止まる
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-
-function peco-history-selection() {
-    BUFFER=`history -n 1 | tail -r  | awk '!a[$0]++' | peco`
-    CURSOR=$#BUFFER
-    zle reset-prompt
-}
-
-zle -N peco-history-selection
-bindkey '^R' peco-history-selection
-bindkey "^[OH" beginning-of-line
-bindkey "^[OF" end-of-line
-bindkey "^[[3~" delete-char
 
 export HISTFILE=~/.zsh_history   # ヒストリを保存するファイル
 export HISTSIZE=1000             # メモリに保存されるヒストリの件数

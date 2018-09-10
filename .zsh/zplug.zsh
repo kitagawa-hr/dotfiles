@@ -31,7 +31,10 @@ zplug "mafredri/zsh-async",\
 #     from:github
 
 
-zplug "b-ryan/powerline-shell"
+zplug "b-ryan/powerline-shell", \
+  from:github, \
+  hook-build:"python setup.py install"
+
 zplug "supercrabtree/k"
 
 zplug "junegunn/fzf-bin", \
