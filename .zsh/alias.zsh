@@ -1,9 +1,7 @@
 # application
 alias jb='jupyter notebook'
 alias jl='jupyter lab'
-alias sp3='~/.pyenv/shims/spyder3'
-alias vi='nvim'
-alias oni='/Applications/Oni.app/Contents/MacOS/Oni'
+alias v='nvim'
 
 # commands 
 alias la='ls -a'
