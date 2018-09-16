@@ -7,8 +7,14 @@ fi
 
 # ls color
 alias ls='ls --color=auto'
-alias pbcopy='xsel --clipboard --input'
-export PATH=/home/haruki/.nimble/bin:$PATH
 
-export PATH='/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin':"$PATH"
+# alt pbcopy
+alias pbcopy='xsel --clipboard --input'
+
+# LinuxBrew
+export LINUX_BREW_ROOT=/home/linuxbrew/.linuxbrew
+export PATH="${LINUX_BREW_ROOT}/bin:${LINUX_BREW_ROOT}/sbin:$PATH"
+
+#pkg-config
+export PKG_CONFIG_PATH=/usr/lib64/pkgconfig
 
