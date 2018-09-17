@@ -24,6 +24,8 @@ define_keymap(
 
 define_keymap(
     re.compile("Firefox|Google-chrome"), {
-    K("K"): K("C-TAB"),
-    K("J"): K("C-Shift-TAB"),
+    K("Shift-K"): K("C-TAB"),
+    K("Shift-J"): K("C-Shift-TAB"),
+    K("H"): K("C-Left"),
+    K("L"): K("C-Right"),
 }, "Vim on Chrome")
