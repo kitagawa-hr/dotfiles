@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
-from xkeysnail.transform import define_multipurpose_modmap, define_keymap, Key, K
+from xkeysnail.transform import *
 
 
 define_multipurpose_modmap(
@@ -18,14 +18,16 @@ define_multipurpose_modmap(
 define_keymap(
     None,
     {
-        K('esc'): [K('muhenkan'), K('esc')]
-    },"IME off when Escaped"
+        K('esc'): [K('muhenkan'), K('esc')],
+        K('C-a'): with_mark(K('Home')),
+        K('C-e'): with_mark(K('End'))
+    },"Always"
 )
 
 define_keymap(
-    re.compile("Firefox|Google-chrome"), {
-    K("Shift-K"): K("C-TAB"),
-    K("Shift-J"): K("C-Shift-TAB"),
-    K("H"): K("C-Left"),
-    K("L"): K("C-Right"),
+    re.compile("Google-chrome"), {
+    K("C-k"): with_mark(K("C-TAB")),
+    K("C-j"): with_mark(K("C-Shift-TAB")),
+    K("C-b"): with_mark(K("M-Left")),
+    K("C-f"): with_mark(K("M-Right")),
 }, "Vim on Chrome")
