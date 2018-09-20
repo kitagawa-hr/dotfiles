@@ -7,3 +7,4 @@
 .idea
 *.zwc
 __pycache__
+.SpaceVim/*
