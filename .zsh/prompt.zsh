@@ -11,6 +11,9 @@ function install_powerline_precmd() {
   precmd_functions+=(powerline_precmd)
 }
 
-if [ "$TERM" != "linux" ]; then
+which powerline-shell &> /dev/null
+if [ $? -eq 0 ]; then
+  if [ "$TERM" != "linux" ]; then
     install_powerline_precmd
+  fi
 fi

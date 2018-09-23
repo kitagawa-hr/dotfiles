@@ -8,10 +8,11 @@ Description=xkeysnail
 
 [Service]
 KillMode=process
-ExecStart=/usr/bin/sudo /usr/local/bin/xkeysnail /home/haruki/.xkeysnail/config.py
-ExecStartPre=/usr/bin/sudo /usr/bin/xhost +SI:localuser:root
-ExecStop=/usr/bin/sudo /usr/bin/killall xkeysnail
-
+ExecStart=/usr/bin/sudo /usr/local/bin/xkeysnail /home/xkeysnail/config.py
+# ExecStartPre=/usr/bin/xhost +SI:localuser:root
+ExecStartPre=/usr/bin/xhost +
+ExecStop=/usr/bin/killall xkeysnail
+User=xkeysnail
 Type=simple
 Restart=always
 

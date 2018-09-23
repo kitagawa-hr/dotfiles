@@ -14,7 +14,7 @@ zplug "b4b4r07/enhancd", \
     use:init.sh
 
 zplug "zsh-users/zsh-completions", \
-  lazy:true
+    lazy:true
 
 zplug "peco/peco", \
     as:command, \
@@ -25,15 +25,10 @@ zplug "mafredri/zsh-async",\
     from:github, \
     lazy:true
 
-# zplug "sindresorhus/pure",\
-#     as:theme,\
-#     use:pure.zsh,\
-#     from:github
-
 
 zplug "b-ryan/powerline-shell", \
   from:github, \
-  hook-build:"python setup.py install"
+  hook-build:"python3 setup.py install"
 
 zplug "supercrabtree/k"
 
@@ -65,22 +60,11 @@ zplug "motemen/ghq", \
     from:gh-r, \
     rename-to:ghq
 
-zplug "k0kubun/sqldef", \
-    from:gh-r, \
-    rename-to:mysqldef, \
-    as:command, \
-    use:"*mysqldef*darwin*amd64*"
 
-# zplug "greymd/tmux-xpanes"
-
-#zplug "b4b4r07/gomi", \
-#    as:command, \
-#    from:gh-r, \
-#    rename-to:gomi, \
-#    lazy:true
-    
+zplug "greymd/tmux-xpanes"
 
 zplug "felixr/docker-zsh-completion"
+
 
 # Set enhancd filters
 export ENHANCD_FILTER=fzf:peco
