@@ -149,6 +149,7 @@ set mouse-scroll		= 3		# Number of lines to scroll via the mouse
 #   %(prompt)		Prompt for the argument value.
 
 bind main	C	?git cherry-pick %(commit)
+bind main U ?git poh "%(prompt Enter push branch => )" # poh = push origin HEAD:$1
 bind status	C	!git commit
 bind stash	P	?git stash pop %(stash)
 bind stash	!	?git stash drop %(stash)
@@ -171,9 +172,8 @@ bind generic	h	view-help
 bind generic	s	view-status
 bind generic	S	view-status		# Compat binding to avoid going crazy!
 bind generic	c	view-stage
-bind generic	y	view-stash
+bind generic y @sh -c "echo %(commit) | pbcopy"
 bind generic	g	view-grep
-
 # View manipulation
 bind generic	<Enter>	enter			# Enter and open selected entry
 bind generic	<Lt>	back			# Go back to the previous view state
