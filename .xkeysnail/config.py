@@ -7,7 +7,7 @@ from xkeysnail.transform import *
 define_multipurpose_modmap(
     {
     Key.CAPSLOCK: [Key.ESC, Key.LEFT_CTRL],
-    Key.MUHENKAN: [Key.MUHENKAN, Key.LEFT_ALT],
+    Key.MUHENKAN: [Key.MUHENKAN, Key.LEFT_CTRL],
     Key.HENKAN: [Key.HENKAN, Key.RIGHT_CTRL]
     }
 
