@@ -21,8 +21,8 @@ alias gca='git checkout `git branch --all | peco | sed -e "s/\* //g" | awk "{pri
 alias gb='git branch'
 alias cm='git commit -m'
 alias push='git push origin HEAD'
+alias pull='git pull origin $(git rev-parse --abbrev-ref HEAD)'
 alias add='git add'
-alias pull='git pull'
 alias commit='git commit'
 eval $(thefuck --alias)
 
