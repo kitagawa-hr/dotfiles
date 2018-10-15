@@ -8,10 +8,13 @@ brew curl
 brew fortune
 brew git
 brew openssl
+brew peco
+brew pipenv
 brew pyenv
 brew nvim
 brew wget
-brew peco
+brew fzf
+brew zplug
 brew zsh
 tap caskroom/cask
 cask slack

@@ -7,4 +7,4 @@ if [ "$(uname)" == "Darwin" ]; then
 else
     echo "Unsupported platform."
     exit 1
-fi<Paste>
+fi

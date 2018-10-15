@@ -12,9 +12,9 @@
 echo "Install to OSX."
 
 # install Homebrew
-echo "Install homebrew."
 if !(type brew > /dev/null 2>&1); then
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  echo "Install homebrew."
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
 brew update
