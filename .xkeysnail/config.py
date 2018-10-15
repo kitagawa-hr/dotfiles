@@ -23,11 +23,3 @@ define_keymap(
         K('C-e'): with_mark(K('End'))
     },"Always"
 )
-
-define_keymap(
-    re.compile("Google-chrome"), {
-    K("C-k"): with_mark(K("C-TAB")),
-    K("C-j"): with_mark(K("C-Shift-TAB")),
-    K("C-b"): with_mark(K("M-Left")),
-    K("C-f"): with_mark(K("M-Right")),
-}, "Vim on Chrome")
