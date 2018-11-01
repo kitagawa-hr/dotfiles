@@ -4,7 +4,6 @@
     "cwd",
     "git",
     "hg",
-    "jobs",
     "newline",
     "virtual_env",
     "username"
