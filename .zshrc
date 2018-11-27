@@ -17,6 +17,10 @@ fi
 if [ -e ~/.pyenv/plugins/virtualenv ]; then
     eval "$(pyenv virtualenv-init -)"
 fi 
+
+# pipenv completion
+which pipenv > /dev/null 2>&1 && eval "$(pipenv --completion)"
+
 # load settings
 source ~/.zsh/completion.zsh
 source ~/.zsh/setopt.zsh
@@ -61,3 +65,9 @@ if [[ ! -n $TMUX && $- == *l* ]]; then
 fi
 
 
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/kitagawaharuki/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/kitagawaharuki/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/kitagawaharuki/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kitagawaharuki/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
