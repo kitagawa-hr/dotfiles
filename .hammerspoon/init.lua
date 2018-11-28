@@ -371,3 +371,18 @@ end
 ----------------------------------------------------------------------------------------------------
 -- Finally we initialize ModalMgr supervisor
 spoon.ModalMgr.supervisor:enter()
+
+vim = hs.loadSpoon('VimMode')
+
+-- Basic key binding to ctrl+;
+-- You can choose any key binding you want here, see:
+--   https://www.hammerspoon.org/docs/hs.hotkey.html#bind
+
+hs.hotkey.bind({'ctrl'}, ';', function()
+  vim:enter()
+end)
+vim:enableKeySequence('j', 'k')
+
+vim:disableForApp('iTerm')
+vim:disableForApp('Visual Studio Code')
+
