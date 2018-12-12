@@ -1,23 +1,15 @@
-# dotfiles 環境設定
+# dotfiles
 
-### 1. dotfilesのリポジトリをクローン
+## Prerequisite
 
-```bash
-$ cd
-$ git clone git@github.com:kitagawa-hr/dotfiles.git 
+```sh
+# install zplug
+$  curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 ```
 
-### 2. シンボリックリンクの設定
-
-```bash
+```sh
+$ git clone git@github.com:kitagawa-hr/dotfiles.git
 $ make deploy
-```
-
-
-## TODO
-
-### パッケージインストール
-
-```bash
 $ make install
 ```
+
