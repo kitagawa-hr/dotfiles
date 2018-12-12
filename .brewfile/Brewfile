@@ -16,6 +16,7 @@ brew wget
 brew fzf
 brew zplug
 brew zsh
+
 tap caskroom/cask
 cask slack
 cask sourcetree
