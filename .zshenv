@@ -18,9 +18,6 @@ export PATH="${HOME}/.nimble/bin:$PATH"
 export GOPATH="${HOME}/go"
 export PATH="$GOPATH/bin:$PATH"
 # Python
-## PYTHONPATH
-export PYTHONPATH="${HOME}/da-workflow/src"
-export PYTHONPATH="$PYTHONPATH:${HOME}/kenshin_database"
 ## PIPENV
 export PIPENV_VENV_IN_PROJECT=true
 ## pyenv
