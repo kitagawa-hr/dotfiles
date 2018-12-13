@@ -13,4 +13,4 @@
 !.hammerspoon
 !.tmux*
 !.fzf.zsh
-
+*.zwc
