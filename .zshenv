@@ -63,3 +63,4 @@ setopt hist_reduce_blanks
 setopt hist_save_no_dups
 # historyコマンドは履歴に登録しない
 setopt hist_no_store
+fpath+=~/.zsh
