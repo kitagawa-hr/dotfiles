@@ -105,3 +105,82 @@ function z() {
     cd $PCD_RETURN
   fi
 }
+
+
+
+function _complete_ft() {
+    local ret=1
+    local subcommands=(
+      "abspath"
+      "add"
+      "append"
+      "at"
+      "basename"
+      "capitalize"
+      "const"
+      "contains"
+      "dirname"
+      "drop"
+      "duplicate"
+      "ends_with"
+      "endswith"
+      "eq"
+      "equal"
+      "equals"
+      "even"
+      "exists"
+      "file_ext"
+      "filesize"
+      "format"
+      "ge"
+      "greater"
+      "greater_equal"
+      "greater_equals"
+      "greater_than"
+      "gt"
+      "has_ext"
+      "id"
+      "identity"
+      "index"
+      "is_dir"
+      "is_file"
+      "is_link"
+      "join"
+      "le"
+      "len"
+      "length"
+      "less"
+      "less_equal"
+      "less_equals"
+      "less_than"
+      "lt"
+      "mul"
+      "ne"
+      "non_empty"
+      "nonempty"
+      "not_equal"
+      "not_equals"
+      "odd"
+      "pow"
+      "prepend"
+      "replace"
+      "replace_ext"
+      "run"
+      "split"
+      "split_ext"
+      "starts_with"
+      "startswith"
+      "strip"
+      "strip_ext"
+      "sub"
+      "substr"
+      "take"
+      "to_lower"
+      "to_upper"
+    )
+    _describe -t subcommands 'ft-functions subcommands' subcommands && ret=0
+    return ret
+}
+compdef _complete_ft map
+compdef _complete_ft filter
+compdef _complete_ft foldl
