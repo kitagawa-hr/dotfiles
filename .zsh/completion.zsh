@@ -184,3 +184,4 @@ function _complete_ft() {
 compdef _complete_ft map
 compdef _complete_ft filter
 compdef _complete_ft foldl
+
