@@ -1,1 +1,0 @@
-/home/haruki/.ghq/github.com/kitagawa-hr/dotfiles/.vim
