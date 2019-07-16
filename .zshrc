@@ -68,3 +68,9 @@ if [ -f '/Users/kitagawaharuki/Downloads/google-cloud-sdk/path.zsh.inc' ]; then 
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/kitagawaharuki/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/kitagawaharuki/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/kitagawaharuki/.sdkman"
+[[ -s "/Users/kitagawaharuki/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/kitagawaharuki/.sdkman/bin/sdkman-init.sh"
+
+source /Users/kitagawaharuki/Library/Preferences/org.dystroy.broot/launcher/bash/br

@@ -13,3 +13,8 @@ runghc(){
   local file=/workdir/$1
   docker run --rm -v $PWD:/workdir haskell runghc $file
 }
+
+mkpy(){
+  local dir=$1
+  mkdir $dir && touch $dir/__init__.py
+}

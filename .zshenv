@@ -18,9 +18,6 @@ export PATH="${HOME}/.nimble/bin:$PATH"
 export GOPATH="${HOME}/go"
 export PATH="$GOPATH/bin:$PATH"
 # Python
-## PYTHONPATH
-export PYTHONPATH="${HOME}/da-workflow/src"
-export PYTHONPATH="$PYTHONPATH:${HOME}/kenshin_database"
 ## PIPENV
 export PIPENV_VENV_IN_PROJECT=true
 ## pyenv
@@ -66,3 +63,4 @@ setopt hist_reduce_blanks
 setopt hist_save_no_dups
 # historyコマンドは履歴に登録しない
 setopt hist_no_store
+fpath+=~/.zsh

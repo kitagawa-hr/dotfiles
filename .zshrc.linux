@@ -5,11 +5,9 @@ then
     export TERM="xterm-256color"
 fi
 
-# ls color
-alias ls='ls --color=auto'
-
 # alt pbcopy
 alias pbcopy='xsel --clipboard --input'
+alias pbpaste='xsel --clipboard --output'
 
 # LinuxBrew
 export LINUX_BREW_ROOT=/home/linuxbrew/.linuxbrew

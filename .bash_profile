@@ -27,3 +27,10 @@ if type pyenv > /dev/null 2>&1; then
 fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/kitagawaharuki/.sdkman"
+[[ -s "/Users/kitagawaharuki/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/kitagawaharuki/.sdkman/bin/sdkman-init.sh"
+
+export PATH="$HOME/.poetry/bin:$PATH"
+if [ -e /Users/kitagawaharuki/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/kitagawaharuki/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

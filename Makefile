@@ -1,4 +1,4 @@
-EXCLUSIONS := .DS_Store .git .gitmodules .travis.yml bin
+EXCLUSIONS := .DS_Store .git .gitmodules .gitignore .travis.yml bin
 CANDIDATES := $(wildcard .??*) bin
 DOTFILES   := $(filter-out $(EXCLUSIONS), $(CANDIDATES))
 DOTPATH    := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))

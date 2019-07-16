@@ -9,7 +9,14 @@ alias zp='hub browse $(zplug list | fzf)'
 # ------------------------------------
 # Shell Commands
 # ------------------------------------
+
+if which exa &> /dev/null; then
+  alias ls='exa'
+  alias k='exa -la'
+fi
+
 alias la='ls -a'
+alias ll='ls -l'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias rm='rm -i'
@@ -18,6 +25,7 @@ alias mv='mv -i'
 # ------------------------------------
 # Git Commands
 # ------------------------------------
+
 alias gs='git status'
 alias gss='git status --short --branch'
 alias gr="git log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'"
@@ -28,7 +36,7 @@ alias gca='git checkout `git branch --all | peco | sed -e "s/\* //g" | awk "{pri
 alias gb='git branch'
 alias cm='git commit -m'
 alias push='git push origin HEAD'
-alias pull='git pull origin $(git rev-parse --abbrev-ref HEAD)'
+alias pull='git pull origin $(git rev-parse --abbrev-ref HEAD) --prune'
 alias add='git add'
 alias commit='git commit'
 

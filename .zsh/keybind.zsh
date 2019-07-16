@@ -1,3 +1,5 @@
+# reset key bind
+bindkey -d
 # vi key bind
 bindkey -v
 # vim key bind
@@ -5,18 +7,16 @@ bindkey -M viins 'jj' vi-cmd-mode
 # Add emacs-like keybind to viins mode
 bindkey -M viins '^F'  forward-char
 bindkey -M viins '^B'  backward-char
-# bindkey -M viins '^P'  up-line-or-history
-# bindkey -M viins '^N'  down-line-or-history
+bindkey -M viins '^P'  up-line-or-history
+bindkey -M viins '^N'  down-line-or-history
 bindkey -M viins '^A'  beginning-of-line
 bindkey -M viins '^E'  end-of-line
 bindkey -M viins '^K'  kill-line
 # bindkey -M viins '^R'  history-incremental-pattern-search-backward
-# bindkey -M viins '\er' history-incremental-pattern-search-forward
 bindkey -M viins '^Y'  yank
 bindkey -M viins '^W'  backward-kill-word
 bindkey -M viins '^U'  backward-kill-line
 bindkey -M viins '^H'  backward-delete-char
-bindkey -M viins '^?'  backward-delete-char
 bindkey -M viins '^G'  send-break
 bindkey -M viins '^D'  delete-char-or-list
 
@@ -30,33 +30,14 @@ bindkey -M vicmd '^W'  backward-kill-word
 bindkey -M vicmd '^U'  backward-kill-line
 bindkey -M vicmd '/'   vi-history-search-forward
 bindkey -M vicmd '?'   vi-history-search-backward
-
 bindkey -M vicmd 'gg' beginning-of-line
 bindkey -M vicmd 'G'  end-of-line
 
 # Insert a last word
+autoload -Uz smart-insert-last-word
 zle -N insert-last-word smart-insert-last-word
 zstyle :insert-last-word match '*([^[:space:]][[:alpha:]/\\]|[[:alpha:]/\\][^[:space:]])*'
 bindkey -M viins '^]' insert-last-word
-
-
-# Surround a forward word by single quote
-quote-previous-word-in-single() {
- '${(qq)${(Q)ARG}}'
-    zle vi-forward-blank-word
-}
-zle -N quote-previous-word-in-single
-bindkey -M viins '^Q' quote-previous-word-in-single
-
-# Surround a forward word by double quote
-quote-previous-word-in-double() {
-    modify-current-argument '${(qqq)${(Q)ARG}}'
-    zle vi-forward-blank-word
-}
-zle -N quote-previous-word-in-double
-bindkey -M viins '^Xq' quote-previous-word-in-double
-
-bindkey -M viins "$terminfo[kcbt]" reverse-menu-complete
 
 
 #
@@ -85,17 +66,6 @@ _fzf-select-history() {
 }
 zle -N _fzf-select-history
 bindkey '^r' _fzf-select-history
-
-_delete-char-or-list-expand() {
-    if [ -z "$RBUFFER" ]; then
-        zle list-expand
-    else
-        zle delete-char
-    fi
-}
-zle -N _delete-char-or-list-expand
-bindkey '^D' _delete-char-or-list-expand
-
 
 function is_git_repo()
 {
@@ -156,21 +126,6 @@ globalias() {
 zle -N globalias
 
 bindkey " " globalias
-
-
-
- #Checkout git branch (including remote branches)
-fzf-git-branch-checkout() {
-    local BRANCHES BRANCH
-    BRANCHES=`git branch --all | grep -v HEAD`
-    BRANCH=`echo "$BRANCHES" | fzf -d $(( 2 + $(wc -l <<< "$BRANCHES") )) +m`
-    if [ -n "$BRANCH" ]; then
-        git checkout $(echo "$BRANCH" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
-    fi
-    zle accept-line
-}
-zle -N fzf-git-branch-checkout
-bindkey "^S" fzf-git-branch-checkout
 
 # ssh selected host
 function fzf-ssh-host() {
@@ -238,21 +193,4 @@ git_status(){
   printf "${c_branch}${GIT_BRANCH}${c_reset}"
   printf " => ${git_color}${git_st}${c_reset}\n"
 }
-
-ghq-status(){
-  
-  local CUR_DIR=`pwd`
-  local GHQ_ROOT=`ghq root`
-  local GHQ_LIST=(`ghq list`)
-  printf "\n"
-  for local ghq_repo in $GHQ_LIST;do
-    cd ${GHQ_ROOT}/${ghq_repo}
-    printf "%-40s" ${ghq_repo}
-    git_status
-  done
-  cd ${CUR_DIR}
-  zle accept-line
-}
-zle -N ghq-status
-bindkey '^N' ghq-status
 

@@ -61,6 +61,11 @@ zplug "motemen/ghq", \
     rename-to:ghq
 
 
+zplug "b4b4r07/gist", \
+    as:command, \
+    from:gh-r, \
+    rename-to:"gist"
+
 zplug "greymd/tmux-xpanes"
 
 zplug "felixr/docker-zsh-completion"
