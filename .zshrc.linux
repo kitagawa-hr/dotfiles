@@ -18,3 +18,5 @@ export PATH="${LINUX_BREW_ROOT}/bin:${LINUX_BREW_ROOT}/sbin:$PATH"
 #pkg-config
 export PKG_CONFIG_PATH=/usr/lib64/pkgconfig
 
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
