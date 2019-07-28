@@ -73,4 +73,3 @@ if [ -f '/Users/kitagawaharuki/Downloads/google-cloud-sdk/completion.zsh.inc' ];
 export SDKMAN_DIR="/Users/kitagawaharuki/.sdkman"
 [[ -s "/Users/kitagawaharuki/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/kitagawaharuki/.sdkman/bin/sdkman-init.sh"
 
-source /Users/kitagawaharuki/Library/Preferences/org.dystroy.broot/launcher/bash/br
