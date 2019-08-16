@@ -1,6 +1,6 @@
-!karabiner
-!nvim
-!powerline-shell
-!xkeysnail
-!iterm2/*
-!mtmr
+!/karabiner/
+!/powerline-shell/*
+!/xkeysnail/
+!/iterm2/
+!/nvim/
+
