@@ -14,7 +14,9 @@ runghc(){
   docker run --rm -v $PWD:/workdir haskell runghc $file
 }
 
-mkpy(){
-  local dir=$1
-  mkdir $dir && touch $dir/__init__.py
+function fzf-ghq() {
+  local selected_dir=$(ghq list | fzf --query="$LBUFFER" --prompt="Git Repos > ")
+  if [ -n "$selected_dir" ]; then
+    cd $(ghq root)/${selected_dir}
+  fi
 }

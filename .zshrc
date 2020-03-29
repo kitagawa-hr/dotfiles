@@ -10,21 +10,14 @@ if [ -e ~/.pyenv ]; then
     eval "$(pyenv init -)"
 fi
 
-# Init pyenv-virtualenv
-if [ -e ~/.pyenv/plugins/virtualenv ]; then
-    eval "$(pyenv virtualenv-init -)"
-fi 
-
-# pipenv completion
-which pipenv > /dev/null 2>&1 && eval "$(pipenv --completion)"
 
 # load settings
+source ~/.zsh/zplug.zsh
 source ~/.zsh/completion.zsh
 source ~/.zsh/setopt.zsh
 source ~/.zsh/prompt.zsh
 source ~/.zsh/alias.zsh
 source ~/.zsh/keybind.zsh
-source ~/.zsh/zplug.zsh
 source ~/.zsh/functions.zsh
 source ~/.fzf.zsh
 
