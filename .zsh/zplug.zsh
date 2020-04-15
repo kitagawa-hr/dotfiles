@@ -1,5 +1,5 @@
 # zplug settings
-source $HOME/.zplug/init.zsh
+source ${ZPLUG_HOME}/init.zsh
 
 # set install plugins
 zplug 'zplug/zplug', \
@@ -55,7 +55,7 @@ zplug "monochromegane/the_platinum_searcher", \
 zplug "jonas/tig", \
     use: "contrib/tig-completion.zsh"
 
-zplug "motemen/ghq", \
+zplug "x-motemen/ghq", \
     as:command, \
     from:gh-r, \
     rename-to:ghq
