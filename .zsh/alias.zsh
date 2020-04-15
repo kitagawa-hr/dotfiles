@@ -21,6 +21,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 alias rm='rm -i'
 alias mv='mv -i'
+alias rename='massren'
 
 # ------------------------------------
 # Git Commands
