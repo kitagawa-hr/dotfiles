@@ -1,0 +1,17 @@
+cask_args appdir: "/Applications"
+tap "caskroom/cask"
+tap "homebrew/bundle"
+tap "homebrew/cask-fonts"
+tap "homebrew/core"
+
+brew "docker"
+brew "vim"
+brew "zplug"
+brew "zsh"
+
+cask "docker"
+cask "font-powerline-symbols"
+cask "google-chrome"
+cask "iterm2"
+cask "jetbrains-toolbox"
+cask "karabiner-elements"
