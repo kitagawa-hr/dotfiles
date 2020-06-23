@@ -1,5 +1,5 @@
 # zplug settings
-source ${ZPLUG_HOME}/init.zsh
+source ${HOME}/.zplug/init.zsh
 
 # set install plugins
 zplug 'zplug/zplug', \
