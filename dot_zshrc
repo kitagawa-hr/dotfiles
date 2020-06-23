@@ -19,7 +19,7 @@ source ~/.zsh/prompt.zsh
 source ~/.zsh/alias.zsh
 source ~/.zsh/keybind.zsh
 source ~/.zsh/functions.zsh
-source ~/.fzf.zsh
+source ~/.zsh/fzf.zsh
 
 # OS別設定読み込み
 case ${OSTYPE} in
