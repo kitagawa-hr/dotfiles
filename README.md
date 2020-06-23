@@ -1,6 +1,8 @@
 # dotfiles
 
-1. install chezmoi
+my dotfiles using [chezmoi](https://github.com/twpayne/chezmoi)
+
+## How to init
 
 ```sh
 # install chezmoi
