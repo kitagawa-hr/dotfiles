@@ -1,13 +1,10 @@
+#!/usr/local/bin/zsh
 
 # Color support
 if [ "$TERM" = "xterm" ]
 then
     export TERM="xterm-256color"
 fi
-
-# alt pbcopy
-alias pbcopy='xsel --clipboard --input'
-alias pbpaste='xsel --clipboard --output'
 
 # LinuxBrew
 export LINUX_BREW_ROOT=/home/linuxbrew/.linuxbrew
