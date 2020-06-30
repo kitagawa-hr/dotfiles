@@ -10,15 +10,17 @@ alias zp='hub browse $(zplug list | fzf)'
 # Shell Commands
 # ------------------------------------
 
-if which exa &> /dev/null; then
-  alias ls='exa'
-  alias ll='exa -l'
-  alias k='exa -la'
-  alias tree='exa --tree'
+if which exa &> /dev/null;
+  then
+    alias ls='exa'
+    alias ll='exa -l'
+    alias la='exa -la'
+    alias tree='exa --tree'
+  else
+    alias la='ls -a'
+    alias ll='ls -l'
 fi
 
-alias la='ls -a'
-alias ll='ls -l'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias rm='rm -i'
