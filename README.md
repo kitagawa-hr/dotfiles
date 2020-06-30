@@ -6,7 +6,8 @@ my dotfiles using [chezmoi](https://github.com/twpayne/chezmoi)
 
 ```sh
 # install chezmoi
-curl -sfL https://git.io/chezmoi | sh
+curl -sfL https://git.io/chezmoi | sh && cp ./bin/chezmoi /usr/local/bin/chezmoi
+
 # init
-chezmoi init --apply --verbose https://github.com/kitagawa-hr/dotfiles.git
+chezmoi init --apply https://github.com/kitagawa-hr/dotfiles.git
 ```
