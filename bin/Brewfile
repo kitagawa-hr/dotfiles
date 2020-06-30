@@ -18,6 +18,7 @@ brew "massren"
 brew "zsh"
 brew "zplug"
 
+cask "bitwarden"
 cask "docker"
 cask "font-powerline-symbols"
 cask "google-chrome"
