@@ -1,0 +1,17 @@
+name: check chezmoi applying
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest ]
+  runs-on: {{ matrix.platform }}
+  steps:
+    run: curl -sfL https://git.io/chezmoi | sh
+    run: chezmoi init --apply --verbose https://github.com/kitagawa-hr/dotfiles.git
