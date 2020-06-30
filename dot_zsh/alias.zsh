@@ -12,7 +12,9 @@ alias zp='hub browse $(zplug list | fzf)'
 
 if which exa &> /dev/null; then
   alias ls='exa'
+  alias ll='exa -l'
   alias k='exa -la'
+  alias tree='exa --tree'
 fi
 
 alias la='ls -a'
