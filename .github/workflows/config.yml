@@ -13,5 +13,5 @@ jobs:
         platform: [ubuntu-latest, macos-latest ]
     runs-on: ${{ matrix.platform }}
     steps:
-      - run: curl -sfL https://git.io/chezmoi | sh && cp ./bin/chezmoi /usr/bin/chezmoi
+      - run: curl -sfL https://git.io/chezmoi | sh && cp ./bin/chezmoi /usr/local/bin/chezmoi
       - run: chezmoi init --apply --verbose https://github.com/kitagawa-hr/dotfiles.git
