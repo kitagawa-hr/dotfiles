@@ -1,11 +1,10 @@
 #!/usr/local/bin/zsh
 # 環境変数
 export LANG=ja_JP.UTF-8
-export PATH="$HOME/bin:$PATH"
-export PATH="/usr/local/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:/usr/local/bin:$HOME/bin:$PATH"
 export EDITOR='nvim'
 export XDG_CONFIG_HOME="$HOME/.config"
+export FPATH="/usr/local/share/zsh/functions:$FPATH"
 
 #自動補間
 autoload -U compinit
