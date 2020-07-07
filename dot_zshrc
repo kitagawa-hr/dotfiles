@@ -36,7 +36,7 @@ if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
 fi
 
 # tmux auto start
-if [[ ! -n $TMUX && $- == *l* ]]; then
+if [ -x "$(command -v tmux)" ]; then
   # get the IDs
   ID="`tmux list-sessions`"
   if [[ -z "$ID" ]]; then
