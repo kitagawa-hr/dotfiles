@@ -1,7 +1,7 @@
 # Setup fzf
 # setting
 
-export FZF_REPO="${HOME}/.zplug/repos/junegunn/fzf"
+export FZF_REPO="$(brew --prefix)/opt/fzf"
 if [[ ! "$PATH" == *${FZF_REPO}/bin* ]]; then
   export PATH="$PATH:${FZF_REPO}/bin"
 fi
