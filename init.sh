@@ -17,8 +17,11 @@ fi
 if ! [ -x "$(command -v brew)" ]; then
   echo "installing homebrew"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-  brew bundle --file ./Brewfile
 fi
+
+
+echo "installing from Brewfile"
+brew bundle --file ./Brewfile
 
 #####################################
 # python                            #
@@ -27,24 +30,24 @@ fi
 PYTHON_VERSION=3.7.3
 CLI_PACKAGES=("black" "cookiecutter" "flake8" "mypy" "pipenv" "powerline-shell" "yapf")
 
+echo "setup python environment"
 if ! [ -x "$(command -v pyenv)" ]; then
-  echo "setup python environment"
-  # install pyenv
+  echo "installing pyenv"
   curl https://pyenv.run | bash
-
-  if [ "$(uname)" == "Darwin" ]; then
-    export CFLAGS="-I$(xcrun --show-sdk-path)/usr/include"
-  fi
-
-  pyenv install $PYTHON_VERSION
-  pyenv global $PYTHON_VERSION
-  exec $SHELL
-  pip install -U pip
-
-  # install cli tools using pipx
-  pip install --user pipx
-  pipx ensurepath
-  for package in $CLI_PACKAGES; do
-    pipx install $package
-  done
 fi
+
+if [ "$(uname)" == "Darwin" ]; then
+  export CFLAGS="-I$(xcrun --show-sdk-path)/usr/include"
+fi
+
+echo "installing python $PYTHON_VERSION interpreter"
+pyenv install $PYTHON_VERSION
+pyenv global $PYTHON_VERSION
+pip install -U pip
+
+# install cli tools using pipx
+pip install --user pipx
+pipx ensurepath
+for package in "${CLI_PACKAGES[@]}"; do
+  pipx install "$package"
+done
