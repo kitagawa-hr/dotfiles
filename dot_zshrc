@@ -10,6 +10,11 @@ if [ -e ~/.pyenv ]; then
     eval "$(pyenv init -)"
 fi
 
+# rbenv init
+if [ -e ~/.rbenv ]; then
+    eval "$(rbenv init -)"
+fi
+
 
 # load settings
 source ~/.zsh/zplug.zsh
