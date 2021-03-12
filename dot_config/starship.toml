@@ -29,9 +29,12 @@ format = '([ $all_status$ahead_behind]($style) )'
 style = "bold white"
 ahead =	"⏫ ${count} "
 behind = "⏬ ${count} "
+conflicted = "🔥 "
 untracked = "🔎 ${count} "
 modified = "🖍 ${count} "
+renamed = "⏩ ${count} "
 staged = "✅ ${count} "
+stashed = "💰 "
 deleted = "🗑️ ${count} "
 
 [package]
