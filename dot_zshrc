@@ -4,6 +4,10 @@
 autoload -Uz colors
 colors
 
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt extended_glob
+setopt auto_cd
 
 # pyenv init
 if [ -e ~/.pyenv ]; then
@@ -17,13 +21,13 @@ fi
 
 
 # load settings
+source ~/.zsh/zinit.zsh
 source ~/.zsh/prompt.zsh
 source ~/.zsh/alias.zsh
 source ~/.zsh/keybind.zsh
 source ~/.zsh/functions.zsh
 source ~/.zsh/fzf.zsh
 
-# OS別設定読み込み
 case ${OSTYPE} in
     darwin*)
         source ~/.zshrc.osx
@@ -32,6 +36,7 @@ case ${OSTYPE} in
         source ~/.zshrc.linux
         ;;
 esac
+
 # auto zcompile
 if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
    zcompile ~/.zshrc
@@ -55,4 +60,3 @@ if [ -x "$(command -v tmux)" ]; then
     :  # Start terminal normally
   fi
 fi
-
