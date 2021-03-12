@@ -6,9 +6,6 @@ export EDITOR='nvim'
 export XDG_CONFIG_HOME="$HOME/.config"
 export FPATH="/usr/local/share/zsh/functions:$FPATH"
 
-#自動補間
-autoload -U compinit
-compinit
 # rust
 export PATH="${HOME}/.cargo/bin:$PATH"
 # nim
