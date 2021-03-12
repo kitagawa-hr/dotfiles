@@ -1,0 +1,47 @@
+format = """
+$username\
+$hostname\
+$git_branch\
+$git_state\
+$git_status\
+$time\
+$line_break\
+$status\
+$directory\
+$character"""
+
+[character]
+success_symbol = "[>](bold green)"
+
+[aws]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[git_branch]
+style = "bold blue"
+format = "[$symbol$branch]($style)"
+truncation_length = 30
+
+[git_status]
+format = '([ $all_status$ahead_behind]($style) )'
+style = "bold white"
+ahead =	"⏫ ${count} "
+behind = "⏬ ${count} "
+untracked = "🔎 ${count} "
+modified = "🖍 ${count} "
+staged = "✅ ${count} "
+deleted = "🗑️ ${count} "
+
+[package]
+disabled = true
+
+[status]
+disabled = false
+
+[time]
+disabled = false
+format = '⏰[ $time]($style) '
+time_format = "%T"
+

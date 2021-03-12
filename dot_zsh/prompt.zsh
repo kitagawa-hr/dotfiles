@@ -1,19 +1,6 @@
-function powerline_precmd() {
-    PS1="$(powerline-shell --shell zsh $?)"
-  }
-
-function install_powerline_precmd() {
-  for s in "${precmd_functions[@]}"; do
-    if [ "$s" = "powerline_precmd" ]; then
-      return
-    fi
-  done
-  precmd_functions+=(powerline_precmd)
-}
-
-which powerline-shell &> /dev/null
-if [ $? -eq 0 ]; then
-  if [ "$TERM" != "linux" ]; then
-    install_powerline_precmd
-  fi
+# install starship if not installed
+if ! type starship > /dev/null; then
+    command curl -fsSL https://starship.rs/install.sh | bash
 fi
+
+eval "$(starship init zsh)"
