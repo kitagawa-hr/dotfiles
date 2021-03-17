@@ -25,7 +25,6 @@ source ~/.zsh/zinit.zsh
 source ~/.zsh/prompt.zsh
 source ~/.zsh/alias.zsh
 source ~/.zsh/keybind.zsh
-source ~/.zsh/functions.zsh
 source ~/.zsh/fzf.zsh
 
 case ${OSTYPE} in
