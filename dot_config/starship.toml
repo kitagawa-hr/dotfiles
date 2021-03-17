@@ -6,12 +6,18 @@ $git_state\
 $git_status\
 $time\
 $line_break\
+$dotnet\
+$kotlin\
+$rust\
+$python\
 $status\
 $directory\
 $character"""
 
 [character]
-success_symbol = "[>](bold green)"
+success_symbol = "[❯❯❯](bold green)"
+error_symbol = "[❯❯❯](bold red)"
+vicmd_symbol = "[❮❮❮](bold green)"
 
 [aws]
 disabled = true
@@ -47,4 +53,7 @@ disabled = false
 disabled = false
 format = '⏰[ $time]($style) '
 time_format = "%T"
+style = 'white'
 
+[python]
+format = '[${symbol}(${version} )(\($virtualenv\))]($style) '
