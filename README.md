@@ -1,6 +1,10 @@
 # dotfiles
 
-my dotfiles using [chezmoi](https://github.com/twpayne/chezmoi)
+![prompt](prompt.png)
+
+- zsh package manager: [zinit](https://github.com/zdharma/zinit)
+- prompt: [starship](https://github.com/starship/starship)
+- dotfiles management: [chezmoi](https://github.com/twpayne/chezmoi)
 
 ## How to init
 
