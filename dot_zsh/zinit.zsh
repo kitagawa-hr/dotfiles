@@ -13,8 +13,8 @@ autoload -Uz _zinit
 zinit wait lucid light-mode for \
   atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" zdharma/fast-syntax-highlighting \
   blockf zsh-users/zsh-completions \
-  atload"!_zsh_autosuggest_start" zsh-users/zsh-autosuggestions
-
+  atload"!_zsh_autosuggest_start" zsh-users/zsh-autosuggestions \
+  depth=1 jeffreytse/zsh-vi-mode
 export ZSH_AUTOSUGGEST_USE_ASYNC=1
 
 zinit lucid from'gh-r' as'program' for \
