@@ -1,10 +1,10 @@
-cask_args appdir: "/Applications"
-
 tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 tap "homebrew/core"
-
+brew "awscli"
+brew "bat"
+brew "coreutils"
 brew "docker"
 brew "exa"
 brew "fd"
@@ -13,18 +13,18 @@ brew "ghq"
 brew "gibo"
 brew "hub"
 brew "jq"
+brew "massren"
+brew "neovim"
+brew "node"
 brew "ripgrep"
 brew "tig"
 brew "tmux"
-brew "neovim"
-brew "node"
-brew "massren"
+brew "xsv"
 brew "zsh"
-
-cask "alacritty"
-cask "docker"
-cask "font-fira-code"
-cask "google-chrome"
-cask "jetbrains-toolbox"
-cask "karabiner-elements"
-cask "visual-studio-code"
+cask "alacritty", args: { appdir: "/Applications" }
+cask "clipy", args: { appdir: "/Applications" }
+cask "font-fira-code", args: { appdir: "/Applications" }
+cask "google-chrome", args: { appdir: "/Applications" }
+cask "jetbrains-toolbox", args: { appdir: "/Applications" }
+cask "karabiner-elements", args: { appdir: "/Applications" }
+cask "visual-studio-code", args: { appdir: "/Applications" }
