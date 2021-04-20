@@ -1,10 +1,7 @@
 # ------------------------------------
 # Applications
 # ------------------------------------
-alias jb='jupyter notebook'
-alias jl='jupyter lab'
 alias v='nvim'
-alias zp='hub browse $(zplug list | fzf)'
 
 # ------------------------------------
 # Shell Commands
@@ -84,5 +81,3 @@ alias drmf='docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q)'
 
 # Remove all images
 dri() { docker rmi $(docker images -q); }
-
-
