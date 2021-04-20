@@ -13,14 +13,11 @@ autoload -Uz _zinit
 zinit wait lucid light-mode for \
   atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" zdharma/fast-syntax-highlighting \
   blockf zsh-users/zsh-completions \
-  atload"!_zsh_autosuggest_start" zsh-users/zsh-autosuggestions \
-  depth=1 jeffreytse/zsh-vi-mode
-export ZSH_AUTOSUGGEST_USE_ASYNC=1
+  atload"!_zsh_autosuggest_start; export ZSH_AUTOSUGGEST_USE_ASYNC=1" zsh-users/zsh-autosuggestions \
+  depth=1 jeffreytse/zsh-vi-mode \
+  atload"typeset -g ZSH_SYSTEM_CLIPBOARD_TMUX_SUPPORT='true'" kutsan/zsh-system-clipboard
 
 zinit lucid from'gh-r' as'program' for \
   mv'zoxide* -> zoxide' atload'eval "$(zoxide init zsh)"' ajeetdsouza/zoxide \
-  mv'mcfly* -> mcfly' atload'eval "$(mcfly init zsh)"' cantino/mcfly
-
-export MCFLY_KEY_SCHEME=vim
-export MCFLY_FUZZY=true
-
+  mv'mcfly* -> mcfly' atload'eval "$(mcfly init zsh)"; export MCFLY_KEY_SCHEME=vim; export MCFLY_FUZZY=true' cantino/mcfly \
+  mv'skim* -> sk' lotabout/skim
