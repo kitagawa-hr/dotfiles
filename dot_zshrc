@@ -1,60 +1,178 @@
 #!/usr/local/bin/zsh
 
-# 色を使用出来るようにする
+# ------------------------------------
+# General
+# ------------------------------------
+# color
 autoload -Uz colors
 colors
 
-setopt auto_pushd
-setopt pushd_ignore_dups
-setopt extended_glob
+# cd
 setopt auto_cd
+setopt auto_pushd
+setopt extended_glob
+setopt pushd_ignore_dups
 
-# pyenv init
+# history
+export HISTFILE=~/.zsh_history
+export HISTSIZE=1000
+export SAVEHIST=10000
+setopt bang_hist
+setopt extended_history
+setopt hist_ignore_all_dups
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt hist_no_store
+setopt hist_reduce_blanks
+setopt hist_save_no_dups
+setopt hist_verify
+setopt share_history
+
+# completion
+zstyle ':completion:*:default' menu select=1
+
+# inputs
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+
+# ------------------------------------
+# Prompt
+# ------------------------------------
+# install starship if not installed
+if ! type starship > /dev/null; then
+    command curl -fsSL https://starship.rs/install.sh | bash
+fi
+
+eval "$(starship init zsh)"
+
+
+# ------------------------------------
+# Plugin
+# ------------------------------------
+# install zinit if not installed
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin"
+fi
+
+# init zinit
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# install packages
+
+zinit wait lucid light-mode for \
+  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" zdharma/fast-syntax-highlighting \
+  blockf zsh-users/zsh-completions \
+  atload"!_zsh_autosuggest_start; export ZSH_AUTOSUGGEST_USE_ASYNC=1" zsh-users/zsh-autosuggestions \
+  atload"ZVM_NO_INSERT_MODE_BINDINGS=true" depth=1 kitagawa-hr/zsh-vi-mode \
+  atload"typeset -g ZSH_SYSTEM_CLIPBOARD_TMUX_SUPPORT='true'" kutsan/zsh-system-clipboard
+
+zinit lucid from'gh-r' as'program' for \
+  mv'zoxide* -> zoxide' atload'eval "$(zoxide init zsh)"' ajeetdsouza/zoxide \
+  mv'mcfly* -> mcfly' atload'eval "$(mcfly init zsh)"; export MCFLY_KEY_SCHEME=vim; export MCFLY_FUZZY=true' cantino/mcfly \
+  mv'skim* -> sk' lotabout/skim
+
+## Because zsh-vi-mode override key bindings, reload settings after init.
+## Reference: https://github.com/jeffreytse/zsh-vi-mode/issues/4
+zvm_after_init_commands+=('eval "$(mcfly init zsh)"')
+
+# ------------------------------------
+# Alias
+# ------------------------------------
+alias v='nvim'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias rm='rm -i'
+alias mv='mv -i'
+alias rename='massren'
+if which exa &> /dev/null;
+  then
+    alias ls='exa'
+    alias ll='exa -l'
+    alias la='exa -la'
+    alias tree='exa --tree'
+  else
+    alias la='ls -a'
+    alias ll='ls -l'
+fi
+
+# git commands
+function cd-ghq-list() {
+  local repo=$(ghq list | fzf)
+  if [ $repo ]; then
+    cd $(ghq root)/$repo
+  fi
+}
+
+alias g='cd-ghq-list'
+alias gs='git status'
+alias gss='git status --short --branch'
+alias gr="git log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'"
+alias gh='hub browse $(ghq list | fzf | cut -d "/" -f 2,3)'
+alias gch='git checkout `git branch | fzf | sed -e "s/\* //g" | awk "{print \$1}"`'
+alias gca='git checkout `git branch --all | peco | sed -e "s/\* //g" | awk "{print \$1}"`'
+alias gb='git branch'
+alias cm='git commit -m'
+alias push='git push origin HEAD'
+alias pull='git pull origin $(git rev-parse --abbrev-ref HEAD) --prune'
+alias add='git add'
+alias commit='git commit'
+
+# ------------------------------------
+# Linux
+# ------------------------------------
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  # Color
+  if [ "$TERM" = "xterm" ]; then
+    export TERM="xterm-256color"
+  fi
+
+  # pkg-config
+  export PKG_CONFIG_PATH=/usr/lib64/pkgconfig
+
+  # Alias
+  alias pbcopy='xclip -selection clipboard'
+  alias pbpaste='xclip -selection clipboard -o'
+fi
+
+# ------------------------------------
+# Application
+# ------------------------------------
+# Python
 if [ -e ~/.pyenv ]; then
     eval "$(pyenv init -)"
 fi
 
-# rbenv init
+# Ruby
 if [ -e ~/.rbenv ]; then
     eval "$(rbenv init -)"
 fi
 
+# ------------------------------------
+# Key Bindings
+# ------------------------------------
+autoload -Uz smart-insert-last-word
+zle -N insert-last-word smart-insert-last-word
+zstyle :insert-last-word match '*([^[:space:]][[:alpha:]/\\]|[[:alpha:]/\\][^[:space:]])*'
+bindkey -M viins '^]' insert-last-word
 
-# load settings
-source ~/.zsh/zinit.zsh
-source ~/.zsh/prompt.zsh
-source ~/.zsh/alias.zsh
-source ~/.zsh/keybind.zsh
 
-case ${OSTYPE} in
-    darwin*)
-        source ~/.zshrc.osx
-        ;;
-    linux*)
-        source ~/.zshrc.linux
-        ;;
-esac
-
-# auto zcompile
+bindkey -M viins '^A' beginning-of-line
+bindkey -M viins '^B' backward-char
+bindkey -M viins '^E' end-of-line
+bindkey -M viins '^F' forward-char
+bindkey -M viins '^G' send-break
+bindkey -M viins '^H' backward-delete-char
+bindkey -M viins '^K' kill-line
+bindkey -M viins '^N' down-line-or-history
+bindkey -M viins '^P' up-line-or-history
+bindkey -M viins '^U' backward-kill-line
+bindkey -M viins '^W' backward-kill-word
+bindkey -M viins '^Y' yank
+# ------------------------------------
+# Compile
+# ------------------------------------
 if [ ~/.zshrc -nt ~/.zshrc.zwc ]; then
    zcompile ~/.zshrc
-fi
-
-# tmux auto start
-if [ -x "$(command -v tmux)" ]; then
-  # get the IDs
-  ID="`tmux list-sessions`"
-  if [[ -z "$ID" ]]; then
-    tmux new-session
-  fi
-  create_new_session="Create New Session"
-  ID="$ID\n${create_new_session}:"
-  ID="`echo $ID | $PERCOL | cut -d: -f1`"
-  if [[ "$ID" = "${create_new_session}" ]]; then
-    tmux new-session
-  elif [[ -n "$ID" ]]; then
-    tmux attach-session -t "$ID"
-  else
-    :  # Start terminal normally
-  fi
 fi
