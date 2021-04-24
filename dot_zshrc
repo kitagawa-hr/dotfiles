@@ -33,6 +33,7 @@ zstyle ':completion:*:default' menu select=1
 
 # inputs
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+export KEYTIMEOUT=1
 
 # ------------------------------------
 # Prompt
@@ -72,10 +73,6 @@ zinit lucid from'gh-r' as'program' for \
   mv'zoxide* -> zoxide' atload'eval "$(zoxide init zsh)"' ajeetdsouza/zoxide \
   mv'mcfly* -> mcfly' atload'eval "$(mcfly init zsh)"; export MCFLY_KEY_SCHEME=vim; export MCFLY_FUZZY=true' cantino/mcfly \
   mv'skim* -> sk' lotabout/skim
-
-## Because zsh-vi-mode override key bindings, reload settings after init.
-## Reference: https://github.com/jeffreytse/zsh-vi-mode/issues/4
-zvm_after_init_commands+=('eval "$(mcfly init zsh)"')
 
 # ------------------------------------
 # Alias
@@ -170,6 +167,39 @@ bindkey -M viins '^P' up-line-or-history
 bindkey -M viins '^U' backward-kill-line
 bindkey -M viins '^W' backward-kill-word
 bindkey -M viins '^Y' yank
+
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd '!' edit-command-line
+
+# ------------------------------------
+# Fuzzy Finder
+# ------------------------------------
+
+export FZF_DEFAULT_COMMAND='fd --exclude .git --max-depth 5'
+export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
+export FZF_COMPLETION_TRIGGER=','
+
+function fzf-file() {
+  local find_cmd='fd --exclude .git --max-depth 3'
+  local add_slash="awk '{print \$0 \"/\"}'"
+  local preview_dir='exa --tree -L 2 {}'
+  local preview_file='bat --style=header,grid --color=always --line-range :100 {}'
+  local preview_cmd="if [[ {} == */ ]] ; then ${preview_dir}; else ${preview_file}; fi"
+  local fzf_cmd="fzf -0 -1 --preview '${preview_cmd}'"
+  local cmd="{${find_cmd} --type d | ${add_slash}; ${find_cmd} --type f} | ${fzf_cmd}"
+  local ret=$(eval "${cmd}")
+  case $ret in
+    "")  zle reset-prompt && return;;
+    */)  cd $ret ;;
+    *)   ${EDITOR} $ret ;;
+  esac
+  zle accept-line
+}
+
+zle -N fzf-file
+bindkey '^O' fzf-file
+
 # ------------------------------------
 # Compile
 # ------------------------------------
