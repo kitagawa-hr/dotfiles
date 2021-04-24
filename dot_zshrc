@@ -133,18 +133,6 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
   alias pbpaste='xclip -selection clipboard -o'
 fi
 
-# ------------------------------------
-# Application
-# ------------------------------------
-# Python
-if [ -e ~/.pyenv ]; then
-    eval "$(pyenv init -)"
-fi
-
-# Ruby
-if [ -e ~/.rbenv ]; then
-    eval "$(rbenv init -)"
-fi
 
 # ------------------------------------
 # Key Bindings
