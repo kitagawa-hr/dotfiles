@@ -1,0 +1,12 @@
+" general settings
+set number relativenumber
+set clipboard=unnamedplus
+set visualbell
+set noerrorbells
+
+" plugins
+set multiple-cursors
+set surround
+
+" mappings
+map <C-n> <A-n>
