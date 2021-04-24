@@ -3,11 +3,28 @@
 # ------------------------------------
 # General
 # ------------------------------------
+
 export EDITOR='nvim'
-export FPATH="$/usr/local/share/zsh/functions:$FPATH"
 export LANG=ja_JP.UTF-8
-export PATH="${HOME}/.local/bin:/usr/local/bin:${HOME}/bin:$PATH"
 export XDG_CONFIG_HOME="$HOME/.config"
+
+# ignore /etc/zshrc
+setopt no_global_rcs  
+
+typeset -U path fpath
+
+path=(
+  ~/.local/bin
+  /usr/local/bin
+  ~/bin
+  $path
+)
+
+fpath=(
+  /usr/local/share/zsh/functions
+  $fpath
+)
+
 
 # ------------------------------------
 # Language Specific
@@ -15,16 +32,14 @@ export XDG_CONFIG_HOME="$HOME/.config"
 
 # Go
 export GOPATH="${HOME}/go"
-export PATH="$GOPATH/bin:$PATH"
+path=($GOPATH/bin $path)
 
 # Python
-export PIPENV_VENV_IN_PROJECT=true
-export PYENV_ROOT="${HOME}/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-export PATH="${HOME}/.poetry/bin:$PATH"
+path=(~/.pyenv/shims ~/.pyenv/bin ~/.poetry/bin $path)
 
 # Rust
-export PATH="${HOME}/.cargo/bin:$PATH"
+path=(~/.cargo/bin $path)
 
 # Nim
-export PATH="${HOME}/.nimble/bin:$PATH"
+path=(~/.nimble/bin $path)
+
