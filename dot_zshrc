@@ -106,7 +106,7 @@ alias g='cd-ghq-list'
 alias gs='git status'
 alias gss='git status --short --branch'
 alias gr="git log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'"
-alias gh='hub browse $(ghq list | fzf | cut -d "/" -f 2,3)'
+alias ghb='hub browse $(ghq list | fzf | cut -d "/" -f 2,3)'
 alias gch='git checkout `git branch | fzf | sed -e "s/\* //g" | awk "{print \$1}"`'
 alias gca='git checkout `git branch --all | peco | sed -e "s/\* //g" | awk "{print \$1}"`'
 alias gb='git branch'
@@ -164,12 +164,12 @@ bindkey -M vicmd '!' edit-command-line
 # Fuzzy Finder
 # ------------------------------------
 
-export FZF_DEFAULT_COMMAND='fd --exclude .git --max-depth 5'
+export FZF_DEFAULT_COMMAND='fd --exclude .git --max-depth 5 --hidden'
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 export FZF_COMPLETION_TRIGGER=','
 
 function fzf-file() {
-  local find_cmd='fd --exclude .git --max-depth 3'
+  local find_cmd='fd --exclude .git --max-depth 3 --hidden'
   local add_slash="awk '{print \$0 \"/\"}'"
   local preview_dir='exa --tree -L 2 {}'
   local preview_file='bat --style=header,grid --color=always --line-range :100 {}'
