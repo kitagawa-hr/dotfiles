@@ -102,6 +102,15 @@ function cd-ghq-list() {
   fi
 }
 
+
+function vscode-ghq-list() {
+  local repo=$(ghq list | fzf)
+  if [ $repo ]; then
+    code $(ghq root)/$repo
+  fi
+}
+
+alias vs='vscode-ghq-list'
 alias g='cd-ghq-list'
 alias gs='git status'
 alias gss='git status --short --branch'
