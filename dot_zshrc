@@ -52,7 +52,7 @@ eval "$(starship init zsh)"
 # install zinit if not installed
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
     command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.zinit/bin"
 fi
 
 # init zinit
