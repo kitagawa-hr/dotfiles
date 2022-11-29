@@ -1,2 +1,11 @@
 [pull]
   rebase = false
+
+
+[commit]
+        gpgsign = true
+[user]
+        signingkey = 86255B6129221D99
+        name = kitagawa-hr
+        email = kitagawahr@gmail.com
+
