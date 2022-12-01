@@ -1,11 +1,10 @@
 [pull]
   rebase = false
-
-
 [commit]
-        gpgsign = true
+	gpgsign = true
 [user]
-        signingkey = 86255B6129221D99
-        name = kitagawa-hr
-        email = kitagawahr@gmail.com
-
+	signingkey = 86255B6129221D99
+	name = kitagawa-hr
+	email = kitagawahr@gmail.com
+[alias]
+	nffmerge = merge --no-ff
