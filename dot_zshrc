@@ -41,7 +41,7 @@ export KEYTIMEOUT=1
 # ------------------------------------
 # install starship if not installed
 if ! type starship > /dev/null; then
-    command curl -fsSL https://starship.rs/install.sh | bash
+    curl -sS https://starship.rs/install.sh | sh
 fi
 
 eval "$(starship init zsh)"
@@ -72,8 +72,7 @@ zinit wait lucid light-mode for \
 
 zinit lucid from'gh-r' as'program' for \
   mv'zoxide* -> zoxide' atload'eval "$(zoxide init zsh)"' ajeetdsouza/zoxide \
-  mv'mcfly* -> mcfly' atload'eval "$(mcfly init zsh)"; export MCFLY_KEY_SCHEME=vim; export MCFLY_FUZZY=true' cantino/mcfly \
-  mv'skim* -> sk' lotabout/skim
+  mv'mcfly* -> mcfly' atload'eval "$(mcfly init zsh)"; export MCFLY_KEY_SCHEME=vim; export MCFLY_FUZZY=true' cantino/mcfly
 
 # ------------------------------------
 # Alias
