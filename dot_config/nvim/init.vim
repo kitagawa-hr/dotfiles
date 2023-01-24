@@ -1,72 +1,76 @@
+" ======================
+"  Plugin
+" ======================
 call plug#begin('~/.vim/plugged')
 
+" Edit 
 Plug 'easymotion/vim-easymotion'
-Plug 'endel/vim-github-colorscheme'
 Plug 'ervandew/supertab'
-Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
-Plug 'iberianpig/tig-explorer.vim'
-Plug 'itchyny/lightline.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/vim-easy-align'
 Plug 'machakann/vim-highlightedyank'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'patstockwell/vim-monokai-tasty'
-Plug 'phanviet/vim-monokai-pro'
-Plug 'rbgrouleff/bclose.vim'
 Plug 'scrooloose/nerdcommenter'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-surround'
+
+" Display
+Plug 'romainl/vim-dichromatic'
+Plug 'itchyny/lightline.vim'
+Plug 'patstockwell/vim-monokai-tasty'
+Plug 'phanviet/vim-monokai-pro'
+
+" Language supports
+Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'udalov/kotlin-vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'ymyzk/vim-copl'
+
+" Tool integrations
+Plug 'iberianpig/tig-explorer.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" File Managers
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+
+" Terminal
+Plug 'voldikss/vim-floaterm'
+
+" Git
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
-if !exists('##TextYankPost')
-  map y <Plug>(highlightedyank)
-endif
 
-" completion popup
-set completeopt=longest,menuone
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-noremap <expr> <C-n> pumvisible() ? '<C-n>' :
-  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+" ======================
+"  Display
+" ======================
 
-inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
-  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-
-" NERDTree
-let g:NERDTreeShowBookmarks = 1
-let NERDTreeQuitOnOpen = 1
-let NERDTreeAutoDeleteBuffer = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-nnoremap <Leader>f :NERDTreeToggle<Enter>
-
-" NERDCommenter
-let g:NERDSpaceDelims = 1
-let g:NERDCompactSexyComs = 1
-let g:NERDDefaultAlign = 'left'
-let g:NERDCommentEmptyLines = 1
-let g:NERDTrimTrailingWhitespace = 1
-
-" tig-explorer
-nnoremap <Leader><Leader>t :TigOpenProjectRootDir<CR>
-
-set clipboard=unnamed
 syntax enable
 filetype on
 set termguicolors
 let g:vim_monokai_tasty_italic = 1
-colorscheme vim-monokai-tasty
+colorscheme dichromatic
 let g:lightline = {
-      \ 'colorscheme': 'monokai_tasty',
+      \ 'colorscheme': 'vim-dichromatic',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
       \ }
-let g:airline_theme='monokai_tasty'
 
+highlight GitGutterAdd ctermfg=green
+highlight GitGutterChange ctermfg=blue
+highlight GitGutterDelete ctermfg=red
+highlight! link SignColumn LineNr
+
+" ======================
+"  Editor
+" ======================
 set autoread
+set clipboard=unnamed
 set cursorcolumn
 set cursorline
 set expandtab
@@ -93,6 +97,45 @@ set wildmode=list:longest
 set wrapscan
 
 
+
+" completion popup
+set completeopt=longest,menuone
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+noremap <expr> <C-n> pumvisible() ? '<C-n>' :
+  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+
+" ======================
+"  Plugin Config
+" ======================
+
+
+" highlightedyank
+if !exists('##TextYankPost')
+  map y <Plug>(highlightedyank)
+endif
+
+
+" NERDTree
+let g:NERDTreeShowBookmarks = 1
+let NERDTreeQuitOnOpen = 1
+let NERDTreeAutoDeleteBuffer = 1
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+nnoremap <Leader>f :NERDTreeToggle<Enter>
+
+" NERDCommenter
+let g:NERDSpaceDelims = 1
+let g:NERDCompactSexyComs = 1
+let g:NERDDefaultAlign = 'left'
+let g:NERDCommentEmptyLines = 1
+let g:NERDTrimTrailingWhitespace = 1
+
+" tig-explorer
+nnoremap <Leader><Leader>t :TigOpenProjectRootDir<CR>
 
 " firenvim
 if exists('g:started_by_firenvim')
@@ -125,3 +168,6 @@ if exists('g:started_by_firenvim')
   augroup END
 endif
 
+" fzf
+let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffset':0.5,'xoffset': 0.5, 'border': 'sharp' } }
+nnoremap <silent> <leader>p :Files<CR>
