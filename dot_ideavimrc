@@ -3,10 +3,47 @@ set number relativenumber
 set clipboard=unnamedplus
 set visualbell
 set noerrorbells
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+
 
 " plugins
 set multiple-cursors
 set surround
+set highlightedyank
+set matchit
+set easymotion
 
 " mappings
-map <C-n> <A-n>
+let mapleader = " "
+
+nnoremap <esc><esc> :nohlsearch<cr>
+nnoremap <C-n> <A-n>
+nnoremap = :action ReformatCode<cr>
+vnoremap = :action ReformatCode<cr>
+nnoremap [b :action PreviousTab<cr>
+nnoremap ]b :action NextTab<cr>
+nnoremap [c :action VcsShowPrevChangeMarker<cr>
+nnoremap ]c :action VcsShowNextChangeMarker<cr>
+nmap ]d :action GotoNextError<cr>
+nmap [d :action GotoPreviousError<cr>
+
+nnoremap gh 0
+nnoremap gs ^
+nnoremap gl $
+nnoremap gr :action FindUsages<cr>
+nnoremap gi :action GotoImplementation<cr>
+nnoremap gy :action GotoSuperMethod<cr>
+nnoremap gt :action GotoTest<cr>
+
+nnoremap <leader>L :action RecentLocations<cr>
+nnoremap <leader>F :action RecentFiles<cr>
+nnoremap <leader>C :action CallHierarchy<cr>
+nnoremap <leader>r :action RenameElement<cr>
+nnoremap <leader>G :action Github.Open.In.Browser<cr>
+nnoremap <leader>cr :action CopyReference<cr>
+nnoremap <leader>cp :action CopyPathFromRepositoryRootProvider<cr>
+nnoremap <leader>cg :action GitHub.Copy.Link<cr>
+
