@@ -12,13 +12,13 @@ set_keymap("n", "Y", "y$", { noremap = true })
 set_keymap("n", "]b", "<Cmd>bnext<CR>", { noremap = true })
 set_keymap("n", "[b", "<Cmd>bprev<CR>", { noremap = true })
 set_keymap("v", "p", '"_dP', { noremap = true })
-set_keymap("", "<esc><esc>", '<Cmd>nohlsearch<CR>', { noremap = true })
+set_keymap("", "<esc><esc>", "<Cmd>nohlsearch<CR>", { noremap = true })
 
 -- Terminal
 set_keymap("t", "<esc>", "<C-\\><C-n>", { noremap = true })
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
-    callback = function()
-        vim.opt_local.modifiable = true
-        vim.opt_local.number = false
-    end
+  callback = function()
+    vim.opt_local.modifiable = true
+    vim.opt_local.number = false
+  end,
 })

@@ -29,12 +29,10 @@ return {
           require("copilot_cmp").setup()
         end,
       },
-      "onsails/lspkind.nvim",
     },
     event = { "InsertEnter", "CmdlineEnter" },
     config = function()
       local cmp = require("cmp")
-      local lspkind = require("lspkind")
 
       cmp.setup.cmdline({ "/", "?" }, {
         mapping = cmp.mapping.preset.cmdline(),
@@ -54,13 +52,7 @@ return {
       cmp.setup({
         preselect = cmp.PreselectMode.None,
         formatting = {
-          fields = { "kind", "abbr", "menu" },
-          format = lspkind.cmp_format({
-            mode = "symbol",
-            maxwidth = 50,
-            ellipsis_char = "...",
-            show_labelDetails = true,
-          }),
+          fields = { "abbr", "kind", "menu" },
         },
         mapping = {
           ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),

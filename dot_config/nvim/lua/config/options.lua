@@ -4,7 +4,6 @@ vim.g.maplocalleader = " "
 -- ======================
 -- Appearance
 -- ======================
---vim.cmd([[colorscheme nightfox]])
 vim.opt.filetype = "on"
 vim.opt.termguicolors = true
 
@@ -48,9 +47,10 @@ vim.opt.wildmode = "list:longest"
 vim.opt.cmdheight = 0
 
 -- Status line
-vim.opt.laststatus = 2
+vim.opt.laststatus = 3
 vim.opt.showcmd = true
 
 -- Misc
 vim.opt.compatible = false
 vim.opt.visualbell = true
+
