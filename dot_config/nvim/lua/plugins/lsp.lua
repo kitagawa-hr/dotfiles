@@ -180,7 +180,7 @@ return {
     },
     keys = {
       {
-        "[d",
+        "]d",
         "<cmd>Lspsaga diagnostic_jump_next<cr>",
         desc = "Next Diagnostic",
       },
