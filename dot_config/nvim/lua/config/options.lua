@@ -19,6 +19,7 @@ vim.bo.spelllang = "en_us"
 vim.bo.syntax = "ON"
 vim.bo.tabstop = 2
 vim.cmd([[set clipboard^=unnamedplus]])
+vim.opt.shell = "zsh"
 vim.opt.showmatch = true
 vim.opt.virtualedit = "onemore"
 vim.wo.cursorcolumn = true
