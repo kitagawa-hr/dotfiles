@@ -55,3 +55,5 @@ vim.opt.showcmd = true
 vim.opt.compatible = false
 vim.opt.visualbell = true
 
+-- Grep
+vim.opt.grepprg = "rg --vimgrep"
