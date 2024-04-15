@@ -21,7 +21,7 @@ vim.bo.tabstop = 2
 vim.cmd([[set clipboard^=unnamedplus]])
 vim.opt.shell = "zsh"
 vim.opt.showmatch = true
-vim.opt.virtualedit = "onemore"
+vim.opt.virtualedit = "all"
 vim.wo.cursorcolumn = true
 vim.wo.cursorline = true
 vim.wo.number = true
@@ -54,6 +54,23 @@ vim.opt.showcmd = true
 -- Misc
 vim.opt.compatible = false
 vim.opt.visualbell = true
+vim.opt.exrc = true
 
 -- Grep
 vim.opt.grepprg = "rg --vimgrep"
+
+-- ======================
+-- Terminal
+-- ======================
+
+vim.api.nvim_create_autocmd({ "TermOpen" }, {
+  callback = function()
+    vim.opt_local.buflisted = false
+    vim.opt_local.cursorline = false
+    vim.opt_local.modifiable = true
+    vim.opt_local.number = false
+    vim.opt_local.signcolumn = 'no'
+    vim.opt_local.spell = false
+  end,
+})
+
