@@ -50,20 +50,17 @@ return {
   { "phanviet/vim-monokai-pro" },
   {
     "EdenEast/nightfox.nvim",
-    -- config = function()
-    --   vim.cmd([[colorscheme nightfox]])
-    -- end,
+    config = function()
+      vim.cmd([[colorscheme nightfox]])
+    end,
     opts = {
-      pallettes = {
-        all = {
-          red = "#cc3311",
-          green = "#228833",
-          yellow = "#ccbb44",
-          blue = "#0077bb",
-          magenta = "#ee3377",
-          cyan = "#33bbee",
-          orange = "#ee7733",
-          --pink    = ""
+      colorblind = {
+        enable = true,
+        simulate_only = false,
+        severity = {
+          protan = 0.4,
+          deutan = 1,
+          tritan = 0,
         },
       },
     },
@@ -74,9 +71,9 @@ return {
     opts = {
       variant = "deuteranopia",
     },
-    config = function()
-      vim.cmd([[colorscheme modus]])
-    end,
+    -- config = function()
+    --   vim.cmd([[colorscheme modus]])
+    -- end,
   },
   -- statusline, tabline
   {
