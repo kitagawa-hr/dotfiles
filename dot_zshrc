@@ -32,9 +32,6 @@ export GPG_TTY=$(tty)
 # completion
 zstyle ':completion:*:default' menu select=1
 
-# inputs
-WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-export KEYTIMEOUT=1
 
 # ------------------------------------
 # Prompt
@@ -142,10 +139,13 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
   alias pbpaste='xclip -selection clipboard -o'
 fi
 
-
 # ------------------------------------
 # Key Bindings
 # ------------------------------------
+
+# For faster switch to vim mode
+export KEYTIMEOUT=1
+
 autoload -Uz smart-insert-last-word
 zle -N insert-last-word smart-insert-last-word
 zstyle :insert-last-word match '*([^[:space:]][[:alpha:]/\\]|[[:alpha:]/\\][^[:space:]])*'
@@ -162,7 +162,7 @@ bindkey -M viins '^K' kill-line
 bindkey -M viins '^N' down-line-or-history
 bindkey -M viins '^P' up-line-or-history
 bindkey -M viins '^U' backward-kill-line
-bindkey -M viins '^W' backward-kill-word
+bindkey -M viins '^W' vi-backward-kill-word
 bindkey -M viins '^Y' yank
 
 autoload -Uz edit-command-line
@@ -189,15 +189,14 @@ bindkey -M vicmd 'd' vi-delete-to-clipboard
 # ------------------------------------
 # Fuzzy Finder
 # ------------------------------------
-
 export FZF_DEFAULT_COMMAND='fd --exclude .git --max-depth 5 --hidden'
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 export FZF_COMPLETION_TRIGGER=','
 
 function fzf-file() {
-  local find_cmd='fd --exclude .git --max-depth 3 --hidden'
+  local find_cmd='fd --exclude .git --max-depth 5 --hidden --type f'
   local add_slash="awk '{print \$0 \"/\"}'"
-  local preview_dir='exa --tree -L 2 {}'
+  local preview_dir='eza --tree -L 2 {}'
   local preview_file='bat --style=header,grid --color=always --line-range :100 {}'
   local preview_cmd="if [[ {} == */ ]] ; then ${preview_dir}; else ${preview_file}; fi"
   local fzf_cmd="fzf -0 -1 --preview '${preview_cmd}'"
