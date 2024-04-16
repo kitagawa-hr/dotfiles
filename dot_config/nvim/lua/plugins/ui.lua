@@ -1,3 +1,15 @@
+local symbols = {
+  added = "",
+  modified = "",
+  removed = "",
+  readonly = "",
+  error = "",
+  warn = "",
+  info = "",
+  hint = "",
+  question = "",
+}
+
 return {
   {
     "lukas-reineke/indent-blankline.nvim",
@@ -51,19 +63,28 @@ return {
   {
     "EdenEast/nightfox.nvim",
     config = function()
-      vim.cmd([[colorscheme nightfox]])
-    end,
-    opts = {
-      colorblind = {
-        enable = true,
-        simulate_only = false,
-        severity = {
-          protan = 0.4,
-          deutan = 1,
-          tritan = 0,
+      require("nightfox").setup({
+        options = {
+          styles = {
+            keywords = "bold",
+            variables = "italic",
+          },
+          colorblind = {
+            enable = true,
+            simulate_only = false,
+            severity = {
+              protan = 0.3,
+              deutan = 0.9,
+              tritan = 0,
+            },
+          },
         },
-      },
-    },
+        palettes = {
+          nightfox = {},
+        },
+      })
+      vim.cmd("colorscheme nightfox")
+    end,
   },
   {
     "miikanissi/modus-themes.nvim",
@@ -78,60 +99,67 @@ return {
   -- statusline, tabline
   {
     "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = { "nvim-tree/nvim-web-devicons", "gitsigns.nvim" },
     event = "UIEnter",
     opts = {
       globalstatus = true,
       refresh = {
-        statusline = 1000,
+        statusline = 500,
         tabline = 1000,
-        winbar = 1000,
       },
       sections = {
         lualine_a = { "mode" },
         lualine_b = {
           "branch",
-          "diff",
           {
-            "diagnostics",
-            sources = { "nvim_diagnostic", "nvim_lsp" },
-            sections = { "error", "warn", "info", "hint" },
-            diagnostics_color = {
-              error = "DiagnosticError",
-              warn = "DiagnosticWarn",
-              info = "DiagnosticInfo",
-              hint = "DiagnosticHint",
+            "diff",
+            symbols = {
+              added = symbols.added .. " ",
+              modified = symbols.modified .. " ",
+              removed = symbols.removed .. " ",
             },
-            symbols = { error = "E", warn = "W", info = "I", hint = "H" },
-            colored = true,
-            update_in_insert = false,
-            always_visible = false,
+            source = function()
+              ---@diagnostic disable-next-line: undefined-field
+              local gitsigns = vim.b.gitsigns_status_dict
+              if gitsigns then
+                return {
+                  added = gitsigns.added,
+                  modified = gitsigns.changed,
+                  removed = gitsigns.removed,
+                }
+              end
+            end,
           },
         },
         lualine_c = {
           {
-            "buffers",
-            show_filename_only = true,
-            hide_filename_extension = false,
-            show_modified_status = true,
+            "filename",
+            newfile_status = true,
+            path = 1,
+            -- 1: Relative path
+            -- 2: Absolute path
+            -- 3: Absolute path, with tilde as the home directory
+            -- 4: Filename and parent dir, with tilde as the home directory
 
-            mode = 2,
-            -- 0: Shows buffer name
-            -- 1: Shows buffer index
-            -- 2: Shows buffer name + buffer index
-            -- 3: Shows buffer number
-            -- 4: Shows buffer name + buffer number
-
-            max_length = vim.o.columns * 2 / 3,
-            filetype_names = {
-              TelescopePrompt = "Telescope",
-            },
-            use_mode_colors = false,
+            shorting_target = 40,
             symbols = {
-              modified = " ●",
-              alternate_file = "#",
-              directory = "",
+              modified = symbols.modified,
+              readonly = symbols.readonly,
+              unnamed = "[No Name]",
+              newfile = "[New]",
             },
+          },
+          {
+
+            "macro-recording",
+            fmt = function()
+              local recording_register = vim.fn.reg_recording()
+              if recording_register == "" then
+                return ""
+              else
+                return "Recording @" .. recording_register
+              end
+            end,
           },
         },
         lualine_x = { "encoding", "fileformat", "filetype" },
@@ -139,30 +167,81 @@ return {
         lualine_z = { "location" },
       },
     },
-    keys = {
-      { "gb1", "<cmd>LualineBuffersJump! 1<cr>" },
-      { "gb2", "<cmd>LualineBuffersJump! 2<cr>" },
-      { "gb3", "<cmd>LualineBuffersJump! 3<cr>" },
-      { "gb4", "<cmd>LualineBuffersJump! 4<cr>" },
-      { "gb5", "<cmd>LualineBuffersJump! 5<cr>" },
-      { "gb6", "<cmd>LualineBuffersJump! 6<cr>" },
-      { "gb7", "<cmd>LualineBuffersJump! 7<cr>" },
-      { "gb8", "<cmd>LualineBuffersJump! 8<cr>" },
-      { "gb9", "<cmd>LualineBuffersJump! 9<cr>" },
-      { "gb$", "<cmd>LualineBuffersJump! $<cr>" },
-    },
   },
   {
     "romgrk/barbar.nvim",
+    event = "UIEnter",
     dependencies = {
-      "lewis6991/gitsigns.nvim",
-      "nvim-tree/nvim-web-devicons",
+      "gitsigns.nvim",
+      "nvim-web-devicons",
     },
     init = function()
       vim.g.barbar_auto_setup = false
     end,
-    opts = {},
-    version = "^1.0.0",
+    opts = {
+      icons = {
+        buffer_index = true,
+        diagnostics = {
+          [vim.diagnostic.severity.ERROR] = { enabled = true, icon = symbols.error },
+          [vim.diagnostic.severity.WARN] = { enabled = false },
+          [vim.diagnostic.severity.INFO] = { enabled = false },
+          [vim.diagnostic.severity.HINT] = { enabled = false },
+        },
+      },
+    },
+    version = "^1.0.0", -- optional: only update when a new 1.x version is released
+    keys = {
+      { "gb1", "<cmd>BufferGoto 1<cr>" },
+      { "gb2", "<cmd>BufferGoto 2<cr>" },
+      { "gb3", "<cmd>BufferGoto 3<cr>" },
+      { "gb4", "<cmd>BufferGoto 4<cr>" },
+      { "gb5", "<cmd>BufferGoto 5<cr>" },
+      { "gb6", "<cmd>BufferGoto 6<cr>" },
+      { "gb7", "<cmd>BufferGoto 7<cr>" },
+      { "gb8", "<cmd>BufferGoto 8<cr>" },
+      { "gb9", "<cmd>BufferGoto 9<cr>" },
+      { "gb$", "<cmd>BufferLast<cr>" },
+    },
+  },
+  {
+    "b0o/incline.nvim",
+    dependencies = {
+      "nvim-web-devicons",
+    },
+    config = function()
+      local devicons = require("nvim-web-devicons")
+      require("incline").setup({
+        render = function(props)
+          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+          if filename == "" then
+            filename = "[No Name]"
+          end
+          local ft_icon, ft_color = devicons.get_icon_color(filename)
+
+          local function get_diagnostic_label()
+            local icons = { error = symbols.error, warn = symbols.warn, info = symbols.info, hint = symbols.hint }
+            local label = {}
+
+            for severity, icon in pairs(icons) do
+              local n = #vim.diagnostic.get(props.buf, { severity = vim.diagnostic.severity[string.upper(severity)] })
+              if n > 0 then
+                table.insert(label, { icon .. n .. " ", group = "DiagnosticSign" .. severity })
+              end
+            end
+            if #label > 0 then
+              table.insert(label, { "┊ " })
+            end
+            return label
+          end
+
+          return {
+            { get_diagnostic_label() },
+            { (ft_icon or "") .. " ", guifg = ft_color, guibg = "none" },
+            { filename .. " ", gui = vim.bo[props.buf].modified and "bold,italic" or "bold" },
+          }
+        end,
+      })
+    end,
   },
   {
     "folke/which-key.nvim",
@@ -191,6 +270,40 @@ return {
         bottom_search = true,
         command_palette = true,
         long_message_to_split = true,
+      },
+    },
+  },
+  {
+    "folke/trouble.nvim",
+    event = "UIEnter",
+    dependencies = { "nvim-tree/nvim-web-devicons", "telescope.nvim" },
+    keys = {
+      { "<leader>xx", "<cmd>TroubleToggle<cr>" },
+      { "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>" },
+      { "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>" },
+      { "<leader>xq", "<cmd>TroubleToggle quickfix<cr>" },
+      { "<leader>xl", "<cmd>TroubleToggle loclist<cr>" },
+      { "gR", "<cmd>TroubleToggle lsp_references<cr>" },
+    },
+    config = function()
+      local trouble = require("trouble.providers.telescope")
+
+      require("telescope").setup({
+        defaults = {
+          mappings = {
+            i = { ["<C-q>"] = trouble.open_with_trouble },
+            n = { ["<C-q>"] = trouble.open_with_trouble },
+          },
+        },
+      })
+    end,
+    opts = {
+      signs = {
+        error = symbols.error,
+        warning = symbols.warn,
+        hint = symbols.hint,
+        information = symbols.info,
+        other = symbols.question,
       },
     },
   },

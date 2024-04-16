@@ -1,4 +1,124 @@
+local _efm_languages = {
+  dockerfile = {
+    {
+      lintCommand = "hadolint --no-color -",
+      lintStdin = true,
+      lintFormats = { "-:%l %.%# %trror: %m", "-:%l %.%# %tarning: %m", "-:%l %.%# %tnfo: %m" },
+      rootMarkers = { ".hadolint.yaml" },
+    },
+  },
+  lua = {
+    {
+      formatCanRange = true,
+      formatCommand = "stylua --color Never ${--range-start:charStart} ${--range-end:charEnd} -",
+      formatStdin = true,
+      rootMarkers = { "stylua.toml", ".stylua.toml" },
+    },
+  },
+  python = {
+    {
+      formatCommand = "ruff format --no-cache --stdin-filename '${INPUT}'",
+      formatStdin = true,
+      rootMarkers = {
+        "pyproject.toml",
+        "setup.py",
+        "requirements.txt",
+        "ruff.toml",
+      },
+    },
+  },
+  sh = {
+    {
+      lintCommand = "shellcheck -f gcc -x",
+      lintSource = "shellcheck",
+      lintFormats = {
+        "%f:%l:%c: %t%*[^:]: %m [SC%n]",
+      },
+    },
+  },
+  sql = {
+    {
+      formatCommand = "sql-formatter --config .sql-formatter.json",
+      formatStdin = true,
+    },
+  },
+  toml = {
+    {
+      formatCanRange = true,
+      formatCommand = "taplo format -",
+      formatStdin = true,
+    },
+  },
+  markdown = {
+    {
+      lintCommand = "markdownlint -s",
+      lintStdin = true,
+      lintFormats = {
+        "%f:%l %m",
+        "%f:%l:%c %m",
+        "%f: %l: %m",
+      },
+    },
+  },
+  nix = {
+    {
+      formatCommand = "nixfmt",
+      formatStdin = true,
+      rootMarkers = {
+        "flake.nix",
+        "shell.nix",
+        "default.nix",
+      },
+    },
+  },
+  yaml = { {
+    formatCommand = "yamlfmt -",
+    formatStdin = true,
+  } },
+}
+
+local efmls_config = {
+  cmd = {
+    "efm-langserver",
+    "-logfile",
+    vim.fn.stdpath("log") .. "/efm.log",
+    "-loglevel",
+    "1",
+  },
+  init_options = {
+    documentFormatting = true,
+    documentRangeFormatting = true,
+    hover = true,
+    documentSymbol = true,
+    codeAction = true,
+    completion = true,
+  },
+  filetypes = vim.tbl_keys(_efm_languages),
+  settings = {
+    rootMarkers = { ".git/" },
+    languages = _efm_languages,
+  },
+}
+
+local function _format_buffer(bufnr)
+  local ft = vim.bo[bufnr].filetype
+  local efm_formatter_available = _efm_languages[ft] ~= nil
+    and not vim.tbl_isempty(vim.tbl_filter(function(tbl)
+      return tbl.formatCommand ~= nil
+    end, _efm_languages[ft]))
+  if efm_formatter_available then
+    vim.lsp.buf.format({ bufnr = bufnr, name = "efm", async = true })
+  else
+    vim.lsp.buf.format({ bufnr = bufnr, async = true })
+  end
+end
+
+vim.keymap.set({ "n", "x" }, "=", function()
+  _format_buffer(0)
+end)
+
 return {
+  -- Treesitter
   {
     -- https://github.com/nvim-treesitter/nvim-treesitter/wiki/Installation#lazynvim
     "nvim-treesitter/nvim-treesitter",
@@ -26,6 +146,7 @@ return {
           "markdown",
           "markdown_inline",
           "nix",
+          "nu",
           "php",
           "python",
           "query",
@@ -38,27 +159,24 @@ return {
           "vim",
           "yaml",
         },
+        incremental_selection = {
+          enable = true,
+          keymaps = {
+            init_selection = "+",
+            node_incremental = "+",
+            node_decremental = "-",
+            scope_incremental = false,
+          },
+        },
       })
     end,
-  },
-  {
-    "neovim/nvim-lspconfig",
-    config = function()
-      vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-        callback = function(ev)
-          vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-
-          local opts = { buffer = ev.buf }
-          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-          vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts)
-        end,
-      })
-    end,
+    dependencies = {
+      "nushell/tree-sitter-nu",
+    },
   },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
-    dependencies = "nvim-treesitter",
+    dependencies = { "nvim-treesitter" },
     config = function()
       ---@diagnostic disable-next-line: missing-fields
       require("nvim-treesitter.configs").setup({
@@ -114,23 +232,96 @@ return {
       })
     end,
   },
-  { "williamboman/mason.nvim", config = {} },
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "neoconf.nvim",
+    },
+    config = function()
+      vim.api.nvim_create_autocmd("LspAttach", {
+        group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+        callback = function(ev)
+          vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+
+          local opts = { buffer = ev.buf }
+          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+          vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts)
+        end,
+      })
+    end,
+  },
+  {
+    "mfussenegger/nvim-jdtls",
+    ft = "java",
+    config = function()
+      local config = {
+        cmd = {
+          "jdtls",
+          "-Xms2G",
+          "-Xmx4G",
+        },
+        root_dir = vim.fs.dirname(
+          vim.fs.find({ ".gradlew", ".git", "mvnw", "pom.xml", "build.gradle" }, { upward = true })[1]
+        ),
+        settings = {
+          java = {
+            signatureHelp = { enabled = true },
+          },
+        },
+      }
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "java",
+        callback = function()
+          require("jdtls").start_or_attach(config)
+        end,
+      })
+    end,
+  },
+  {
+    "nanotee/sqls.nvim",
+    ft = "sql",
+    config = function()
+      require("lspconfig").sqls.setup({
+        on_attach = function(client, bufnr)
+          require("sqls").on_attach(client, bufnr)
+        end,
+      })
+    end,
+    keys = {
+      {
+        "X",
+        "<Plug>(sqls-execute-query)",
+        mode = { "n", "x" },
+        ft = "sql",
+        desc = "Sqls Execute Query",
+      },
+    },
+  },
   {
     "williamboman/mason-lspconfig",
     dependencies = {
-      "williamboman/mason.nvim",
+      { "williamboman/mason.nvim", config = true },
       "neovim/nvim-lspconfig",
       "folke/neodev.nvim",
+      {
+        "folke/neoconf.nvim",
+        cmd = "Neoconf",
+        opts = {
+          local_settings = ".nvim/neoconf.json",
+        },
+      },
     },
     opts = {
       ensure_installed = {
         "efm",
+        "jdtls",
         "lua_ls",
         "pyright",
+        "ruff_lsp",
         "rust_analyzer",
         "typos_lsp",
       },
-      automatic_installation = true,
+      automatic_installation = false,
       handlers = {
         function(server_name)
           require("lspconfig")[server_name].setup({})
@@ -161,6 +352,10 @@ return {
             },
           })
         end,
+        efm = function()
+          require("lspconfig").efm.setup(efmls_config)
+        end,
+        jdtls = function() end, -- Use nvim-jdtls instead
       },
     },
   },
@@ -189,54 +384,11 @@ return {
         "<cmd>Lspsaga diagnostic_jump_prev<cr>",
         desc = "Prev Diagnostic",
       },
-      { "K", "<cmd>Lspsaga hover_doc<cr>", desc = "Hover Doc" },
+      { "<C-k>", "<cmd>Lspsaga hover_doc<cr>", desc = "Hover Doc" },
       { "<space>lc", "<cmd>Lspsaga code_action<cr>", desc = "LSP Code Action" },
       { "<space>lf", "<cmd>Lspsaga finder<cr>", desc = "LSP Finder" },
       { "<space>lr", "<cmd>Lspsaga rename<cr>", desc = "LSP Rename" },
       { "<space>lo", "<cmd>Lspsaga outline<cr>", desc = "LSP Outline" },
     },
-  },
-  {
-    "folke/trouble.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    keys = {
-      { "<lader>xx", "<cmd>TroubleToggle<cr>" },
-      { "<lader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>" },
-      { "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>" },
-      { "<leader>xq", "<cmd>TroubleToggle quickfix<cr>" },
-      { "<leader>xl", "<cmd>TroubleToggle loclist<cr>" },
-      { "gR", "<cmd>TroubleToggle lsp_references<cr>" },
-    },
-    opts = {},
-  },
-  -- formatter
-  {
-    "stevearc/conform.nvim",
-    event = { "BufWritePre" },
-    cmd = { "ConformInfo" },
-    keys = {
-      {
-        "=",
-        function()
-          require("conform").format({ async = true, lsp_fallback = true }, function(err)
-            if not err then
-              if vim.startswith(vim.api.nvim_get_mode().mode:lower(), "v") then
-                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
-              end
-            end
-          end)
-        end,
-        desc = "Format buffer",
-      },
-    },
-    opts = {
-      formatters_by_ft = {
-        lua = { "stylua" },
-        python = { "ruff_format" },
-        javascript = { { "prettierd", "prettier" } },
-      },
-    },
-
-    format_after_save = { timeout_ms = 5000, lsp_fallback = true },
   },
 }

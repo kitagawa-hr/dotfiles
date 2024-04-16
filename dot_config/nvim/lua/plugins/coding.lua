@@ -1,5 +1,4 @@
 return {
-  { "easymotion/vim-easymotion", event = "BufEnter" },
   { "junegunn/vim-easy-align" },
   { "machakann/vim-highlightedyank", event = "BufEnter" },
   {
@@ -20,7 +19,12 @@ return {
   },
   { "mg979/vim-visual-multi" },
   { "tpope/vim-repeat", event = "BufEnter" },
-  { "tpope/vim-surround", event = "BufEnter" },
+  {
+    "kylechui/nvim-surround",
+    version = "*",
+    event = "VeryLazy",
+    config = true,
+  },
   { "arthurxavierx/vim-caser", event = "BufEnter" },
   {
     "pocco81/auto-save.nvim",
@@ -50,6 +54,7 @@ return {
     event = "BufEnter",
     opts = {
       signcolumn = true,
+      current_line_blame = true,
     },
     keys = {
       {
@@ -80,14 +85,52 @@ return {
       },
     },
   },
-  { "tpope/vim-fugitive" },
+  {
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+      "telescope.nvim",
+    },
+    config = true,
+  },
+  {
+    "tpope/vim-fugitive",
+    dependencies = {
+      "tpope/vim-rhubarb",
+    },
+    config = function()
+      vim.api.nvim_create_user_command("Browse", function(opts)
+        vim.fn.system({ "open", opts.fargs[1] })
+      end, { nargs = 1 })
+    end,
+    keys = {
+      { "<leader>go", "<cmd>GBrowse<cr>", desc = "Open git repo in browser", mode = { "n", "v" } },
+      { "<leader>yg", "<cmd>GBrowse!<cr>", desc = "Yank git repo url to clipboard", mode = { "n", "v" } },
+      { "<leader>gb", "<cmd>Git blame<cr>", desc = "Git blame" },
+      { "<leader>gd", "<cmd>Git diff<cr>", desc = "Git diff" },
+      { "<leader>gl", "<cmd>Git log<cr>", desc = "Git log" },
+      {
+        "<leader>gl",
+        function()
+          local lines = vim.fn.line("v") .. "," .. vim.fn.line(".")
+          vim.cmd.Git("log -L " .. lines .. ":%")
+        end,
+        desc = "Git log for selected lines",
+        mode = { "v" },
+      },
+      { "<leader>gL", "<cmd>Git log %<cr>", desc = "Git log for buffer" },
+    },
+  },
   { "rhysd/git-messenger.vim" },
+  { "sindrets/diffview.nvim" },
   -- session
   {
     "rmagatti/auto-session",
     opts = {
       log_level = "error",
       auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+      auto_session_root_dir = vim.fn.stdpath("data") .. "/sessions/",
     },
     init = function()
       -- https://github.com/rmagatti/auto-session/issues/223
@@ -149,6 +192,7 @@ return {
       { "<leader>fb", "<cmd>Telescope buffers<cr>" },
       { "<leader>fd", "<cmd>Telescope diagnostics<cr>" },
       { "<leader>fh", "<cmd>Telescope frecency<cr>" },
+      { "<leader>gs", "<cmd>Telescope git_status<cr>" },
       { "gr", "<cmd>Telescope lsp_references<cr>" },
       { "gi", "<cmd>Telescope lsp_implementations<cr>" },
       { "gd", "<cmd>Telescope lsp_definitions<cr>" },
@@ -188,11 +232,62 @@ return {
     event = "InsertEnter",
     config = true,
   },
-  -- Terminal
+  -- Move
   {
-    "numToStr/FTerm.nvim",
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    opts = {
+      label = {
+        rainbow = {
+          enabled = true,
+          -- number between 1 and 9
+          shade = 5,
+        },
+      },
+    },
     keys = {
-      { "n", "<leader>t", "<CMD>lua require('FTerm').toggle()<CR>" },
+      {
+        "s",
+        mode = { "n", "x", "o" },
+        function()
+          require("flash").jump()
+        end,
+        desc = "Flafh",
+      },
+      {
+        "S",
+        mode = { "n", "x", "o" },
+        function()
+          require("flash").treesitter()
+        end,
+        desc = "Flash Treesitter",
+      },
+      {
+        "r",
+        mode = "o",
+        function()
+          require("flash").remote()
+        end,
+        desc = "Remote Flash",
+      },
+      {
+        "R",
+        mode = { "o", "x" },
+        function()
+          require("flash").treesitter_search()
+        end,
+        desc = "Treesitter Search",
+      },
+    },
+  },
+  {
+    "smoka7/hop.nvim",
+    version = "*",
+    opts = {},
+    keys = {
+      { "gk", "<cmd>HopWordBC<cr>", mode = { "n", "v" } },
+      { "gj", "<cmd>HopWordAC<cr>", mode = { "n", "v" } },
+      { "M", "<cmd>HopNodes<cr>", mode = { "n", "v" } },
     },
   },
 }

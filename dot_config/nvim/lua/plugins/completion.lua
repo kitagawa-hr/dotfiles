@@ -50,6 +50,9 @@ return {
         }),
       })
       cmp.setup({
+        snippet = {
+          expand = function() end,
+        },
         preselect = cmp.PreselectMode.None,
         formatting = {
           fields = { "abbr", "kind", "menu" },
