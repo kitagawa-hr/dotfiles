@@ -3,4 +3,5 @@ LICENSE
 *.png
 Brewfile
 Brewfile.lock.json
+bin/
 
