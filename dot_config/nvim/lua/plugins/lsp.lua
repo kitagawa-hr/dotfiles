@@ -7,6 +7,36 @@ local _efm_languages = {
       rootMarkers = { ".hadolint.yaml" },
     },
   },
+  json = {
+    {
+      formatCommand = "jq",
+      formatStdin = true,
+    },
+  },
+  javascript = {
+    {
+      formatCommand = "biome check --apply --stdin-file-path '${INPUT}'",
+      formatStdin = true,
+      rootMarkers = { "rome.json", "biome.json", "package.json" },
+    },
+    {
+      lintCommand = "biome lint --colors=off --stdin-file-path '${INPUT}'",
+      lintStdin = true,
+      rootMarkers = { "rome.json", "biome.json", "package.json" },
+    },
+  },
+  typescript = {
+    {
+      formatCommand = "biome check --apply --stdin-file-path '${INPUT}'",
+      formatStdin = true,
+      rootMarkers = { "rome.json", "biome.json", "package.json" },
+    },
+    {
+      lintCommand = "biome lint --colors=off --stdin-file-path '${INPUT}'",
+      lintStdin = true,
+      rootMarkers = { "rome.json", "biome.json", "package.json" },
+    },
+  },
   lua = {
     {
       formatCanRange = true,
@@ -29,11 +59,17 @@ local _efm_languages = {
   },
   sh = {
     {
-      lintCommand = "shellcheck -f gcc -x",
+      formatCommand = "shfmt -filename '${INPUT}' -",
+      formatStdin = true,
+    },
+    {
+      prefix = "shellcheck",
       lintSource = "shellcheck",
-      lintFormats = {
-        "%f:%l:%c: %t%*[^:]: %m [SC%n]",
-      },
+      lintCommand = "shellcheck --color=never --format=gcc -",
+      lintIgnoreExitCode = true,
+      lintStdin = true,
+      lintFormats = { "-:%l:%c: %trror: %m", "-:%l:%c: %tarning: %m", "-:%l:%c: %tote: %m" },
+      rootMarkers = {},
     },
   },
   sql = {
@@ -64,6 +100,19 @@ local _efm_languages = {
     {
       formatCommand = "nixfmt",
       formatStdin = true,
+      rootMarkers = {
+        "flake.nix",
+        "shell.nix",
+        "default.nix",
+      },
+    },
+    {
+      prefix = "statix",
+      lintSource = "statix",
+      lintCommand = "statix check --stdin --format=errfmt",
+      lintStdin = true,
+      lintIgnoreExitCode = true,
+      lintFormats = { "<stdin>>%l:%c:%t:%n:%m" },
       rootMarkers = {
         "flake.nix",
         "shell.nix",
@@ -157,6 +206,7 @@ return {
           "toml",
           "typescript",
           "vim",
+          "vimdoc",
           "yaml",
         },
         incremental_selection = {
@@ -254,14 +304,21 @@ return {
     "mfussenegger/nvim-jdtls",
     ft = "java",
     config = function()
+      local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+      local config_dir = vim.fn.stdpath("cache") .. "/jdtls/" .. project_name .. "/config"
+      local workspace_dir = vim.fn.stdpath("cache") .. "/jdtls/" .. project_name .. "/workspace"
       local config = {
         cmd = {
           "jdtls",
           "-Xms2G",
           "-Xmx4G",
+          "-data",
+          workspace_dir,
+          "-configuration",
+          config_dir,
         },
         root_dir = vim.fs.dirname(
-          vim.fs.find({ ".gradlew", ".git", "mvnw", "pom.xml", "build.gradle" }, { upward = true })[1]
+          vim.fs.find({ ".git", "mvnw", "pom.xml", "build.gradle", ".gradlew" }, { upward = true })[1]
         ),
         settings = {
           java = {
@@ -315,7 +372,6 @@ return {
       ensure_installed = {
         "efm",
         "jdtls",
-        "lua_ls",
         "pyright",
         "ruff_lsp",
         "rust_analyzer",
@@ -373,6 +429,9 @@ return {
       open_link = "gx",
       open_cmd = "!open",
     },
+    outline = {
+      keys = { jump = "<CR>" },
+    },
     keys = {
       {
         "]d",
@@ -389,6 +448,8 @@ return {
       { "<space>lf", "<cmd>Lspsaga finder<cr>", desc = "LSP Finder" },
       { "<space>lr", "<cmd>Lspsaga rename<cr>", desc = "LSP Rename" },
       { "<space>lo", "<cmd>Lspsaga outline<cr>", desc = "LSP Outline" },
+      { "<space>lc", "<cmd>Lspsaga incoming_calls<cr>", desc = "LSP Incoming Calls" },
+      { "<space>lC", "<cmd>Lspsaga outgoing_calls<cr>", desc = "LSP Outgoing Calls" },
     },
   },
 }
