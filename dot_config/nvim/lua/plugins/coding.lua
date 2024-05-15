@@ -1,6 +1,7 @@
 return {
   { "junegunn/vim-easy-align" },
   { "machakann/vim-highlightedyank", event = "BufEnter" },
+  { "MTDL9/vim-log-highlighting" },
   {
     "numToStr/Comment.nvim",
     event = "BufEnter",
@@ -131,6 +132,10 @@ return {
       log_level = "error",
       auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
       auto_session_root_dir = vim.fn.stdpath("data") .. "/sessions/",
+      bypass_session_save_file_types = {
+        "Trouble",
+        "toggleterm",
+      },
     },
     init = function()
       -- https://github.com/rmagatti/auto-session/issues/223
@@ -183,9 +188,16 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-frecency.nvim",
+      "nvim-telescope/telescope-ui-select.nvim",
+      {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        build = "make",
+      },
     },
     cmd = "Telescope",
     keys = {
+      { "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Fuzzy find current buffer" },
+      { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
       { "<leader>ff", "<cmd>Telescope find_files<cr>" },
       { "<leader>fg", "<cmd>Telescope live_grep<cr>", mode = "n" },
       { "<leader>fg", "<cmd>Telescope grep_string<cr>", mode = "v" },
@@ -193,16 +205,37 @@ return {
       { "<leader>fd", "<cmd>Telescope diagnostics<cr>" },
       { "<leader>fh", "<cmd>Telescope frecency<cr>" },
       { "<leader>gs", "<cmd>Telescope git_status<cr>" },
+      { "gbb", "<cmd>Telescope buffers<cr>" },
       { "gr", "<cmd>Telescope lsp_references<cr>" },
       { "gi", "<cmd>Telescope lsp_implementations<cr>" },
       { "gd", "<cmd>Telescope lsp_definitions<cr>" },
       { "gy", "<cmd>Telescope lsp_type_definitions<cr>" },
     },
-    opts = {
-      extensions = {
-        frecency = {},
-      },
-    },
+    config = function()
+      require("telescope").setup({
+        pickers = {
+          buffers = {
+            mappings = {
+              i = {
+                ["<c-x>"] = "delete_buffer",
+              },
+              n = {
+                ["d"] = "delete_buffer",
+              },
+            },
+          },
+        },
+        extensions = {
+          frecency = {},
+          fzf = {},
+          ["ui-select"] = {
+            require("telescope.themes").get_dropdown({}),
+          },
+        },
+      })
+      require("telescope").load_extension("fzf")
+      require("telescope").load_extension("ui-select")
+    end,
   },
   -- file manager
   {
@@ -290,4 +323,5 @@ return {
       { "M", "<cmd>HopNodes<cr>", mode = { "n", "v" } },
     },
   },
+  { "wakatime/vim-wakatime", lazy = false },
 }
