@@ -1,15 +1,13 @@
 [shell]
-program = "/opt/homebrew/bin/nu"
-args    = ["--login", "--execute", "tmux new-session -A -s alacritty"]
+program = "/bin/zsh"
+args    = ["-l", "-c", "tmux new-session -A -s alacritty"]
 
 [window]
 startup_mode = "SimpleFullscreen"
 
 [font]
 size   = 20
-bold   = { family = "HackGen35 Console NF" }
-italic = { family = "HackGen35 Console NF" }
-normal = { family = "HackGen35 Console NF" }
+normal = { family = "MonaspiceAr Nerd Font" }
 
 [keyboard]
 bindings = [
