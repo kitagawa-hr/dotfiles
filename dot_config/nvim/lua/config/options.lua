@@ -58,4 +58,14 @@ vim.opt.exrc = true
 
 -- Grep
 vim.opt.grepprg = "rg --vimgrep"
+-- Autocmds
+vim.api.nvim_create_autocmd("TextYankPost", {
+  callback = function()
+    vim.highlight.on_yank({ timeout = 500 })
+  end,
+  desc = "Highlight yanked text",
+  group = vim.api.nvim_create_augroup("YankHighlight", { clear = true }),
+  pattern = "*",
+})
+
 

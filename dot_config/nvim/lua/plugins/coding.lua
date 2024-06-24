@@ -1,6 +1,5 @@
 return {
   { "junegunn/vim-easy-align" },
-  { "machakann/vim-highlightedyank", event = "BufEnter" },
   { "MTDL9/vim-log-highlighting" },
   {
     "numToStr/Comment.nvim",
