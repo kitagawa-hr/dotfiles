@@ -64,11 +64,12 @@ autoload -Uz _zinit
 # install packages
 
 zinit wait lucid light-mode for \
-  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" zdharma/fast-syntax-highlighting \
+  atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" zdharma-continuum/fast-syntax-highlighting \
   blockf zsh-users/zsh-completions \
-  atload"!_zsh_autosuggest_start; export ZSH_AUTOSUGGEST_USE_ASYNC=1" zsh-users/zsh-autosuggestions \
+  atload"!_zsh_autosuggest_start;export ZSH_AUTOSUGGEST_STRATEGY=(history completion)" zsh-users/zsh-autosuggestions \
   atload"ZVM_NO_INSERT_MODE_BINDINGS=true" depth=1 kitagawa-hr/zsh-vi-mode \
-  atload"typeset -g ZSH_SYSTEM_CLIPBOARD_TMUX_SUPPORT='true'" kutsan/zsh-system-clipboard
+  atload"export ZSH_SYSTEM_CLIPBOARD_METHOD=pb" kutsan/zsh-system-clipboard \
+  dim-an/cod
 
 zinit lucid from'gh-r' as'program' for \
   mv'zoxide* -> zoxide' atload'eval "$(zoxide init zsh)"' ajeetdsouza/zoxide \
@@ -83,12 +84,12 @@ alias ....='cd ../../..'
 alias rm='rm -i'
 alias mv='mv -i'
 alias rename='massren'
-if which exa &> /dev/null;
+if which eza &> /dev/null;
   then
-    alias ls='exa'
-    alias ll='exa -l'
-    alias la='exa -la'
-    alias tree='exa --tree'
+    alias ls='eza --icons=auto'
+    alias ll='eza -l --icons=auto'
+    alias la='eza -la --icons=auto'
+    alias tree='eza --tree --icons=auto'
   else
     alias la='ls -a'
     alias ll='ls -l'
@@ -218,9 +219,9 @@ bindkey '^O' fzf-file
 
 
 # ------------------------------------
-# Direnv
+# Source machine local config
 # ------------------------------------
-eval "$(direnv hook zsh)"
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
 # ------------------------------------
 # Compile
