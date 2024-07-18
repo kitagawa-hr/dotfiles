@@ -21,6 +21,7 @@ return {
       "hrsh7th/cmp-nvim-lsp-signature-help",
       "neovim/nvim-lspconfig",
       "hrsh7th/cmp-nvim-lsp",
+			"lazydev.nvim",
       {
         "zbirenbaum/copilot-cmp",
         dependencies = "copilot.lua",
@@ -89,6 +90,7 @@ return {
           { name = "buffer", priority = 500 },
           { name = "path", priority = 250 },
           { name = "nvim_lsp_signature_help" },
+          { name = "lazydev", group_index = 0, },
         },
         cmdline = {},
       })

@@ -355,11 +355,29 @@ return {
     },
   },
   {
+    "folke/lazydev.nvim",
+    dependencies = {
+      { "Bilal2453/luvit-meta" },
+    },
+    ft = "lua",
+    opts = {
+      library = {
+        "~/projects/my-awesome-lib",
+        "lazy.nvim",
+        "luvit-meta/library",
+        { path = "luvit-meta/library", words = { "vim%.uv" } },
+        "LazyVim",
+        { path = "LazyVim", words = { "LazyVim" } },
+        { path = "wezterm-types", mods = { "wezterm" } },
+        { path = "xmake-luals-addon/library", files = { "xmake.lua" } },
+      },
+    },
+  },
+  {
     "williamboman/mason-lspconfig",
     dependencies = {
       { "williamboman/mason.nvim", config = true },
       "neovim/nvim-lspconfig",
-      "folke/neodev.nvim",
       {
         "folke/neoconf.nvim",
         cmd = "Neoconf",
@@ -376,37 +394,12 @@ return {
         "ruff_lsp",
         "rust_analyzer",
         "typos_lsp",
+        "lua_ls",
       },
       automatic_installation = false,
       handlers = {
         function(server_name)
           require("lspconfig")[server_name].setup({})
-        end,
-        lua_ls = function()
-          require("neodev").setup({})
-          require("lspconfig")["lua_ls"].setup({
-            settings = {
-              Lua = {
-                runtime = {
-                  version = "LuaJIT",
-                  pathStrict = true,
-                  path = { "?.lua", "?/init.lua" },
-                },
-                workspace = {
-                  library = vim.list_extend(vim.api.nvim_get_runtime_file("lua", true), {
-                    "${3rd}/luv/library",
-                    "${3rd}/busted/library",
-                    "${3rd}/luassert/library",
-                  }),
-                  checkThirdParty = "Disable",
-                },
-                diagnostics = {
-                  globals = { "vim" },
-                  undefined_global = false,
-                },
-              },
-            },
-          })
         end,
         efm = function()
           require("lspconfig").efm.setup(efmls_config)
