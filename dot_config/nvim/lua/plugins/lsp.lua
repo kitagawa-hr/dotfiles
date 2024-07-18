@@ -74,7 +74,7 @@ local _efm_languages = {
   },
   sql = {
     {
-      formatCommand = "sql-formatter --config .sql-formatter.json",
+      formatCommand = "sql-formatter --config ~/.sql-formatter.json",
       formatStdin = true,
     },
   },
@@ -122,6 +122,10 @@ local _efm_languages = {
   },
   yaml = { {
     formatCommand = "yamlfmt -",
+    formatStdin = true,
+  } },
+  zig = { {
+    formatCommand = "zig fmt --stdin",
     formatStdin = true,
   } },
 }
@@ -296,8 +300,10 @@ return {
           local opts = { buffer = ev.buf }
           vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
           vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts)
+          -- vim.keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, opts)
         end,
       })
+      vim.lsp.inlay_hint.enable(true)
     end,
   },
   {
@@ -437,12 +443,8 @@ return {
         desc = "Prev Diagnostic",
       },
       { "<C-k>", "<cmd>Lspsaga hover_doc<cr>", desc = "Hover Doc" },
-      { "<space>lc", "<cmd>Lspsaga code_action<cr>", desc = "LSP Code Action" },
       { "<space>lf", "<cmd>Lspsaga finder<cr>", desc = "LSP Finder" },
       { "<space>lr", "<cmd>Lspsaga rename<cr>", desc = "LSP Rename" },
-      { "<space>lo", "<cmd>Lspsaga outline<cr>", desc = "LSP Outline" },
-      { "<space>lc", "<cmd>Lspsaga incoming_calls<cr>", desc = "LSP Incoming Calls" },
-      { "<space>lC", "<cmd>Lspsaga outgoing_calls<cr>", desc = "LSP Outgoing Calls" },
     },
   },
 }

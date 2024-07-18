@@ -21,6 +21,7 @@ return {
       "hrsh7th/cmp-nvim-lsp-signature-help",
       "neovim/nvim-lspconfig",
       "hrsh7th/cmp-nvim-lsp",
+      "brenoprata10/nvim-highlight-colors",
 			"lazydev.nvim",
       {
         "zbirenbaum/copilot-cmp",
@@ -56,7 +57,9 @@ return {
         },
         preselect = cmp.PreselectMode.None,
         formatting = {
+					expandable_indicator = true,
           fields = { "abbr", "kind", "menu" },
+          format = require("nvim-highlight-colors").format,
         },
         mapping = {
           ["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
@@ -66,7 +69,6 @@ return {
           ["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
           ["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
           ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-          ["<C-y>"] = cmp.config.disable,
           ["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
           ["<CR>"] = cmp.mapping.confirm({ select = false }),
           ["<Tab>"] = cmp.mapping(function(fallback)

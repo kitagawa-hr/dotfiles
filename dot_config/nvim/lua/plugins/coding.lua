@@ -69,6 +69,7 @@ return {
         end,
       },
       trigger_events = { "InsertLeave" },
+      debounce_delay = 500,
     },
   },
   {
@@ -116,6 +117,7 @@ return {
         end,
         desc = "Prev Changed Hunk",
       },
+      { "<leader>gr", "<cmd>GitSigns reset_hunk<cr>", desc = "Git reset Hunk" },
     },
   },
   {
@@ -186,6 +188,7 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-frecency.nvim",
       "nvim-telescope/telescope-ui-select.nvim",
+      "trouble.nvim",
       {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
@@ -194,13 +197,18 @@ return {
     cmd = "Telescope",
     keys = {
       { "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Fuzzy find current buffer" },
-      { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
+      { "<leader>:", "<cmd>Telescope command_history theme=dropdown<cr>", desc = "Command History" },
       { "<leader>ff", "<cmd>Telescope find_files<cr>" },
       { "<leader>fg", "<cmd>Telescope live_grep<cr>", mode = "n" },
       { "<leader>fg", "<cmd>Telescope grep_string<cr>", mode = "v" },
+      { "<leader>fG", "<cmd>Telescope live_grep search_dirs=%:h<cr>", mode = "n" },
       { "<leader>fb", "<cmd>Telescope buffers<cr>" },
       { "<leader>fd", "<cmd>Telescope diagnostics<cr>" },
-      { "<leader>fh", "<cmd>Telescope frecency<cr>" },
+      { "<leader>fh", "<cmd>Telescope frecency workspace=CWD<cr>" },
+      { "<leader>fr", "<cmd>Telescope resume<cr>" },
+      { "<leader>fq", "<cmd>Telescope quickfix<cr>" },
+      { "<leader>fQ", "<cmd>Telescope quickfixhistory<cr>" },
+      { "<leader>fj", "<cmd>Telescope jumplist<cr>" },
       { "<leader>gs", "<cmd>Telescope git_status<cr>" },
       { "gbb", "<cmd>Telescope buffers<cr>" },
       { "gr", "<cmd>Telescope lsp_references<cr>" },
@@ -209,18 +217,45 @@ return {
       { "gy", "<cmd>Telescope lsp_type_definitions<cr>" },
     },
     config = function()
+      local trouble = require("trouble.sources.telescope")
+      local lsp_picker_config = require("telescope.themes").get_cursor({
+        layout_config = {
+          width = 160,
+          height = 25,
+        },
+      })
       require("telescope").setup({
+        defaults = {
+          path_display = {
+            filename_first = {
+              reverse_directories = false,
+            },
+          },
+          mappings = {
+            i = {
+              ["<C-a>"] = trouble.add,
+              ["<C-q>"] = trouble.open,
+            },
+            n = {
+              ["<C-a>"] = trouble.add,
+              ["<C-q>"] = trouble.open,
+            },
+          },
+        },
         pickers = {
           buffers = {
             mappings = {
               i = {
-                ["<c-x>"] = "delete_buffer",
+                ["<C-x>"] = "delete_buffer",
               },
               n = {
                 ["d"] = "delete_buffer",
               },
             },
           },
+          lsp_implementations = lsp_picker_config,
+          lsp_definitions = lsp_picker_config,
+          lsp_type_definitions = lsp_picker_config,
         },
         extensions = {
           frecency = {},
