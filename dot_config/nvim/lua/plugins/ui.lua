@@ -82,6 +82,11 @@ return {
         palettes = {
           nightfox = {},
         },
+        groups = {
+          nightfox = {
+            WinSeparator = { fg = "#1679ab" },
+          },
+        },
       })
       vim.cmd("colorscheme nightfox")
     end,
