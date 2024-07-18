@@ -281,35 +281,29 @@ return {
   {
     "folke/trouble.nvim",
     event = "UIEnter",
-    dependencies = { "nvim-tree/nvim-web-devicons", "telescope.nvim" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     keys = {
-      { "<leader>xx", "<cmd>TroubleToggle<cr>" },
-      { "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>" },
-      { "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>" },
-      { "<leader>xq", "<cmd>TroubleToggle quickfix<cr>" },
-      { "<leader>xl", "<cmd>TroubleToggle loclist<cr>" },
-      { "gR", "<cmd>TroubleToggle lsp_references<cr>" },
-    },
-    config = function()
-      local trouble = require("trouble.providers.telescope")
-
-      require("telescope").setup({
-        defaults = {
-          mappings = {
-            i = { ["<C-q>"] = trouble.open_with_trouble },
-            n = { ["<C-q>"] = trouble.open_with_trouble },
-          },
-        },
-      })
-    end,
-    opts = {
-      signs = {
-        error = symbols.error,
-        warning = symbols.warn,
-        hint = symbols.hint,
-        information = symbols.info,
-        other = symbols.question,
+      { "<leader>xd", "<cmd>Trouble diagnostics toggle<cr>" },
+      { "<leader>xD", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>" },
+      { "<leader>xq", "<cmd>Trouble qflist toggle<cr>" },
+      { "<leader>xl", "<cmd>Trouble loclist toggle<cr>" },
+      {
+        "<leader>ls",
+        "<cmd>Trouble symbols toggle focus=false win.position=left<cr>",
+        desc = "Symbols (Trouble)",
       },
+      {
+        "<leader>lc",
+        "<cmd>Trouble lsp_incoming_calls toggle focus=true win.position=left<cr>",
+        desc = "LSP Incoming Calls (Trouble)",
+      },
+      {
+        "<leader>lC",
+        "<cmd>Trouble lsp_outgoing_calls toggle focus=true win.position=left<cr>",
+        desc = "LSP Outgoing Calls (Trouble)",
+      },
+      { "gR", "<cmd>Trouble lsp toggle focus=true<cr>" },
     },
+    opts = {},
   },
 }
