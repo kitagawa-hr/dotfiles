@@ -172,7 +172,11 @@ bind generic	h	view-help
 bind generic	s	view-status
 bind generic	S	view-status		# Compat binding to avoid going crazy!
 bind generic	c	view-stage
-bind generic y @sh -c "echo %(commit) | pbcopy"
+bind generic y @bash -c "echo %(commit) | pbcopy"
+bind stage   y @bash -c "echo -n %(file) | pbcopy"
+bind status  y @bash -c "echo -n %(file) | pbcopy"
+bind tree    y @bash -c "echo -n %(file) | pbcopy"
+bind blob    y @bash -c "echo -n %(file) | pbcopy"
 bind generic	g	view-grep
 # View manipulation
 bind generic	<Enter>	enter			# Enter and open selected entry
