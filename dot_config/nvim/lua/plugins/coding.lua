@@ -17,7 +17,22 @@ return {
       { "<leader>cb", "<Plug>(comment_toggle_blockwise_visual)", mode = "x", desc = "Toggle visual block comment" },
     },
   },
-  { "mg979/vim-visual-multi" },
+  {
+    "mg979/vim-visual-multi",
+    init = function()
+      vim.g.VM_default_mappings = 0
+      vim.g.VM_silent_exit = 1
+      vim.g.VM_theme = "neon"
+      vim.g.VM_maps = {
+        ["Find Under"] = "",
+        ["Find Subword Under"] = "",
+        ["Reselect Last"] = "<leader>mr",
+        ["Add Cursor Down"] = "<leader>mj",
+        ["Add Cursor Up"] = "<leader>mk",
+        ["Visual Cursors"] = "<C-n>",
+      }
+    end,
+  },
   { "tpope/vim-repeat", event = "BufEnter" },
   {
     "kylechui/nvim-surround",
