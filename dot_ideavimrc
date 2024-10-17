@@ -21,7 +21,8 @@ let mapleader = " "
 
 nnoremap <esc><esc> :nohlsearch<cr>
 nnoremap <C-n> <A-n>
-nnoremap = :action ReformatCode<cr>
+vnoremap <C-n> <A-n>
+nnoremap = :action ReformatCode<cr> \| :action OptimizeImports<cr>
 vnoremap = :action ReformatCode<cr>
 nnoremap [b :action PreviousTab<cr>
 nnoremap ]b :action NextTab<cr>
@@ -30,8 +31,10 @@ nnoremap ]c :action VcsShowNextChangeMarker<cr>
 nmap ]d :action GotoNextError<cr>
 nmap [d :action GotoPreviousError<cr>
 
-nnoremap H ^
-nnoremap L $
+noremap Q @q
+nnoremap Y y$
+noremap H ^
+noremap L $
 nnoremap gr :action FindUsages<cr>
 nnoremap gi :action GotoImplementation<cr>
 nnoremap gy :action GotoSuperMethod<cr>
@@ -40,11 +43,38 @@ vnoremap p "pdP
 
 nnoremap <leader>L :action RecentLocations<cr>
 nnoremap <leader>F :action RecentFiles<cr>
-nnoremap <leader>C :action CallHierarchy<cr>
-nnoremap <leader>r :action RenameElement<cr>
+nnoremap <leader>lc :action CallHierarchy<cr>
+nnoremap <leader>lr :action RenameElement<cr>
 nnoremap <leader>gb :action Annotate<cr> 
 nnoremap <leader>go :action Github.Open.In.Browser<cr>
-nnoremap <leader>cr :action CopyReference<cr>
-nnoremap <leader>cp :action CopyPathFromRepositoryRootProvider<cr>
-nnoremap <leader>cg :action GitHub.Copy.Link<cr>
+nnoremap <leader>gs :action Vcs.Show.Shelf<cr>
+nnoremap <leader>gl :action Vcs.Show.Log<cr>
+nnoremap <leader>yr :action CopyReference<cr>
+nnoremap <leader>yf :action CopyPathFromRepositoryRootProvider<cr>
+nnoremap <leader>yF :action CopyAbsolutePath<cr>
+nnoremap <leader>yg :action GitHub.Copy.Link<cr>
 
+nnoremap mm :action ToggleBookmark<cr>
+nnoremap `  :action ShowBookmarks<cr>
+nnoremap m0 :action ToggleBookmark0<cr>
+nnoremap m1 :action ToggleBookmark1<cr>
+nnoremap m2 :action ToggleBookmark2<cr>
+nnoremap m3 :action ToggleBookmark3<cr>
+nnoremap m4 :action ToggleBookmark4<cr>
+nnoremap m5 :action ToggleBookmark5<cr>
+nnoremap m6 :action ToggleBookmark6<cr>
+nnoremap m7 :action ToggleBookmark7<cr>
+nnoremap m8 :action ToggleBookmark8<cr>
+nnoremap m9 :action ToggleBookmark9<cr>
+nnoremap '0 :action GotoBookmark0<cr>
+nnoremap '1 :action GotoBookmark1<cr>
+nnoremap '2 :action GotoBookmark2<cr>
+nnoremap '3 :action GotoBookmark3<cr>
+nnoremap '4 :action GotoBookmark4<cr>
+nnoremap '5 :action GotoBookmark5<cr>
+nnoremap '6 :action GotoBookmark6<cr>
+nnoremap '7 :action GotoBookmark7<cr>
+nnoremap '8 :action GotoBookmark8<cr>
+nnoremap '9 :action GotoBookmark9<cr>
+nnoremap m[ :action GotoPreviousBookmark<cr>
+nnoremap m] :action GotoNextBookmark<cr>
