@@ -1,23 +1,62 @@
-if &compatible
- set nocompatible
-endif
-" Add the dein installation directory into runtimepath
-set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
-set clipboard=unnamed
+" UI
+filetype on
+set termguicolors
+set splitright
+set splitbelow
+colorscheme pablo
 
-if dein#load_state('~/.cache/dein')
- call dein#begin('~/.cache/dein')
+" Command line
+set wildmenu
+set wildmode="list:longest"
 
- call dein#add('~/.cache/dein')
- call dein#add('Shougo/deoplete.nvim')
- if !has('nvim')
-   call dein#add('roxma/nvim-yarp')
-   call dein#add('roxma/vim-hug-neovim-rpc')
- endif
+" Status line
+set laststatus=2
+set showcmd
+set statusline=%F\ %=\ %Y\ %l:%c
 
- call dein#end()
- call dein#save_state()
-endif
 
-filetype plugin indent on
+
+" Coding
+set expandtab
+set smartindent
 syntax enable
+set clipboard=unnamedplus
+set shiftwidth=2
+set showmatch
+set tabstop=2
+set virtualedit=all
+set cursorline cursorcolumn number relativenumber
+set nowrap
+
+" Cursor
+autocmd InsertEnter * set nocursorline nocursorcolumn norelativenumber
+autocmd InsertLeave * set cursorline cursorcolumn relativenumber
+let &t_SI .= "\e[6 q"  "steady bar
+let &t_EI .= "\e[2 q"  "steady block
+
+" File
+set autoread
+set nobackup
+set noswapfile
+set fenc=utf-8
+set hidden
+
+" Search
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set wrapscan
+
+" Misc
+set nocompatible
+set visualbell
+set t_vb=
+
+" Keymap
+noremap H ^
+noremap L $
+nnoremap Y y$
+nnoremap <esc><esc> :nohlsearch<cr>
+
+
