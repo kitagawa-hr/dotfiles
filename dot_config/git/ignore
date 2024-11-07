@@ -118,3 +118,15 @@ fabric.properties
 
 # Local History for Visual Studio Code
 .history/
+
+
+# --------------------------------------
+# Others
+# --------------------------------------
+
+# ripgrep
+.rgignore
+
+# personal memo
+memo
+
