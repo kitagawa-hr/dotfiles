@@ -15,6 +15,9 @@ bindings = [
   { action = "ToggleViMode", key = "I", mode = "Vi|~Search" },
   { action = "ToggleViMode", key = "C", mode = "Vi|~Search", mods = "Control" },
 ]
+[cursor]
+style         = { shape = "Beam", blinking = "Off" }
+vi_mode_style = { shape = "Block", blinking = "Off" }
 
 # Nightfox Alacritty Colors
 ## name: nightfox
