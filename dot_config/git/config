@@ -22,4 +22,4 @@
 	current-branch = !git branch --show-current
 	default-branch = !git rev-parse --abbrev-ref origin/HEAD | sed 's:origin/::'
 	chd = !git switch $(git default-branch)
-	delete-merged = !git branch --merged=$(git default-branch) | grep -vE '\*|\+' | grep -v $(git default-branch) | xargs git branch -d
+	delete-merged = !git branch --merged=$(git default-branch) | grep -vE '\\*|\\+' | grep -v $(git default-branch) | xargs git branch -d
