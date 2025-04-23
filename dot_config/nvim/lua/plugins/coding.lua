@@ -42,22 +42,15 @@ return {
   },
   {
     "johmsalas/text-case.nvim",
-    dependencies = { "nvim-telescope/telescope.nvim" },
-    config = function()
-      require("textcase").setup({})
-      require("telescope").load_extension("textcase")
-    end,
-    keys = {
-      "ga",
-      { "ga.", "<cmd>TextCaseOpenTelescope<CR>", mode = { "n", "x" }, desc = "Telescope" },
+    opts = {
+      prefix = "<leader>C",
     },
+    keys = { "<leader>C" },
     cmd = {
       "Subs",
-      "TextCaseOpenTelescope",
-      "TextCaseOpenTelescopeQuickChange",
-      "TextCaseOpenTelescopeLSPChange",
       "TextCaseStartReplacingCommand",
     },
+    lazy = false,
   },
   {
     "pocco81/auto-save.nvim",
@@ -181,94 +174,6 @@ return {
       })
     end,
   },
-  -- telescope
-  {
-    "nvim-telescope/telescope.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope-frecency.nvim",
-      "nvim-telescope/telescope-ui-select.nvim",
-      "trouble.nvim",
-      {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
-      },
-    },
-    cmd = "Telescope",
-    keys = {
-      { "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Fuzzy find current buffer" },
-      { "<leader>:", "<cmd>Telescope command_history theme=dropdown<cr>", desc = "Command History" },
-      { "<leader>ff", "<cmd>Telescope find_files<cr>" },
-      { "<leader>fg", "<cmd>Telescope live_grep<cr>", mode = "n" },
-      { "<leader>fg", "<cmd>Telescope grep_string<cr>", mode = "v" },
-      { "<leader>fG", "<cmd>Telescope live_grep search_dirs=%:h<cr>", mode = "n" },
-      { "<leader>fb", "<cmd>Telescope buffers<cr>" },
-      { "<leader>fd", "<cmd>Telescope diagnostics<cr>" },
-      { "<leader>fh", "<cmd>Telescope frecency workspace=CWD<cr>" },
-      { "<leader>fr", "<cmd>Telescope resume<cr>" },
-      { "<leader>fq", "<cmd>Telescope quickfix<cr>" },
-      { "<leader>fQ", "<cmd>Telescope quickfixhistory<cr>" },
-      { "<leader>fj", "<cmd>Telescope jumplist<cr>" },
-      { "<leader>gs", "<cmd>Telescope git_status<cr>" },
-      { "gbb", "<cmd>Telescope buffers<cr>" },
-      { "gr", "<cmd>Telescope lsp_references<cr>" },
-      { "gi", "<cmd>Telescope lsp_implementations<cr>" },
-      { "gd", "<cmd>Telescope lsp_definitions<cr>" },
-      { "gy", "<cmd>Telescope lsp_type_definitions<cr>" },
-    },
-    config = function()
-      local trouble = require("trouble.sources.telescope")
-      local lsp_picker_config = require("telescope.themes").get_cursor({
-        layout_config = {
-          width = 160,
-          height = 25,
-        },
-      })
-      require("telescope").setup({
-        defaults = {
-          path_display = {
-            filename_first = {
-              reverse_directories = false,
-            },
-          },
-          mappings = {
-            i = {
-              ["<C-a>"] = trouble.add,
-              ["<C-q>"] = trouble.open,
-            },
-            n = {
-              ["<C-a>"] = trouble.add,
-              ["<C-q>"] = trouble.open,
-            },
-          },
-        },
-        pickers = {
-          buffers = {
-            mappings = {
-              i = {
-                ["<C-x>"] = "delete_buffer",
-              },
-              n = {
-                ["d"] = "delete_buffer",
-              },
-            },
-          },
-          lsp_implementations = lsp_picker_config,
-          lsp_definitions = lsp_picker_config,
-          lsp_type_definitions = lsp_picker_config,
-        },
-        extensions = {
-          frecency = {},
-          fzf = {},
-          ["ui-select"] = {
-            require("telescope.themes").get_dropdown({}),
-          },
-        },
-      })
-      require("telescope").load_extension("fzf")
-      require("telescope").load_extension("ui-select")
-    end,
-  },
   -- file manager
   {
     "DreamMaoMao/yazi.nvim",
@@ -356,4 +261,65 @@ return {
     },
   },
   { "wakatime/vim-wakatime", lazy = false },
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    ---@type snacks.Config
+    opts = {
+      bigfile = { enabled = true },
+      picker = {},
+      terminal = {
+        keys = {},
+      },
+      lazygit = {},
+      notifier = {
+        enabled = true,
+        timeout = 3000,
+      },
+      quickfile = { enabled = true },
+      scroll = { enabled = true },
+      gitbrowse = {
+        what = "file",
+      },
+      words = { enabled = true },
+      styles = {
+        notification = {
+          wo = { wrap = true }, -- Wrap notifications
+        },
+      },
+      indent = {
+        enabled = true,
+        filter = function(buf)
+          local exclude_filetypes = { "help", "git", "markdown", "snippets", "text", "gitconfig" }
+          return not vim.tbl_contains(exclude_filetypes, vim.bo[buf].filetype) and vim.bo[buf].buftype == ""
+        end,
+      },
+    },
+	  -- stylua: ignore
+    keys = {
+      { "<leader>D",  function() Snacks.bufdelete() end, desc = "Delete Buffer" },
+      { "<leader>lR", function() Snacks.rename() end, desc = "Rename File" },
+      { "]r",         function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference" },
+      { "[r",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference" },
+      { "<leader>N",  function() Snacks.notifier.show_history() end, desc = "Notification History" },
+      { "<D-j>",  function() Snacks.terminal.toggle() end, mode = {"i", "n", "t"}, desc = "Toggle Terminal" },
+ 			{ "<leader>ge", function() Snacks.lazygit() end, desc = "Open Lazygit" },
+			-- pickers
+      { "<leader>/",  function() Snacks.picker.lines() end, desc = "search-command" },
+      { "<leader>:",  function() Snacks.picker.command_history() end, desc = "Command History" },
+ 			{ "<leader>fg", function() Snacks.picker.grep() end, desc = "Grep files" },
+      { "<leader>fG", function() Snacks.picker.grep_buffers() end, desc = "Grep buffers" },
+ 			{ "<leader>ff", function() Snacks.picker.files() end, desc = "Find files" },
+ 			{ "<leader>ft", function() Snacks.picker.explorer() end, desc = "File tree" },
+ 			{ "<leader>fb", function() Snacks.picker.buffers() end, desc = "Find buffers" },
+ 			{ "<leader>fr", function() Snacks.picker.resume() end, desc = "Resume" },
+ 			{ "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git status" },
+			{ "gd", function() Snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
+			{ "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "References" },
+			{ "gi", function() Snacks.picker.lsp_implementations() end, desc = "Goto Implementation" },
+			{ "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto T[y]pe Definition" },
+			{ "<leader>ls", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
+    },
+  },
 }
