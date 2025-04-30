@@ -1,175 +1,3 @@
-local _efm_languages = {
-  dockerfile = {
-    {
-      lintCommand = "hadolint --no-color -",
-      lintStdin = true,
-      lintFormats = { "-:%l %.%# %trror: %m", "-:%l %.%# %tarning: %m", "-:%l %.%# %tnfo: %m" },
-      rootMarkers = { ".hadolint.yaml" },
-    },
-  },
-  json = {
-    {
-      formatCommand = "jq",
-      formatStdin = true,
-    },
-  },
-  javascript = {
-    {
-      formatCommand = "biome check --apply --stdin-file-path '${INPUT}'",
-      formatStdin = true,
-      rootMarkers = { "rome.json", "biome.json", "package.json" },
-    },
-    {
-      lintCommand = "biome lint --colors=off --stdin-file-path '${INPUT}'",
-      lintStdin = true,
-      rootMarkers = { "rome.json", "biome.json", "package.json" },
-    },
-  },
-  typescript = {
-    {
-      formatCommand = "biome check --apply --stdin-file-path '${INPUT}'",
-      formatStdin = true,
-      rootMarkers = { "rome.json", "biome.json", "package.json" },
-    },
-    {
-      lintCommand = "biome lint --colors=off --stdin-file-path '${INPUT}'",
-      lintStdin = true,
-      rootMarkers = { "rome.json", "biome.json", "package.json" },
-    },
-  },
-  lua = {
-    {
-      formatCanRange = true,
-      formatCommand = "stylua --color Never ${--range-start:charStart} ${--range-end:charEnd} -",
-      formatStdin = true,
-      rootMarkers = { "stylua.toml", ".stylua.toml" },
-    },
-  },
-  python = {
-    {
-      formatCommand = "ruff format --no-cache --stdin-filename '${INPUT}'",
-      formatStdin = true,
-      rootMarkers = {
-        "pyproject.toml",
-        "setup.py",
-        "requirements.txt",
-        "ruff.toml",
-      },
-    },
-  },
-  sh = {
-    {
-      formatCommand = "shfmt -filename '${INPUT}' -",
-      formatStdin = true,
-    },
-    {
-      prefix = "shellcheck",
-      lintSource = "shellcheck",
-      lintCommand = "shellcheck --color=never --format=gcc -",
-      lintIgnoreExitCode = true,
-      lintStdin = true,
-      lintFormats = { "-:%l:%c: %trror: %m", "-:%l:%c: %tarning: %m", "-:%l:%c: %tote: %m" },
-      rootMarkers = {},
-    },
-  },
-  sql = {
-    {
-      formatCommand = "sql-formatter --config ~/.sql-formatter.json",
-      formatStdin = true,
-    },
-  },
-  toml = {
-    {
-      formatCanRange = true,
-      formatCommand = "taplo format -",
-      formatStdin = true,
-    },
-  },
-  markdown = {
-    {
-      lintCommand = "markdownlint -s",
-      lintStdin = true,
-      lintFormats = {
-        "%f:%l %m",
-        "%f:%l:%c %m",
-        "%f: %l: %m",
-      },
-    },
-  },
-  nix = {
-    {
-      formatCommand = "nixfmt",
-      formatStdin = true,
-      rootMarkers = {
-        "flake.nix",
-        "shell.nix",
-        "default.nix",
-      },
-    },
-    {
-      prefix = "statix",
-      lintSource = "statix",
-      lintCommand = "statix check --stdin --format=errfmt",
-      lintStdin = true,
-      lintIgnoreExitCode = true,
-      lintFormats = { "<stdin>>%l:%c:%t:%n:%m" },
-      rootMarkers = {
-        "flake.nix",
-        "shell.nix",
-        "default.nix",
-      },
-    },
-  },
-  yaml = { {
-    formatCommand = "yamlfmt -",
-    formatStdin = true,
-  } },
-  zig = { {
-    formatCommand = "zig fmt --stdin",
-    formatStdin = true,
-  } },
-}
-
-local efmls_config = {
-  cmd = {
-    "efm-langserver",
-    "-logfile",
-    vim.fn.stdpath("log") .. "/efm.log",
-    "-loglevel",
-    "1",
-  },
-  init_options = {
-    documentFormatting = true,
-    documentRangeFormatting = true,
-    hover = true,
-    documentSymbol = true,
-    codeAction = true,
-    completion = true,
-  },
-  filetypes = vim.tbl_keys(_efm_languages),
-  settings = {
-    rootMarkers = { ".git/" },
-    languages = _efm_languages,
-  },
-}
-
-local function _format_buffer(bufnr)
-  local ft = vim.bo[bufnr].filetype
-  local efm_formatter_available = _efm_languages[ft] ~= nil
-    and not vim.tbl_isempty(vim.tbl_filter(function(tbl)
-      return tbl.formatCommand ~= nil
-    end, _efm_languages[ft]))
-  if efm_formatter_available then
-    vim.lsp.buf.format({ bufnr = bufnr, name = "efm", async = true })
-  else
-    vim.lsp.buf.format({ bufnr = bufnr, async = true })
-  end
-end
-
-vim.keymap.set({ "n", "x" }, "=", function()
-  _format_buffer(0)
-end)
-
 return {
   -- Treesitter
   {
@@ -289,20 +117,40 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
+      vim.diagnostic.config({ virtual_lines = true })
+      vim.lsp.enable({
+        "basedpyright",
+        "efm",
+        "lua_ls",
+        "nil_ls",
+        "rust_analyzer",
+        "sqls",
+        "ts_ls",
+        "zls",
+      })
+      vim.g.zig_fmt_autosave = 0
+      vim.keymap.set({ "n", "x" }, "=", function()
+        vim.lsp.buf.format({ async = true })
+      end)
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-        callback = function(ev)
-          vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-
-          local opts = { buffer = ev.buf }
+        callback = function(args)
+          local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+          local bufnr = args.buf
+          if client.server_capabilities.inlayHintProvider then
+            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+          end
+          -- set key mappings
+          local opts = { noremap = true, silent = true, buffer = bufnr }
           vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
           vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts)
-          -- vim.keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, opts)
+          vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, opts)
+          vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
         end,
       })
-      vim.lsp.inlay_hint.enable(true)
     end,
   },
+  -- Language specific configs
   {
     "mfussenegger/nvim-jdtls",
     ft = "java",
