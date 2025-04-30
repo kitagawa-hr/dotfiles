@@ -11,13 +11,22 @@ local symbols = {
 }
 
 return {
-  {
-        },
-    end,
-  },
   -- resources
   { "ryanoasis/vim-devicons" },
   { "nvim-tree/nvim-web-devicons" },
+  {
+    "echasnovski/mini.icons",
+    version = "*",
+    opts = function()
+      require("mini.icons").mock_nvim_web_devicons()
+      return {
+        lsp = {
+          copilot = { glyph = "" },
+        },
+      }
+    end,
+  },
+
   -- themes
   { "folke/tokyonight.nvim" },
   { "romainl/vim-dichromatic" },
