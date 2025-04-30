@@ -7,6 +7,7 @@ vim.keymap.set("n", "Y", "y$", { noremap = true })
 vim.keymap.set("v", "p", '"pdP', { noremap = true })
 vim.keymap.set("", "<esc><esc>", "<Cmd>nohlsearch<CR>", { noremap = true })
 vim.keymap.set({ "n", "v" }, "x", '"xx', { noremap = true })
+vim.keymap.set("n", "X", '"_d$', { noremap = true })
 
 vim.keymap.set("n", "<leader>yf", function()
   vim.fn.setreg("*", vim.fn.expand("%"))
