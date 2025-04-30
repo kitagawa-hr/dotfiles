@@ -53,16 +53,19 @@ return {
     lazy = false,
   },
   {
-    "pocco81/auto-save.nvim",
+    "okuuva/auto-save.nvim",
+    version = "^1.0.0",
     event = { "InsertEnter", "TextChanged" },
     opts = {
-      execution_message = {
-        message = function()
-          return ""
-        end,
-      },
-      trigger_events = { "InsertLeave" },
+      event = { "InsertLeave", "TextChanged" },
       debounce_delay = 500,
+      condition = function(buf)
+        -- don't save for special-buffers
+        if vim.fn.getbufvar(buf, "&buftype") ~= "" then
+          return false
+        end
+        return true
+      end,
     },
   },
   {
