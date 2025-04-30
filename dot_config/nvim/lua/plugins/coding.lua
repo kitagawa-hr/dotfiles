@@ -113,7 +113,8 @@ return {
         end,
         desc = "Prev Changed Hunk",
       },
-      { "<leader>gr", "<cmd>GitSigns reset_hunk<cr>", desc = "Git reset Hunk" },
+      { "<leader>gr", "<cmd>Gitsigns reset_hunk<cr>", desc = "Git reset Hunk" },
+      { "<leader>gm", "<cmd>Gitsigns blame_line<cr>", desc = "Git message" },
     },
   },
   {
@@ -205,7 +206,9 @@ return {
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
-    config = true,
+    opts = {
+      check_ts = true,
+    },
   },
   -- Move
   {
@@ -262,7 +265,7 @@ return {
     keys = {
       { "gk", "<cmd>HopWordBC<cr>", mode = { "n", "v" } },
       { "gj", "<cmd>HopWordAC<cr>", mode = { "n", "v" } },
-      { "M", "<cmd>HopNodes<cr>", mode = { "n", "v" } },
+      { "ga", "<cmd>HopNodes<cr>", mode = { "n", "v" } },
     },
   },
   { "wakatime/vim-wakatime", lazy = false },
@@ -361,9 +364,7 @@ return {
     opts = {
       bigfile = { enabled = true },
       picker = {},
-      terminal = {
-        keys = {},
-      },
+      terminal = {},
       lazygit = {},
       notifier = {
         enabled = true,
@@ -376,6 +377,7 @@ return {
       },
       words = { enabled = true },
       styles = {
+        ---@diagnostic disable-next-line: missing-fields
         notification = {
           wo = { wrap = true }, -- Wrap notifications
         },

@@ -94,8 +94,6 @@ return {
             goto_next_start = {
               ["]m"] = "@function.outer",
               ["]]"] = { query = "@class.outer", desc = "Next class start" },
-              ["]o"] = { query = "@loop.*", desc = "Next loop" },
-              ["]s"] = { query = "@scope", query_group = "locals", desc = "Next scope" },
             },
             goto_next_end = {
               ["]M"] = "@function.outer",
@@ -103,8 +101,6 @@ return {
             goto_previous_start = {
               ["[m"] = "@function.outer",
               ["[["] = "@class.outer",
-              ["[o"] = { query = "@loop.*", desc = "Prev loop" },
-              ["[s"] = { query = "@scope", query_group = "locals", desc = "Prev scope" },
             },
             goto_previous_end = {
               ["[M"] = "@function.outer",
@@ -188,13 +184,6 @@ return {
   {
     "nanotee/sqls.nvim",
     ft = "sql",
-    config = function()
-      require("lspconfig").sqls.setup({
-        on_attach = function(client, bufnr)
-          require("sqls").on_attach(client, bufnr)
-        end,
-      })
-    end,
     keys = {
       {
         "X",

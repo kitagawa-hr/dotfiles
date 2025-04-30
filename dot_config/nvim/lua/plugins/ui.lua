@@ -57,6 +57,7 @@ return {
         groups = {
           nightfox = {
             WinSeparator = { fg = "#1679ab" },
+            Visual = { bg = "#414559" },
           },
         },
       })
@@ -245,11 +246,16 @@ return {
           ["vim.lsp.util.stylize_markdown"] = true,
           ["cmp.entry.get_documentation"] = true,
         },
+        hover = {
+          enabled = true,
+          silent = true,
+        },
       },
       presets = {
         command_palette = true,
         long_message_to_split = true,
         inc_rename = true,
+        lsp_doc_border = true,
       },
     },
   },
