@@ -117,15 +117,6 @@ return {
     },
   },
   {
-    "NeogitOrg/neogit",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "sindrets/diffview.nvim",
-      "telescope.nvim",
-    },
-    config = true,
-  },
-  {
     "tpope/vim-fugitive",
     dependencies = {
       "tpope/vim-rhubarb",
@@ -153,8 +144,6 @@ return {
       { "<leader>gL", "<cmd>Git log %<cr>", desc = "Git log for buffer" },
     },
   },
-  { "rhysd/git-messenger.vim" },
-  { "sindrets/diffview.nvim" },
   {
     "stevearc/resession.nvim",
     init = function()

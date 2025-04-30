@@ -288,9 +288,6 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    dependencies = {
-      "neoconf.nvim",
-    },
     config = function()
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -362,89 +359,15 @@ return {
   },
   {
     "folke/lazydev.nvim",
-    dependencies = {
-      { "Bilal2453/luvit-meta" },
-    },
     ft = "lua",
     opts = {
       library = {
-        "~/projects/my-awesome-lib",
         "lazy.nvim",
-        "luvit-meta/library",
         { path = "luvit-meta/library", words = { "vim%.uv" } },
-        "LazyVim",
-        { path = "LazyVim", words = { "LazyVim" } },
         { path = "wezterm-types", mods = { "wezterm" } },
-        { path = "xmake-luals-addon/library", files = { "xmake.lua" } },
+        { path = "snacks.nvim", words = { "Snacks" } },
+        { path = "lazy.nvim", words = { "LazyVim" } },
       },
-    },
-  },
-  {
-    "williamboman/mason-lspconfig",
-    dependencies = {
-      { "williamboman/mason.nvim", config = true },
-      "neovim/nvim-lspconfig",
-      {
-        "folke/neoconf.nvim",
-        cmd = "Neoconf",
-        opts = {
-          local_settings = ".nvim/neoconf.json",
-        },
-      },
-    },
-    opts = {
-      ensure_installed = {
-        "efm",
-        "jdtls",
-        "pyright",
-        "ruff_lsp",
-        "rust_analyzer",
-        "typos_lsp",
-        "lua_ls",
-      },
-      automatic_installation = false,
-      handlers = {
-        function(server_name)
-          require("lspconfig")[server_name].setup({})
-        end,
-        efm = function()
-          require("lspconfig").efm.setup(efmls_config)
-        end,
-        jdtls = function() end, -- Use nvim-jdtls instead
-      },
-    },
-  },
-  -- UI
-  {
-    "nvimdev/lspsaga.nvim",
-    config = function()
-      require("lspsaga").setup({})
-    end,
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons",
-    },
-    hover = {
-      open_link = "gx",
-      open_cmd = "!open",
-    },
-    outline = {
-      keys = { jump = "<CR>" },
-    },
-    keys = {
-      {
-        "]d",
-        "<cmd>Lspsaga diagnostic_jump_next<cr>",
-        desc = "Next Diagnostic",
-      },
-      {
-        "[d",
-        "<cmd>Lspsaga diagnostic_jump_prev<cr>",
-        desc = "Prev Diagnostic",
-      },
-      { "<C-k>", "<cmd>Lspsaga hover_doc<cr>", desc = "Hover Doc" },
-      { "<space>lf", "<cmd>Lspsaga finder<cr>", desc = "LSP Finder" },
-      { "<space>lr", "<cmd>Lspsaga rename<cr>", desc = "LSP Rename" },
     },
   },
 }

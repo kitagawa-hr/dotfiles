@@ -12,44 +12,7 @@ local symbols = {
 
 return {
   {
-    "lukas-reineke/indent-blankline.nvim",
-    config = function()
-      local api = vim.api
-
-      local exclude_ft = { "help", "git", "markdown", "snippets", "text", "gitconfig", "alpha", "dashboard" }
-
-      require("ibl").setup({
-        indent = {
-          -- -- U+2502 may also be a good choice, it will be on the middle of cursor.
-          -- -- U+250A is also a good choice
-          char = "▏",
         },
-        scope = {
-          show_start = false,
-          show_end = false,
-        },
-        exclude = {
-          filetypes = exclude_ft,
-          buftypes = { "terminal" },
-        },
-      })
-
-      local gid = api.nvim_create_augroup("indent_blankline", { clear = true })
-      api.nvim_create_autocmd("InsertEnter", {
-        pattern = "*",
-        group = gid,
-        command = "IBLDisable",
-      })
-
-      api.nvim_create_autocmd("InsertLeave", {
-        pattern = "*",
-        group = gid,
-        callback = function()
-          if not vim.tbl_contains(exclude_ft, vim.bo.filetype) then
-            vim.cmd([[IBLEnable]])
-          end
-        end,
-      })
     end,
   },
   -- resources
@@ -310,11 +273,6 @@ return {
       { "<leader>xD", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>" },
       { "<leader>xq", "<cmd>Trouble qflist toggle<cr>" },
       { "<leader>xl", "<cmd>Trouble loclist toggle<cr>" },
-      {
-        "<leader>ls",
-        "<cmd>Trouble symbols toggle focus=false win.position=left<cr>",
-        desc = "Symbols (Trouble)",
-      },
       {
         "<leader>lc",
         "<cmd>Trouble lsp_incoming_calls toggle focus=true win.position=left<cr>",
