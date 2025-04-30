@@ -2,44 +2,50 @@
 {
   home = {
     packages = with pkgs; [
-      # Essentials
+      # CLI tools
       bat
       chezmoi
       cmake
+      csvlens
       curl
+      delta
+      direnv
+      eza
       fd
-      fzf
       gcc
       git
       gnumake
       gnused
-      jq
-      neovim
-      nushell
-      openssl
-      pkg-config
-      ripgrep
-      tmux
-      tree-sitter
-      unzip
-      wget
-      zsh
-
-      # Dev tools
-      csvlens
-      delta
-      devenv
-      direnv
-      eza
       hexyl
       hyperfine
-      mcfly
+      jq
+      openssl
       pinentry-tty
+      pkg-config
       procs
-      starship
+      qrcp
+      ripgrep
+      tmux
+      unzip
       uutils-coreutils
+      wget
       xclip
       yazi
+
+      # Neovim
+      jdt-language-server
+      lua-language-server
+      typos-lsp
+      efm-langserver
+      neovim
+      tree-sitter
+
+      # shell
+      fish
+      fzf
+      mcfly
+      starship
+      zsh
       zoxide
 
       # AWS
@@ -55,7 +61,11 @@
       lazygit
       tig
 
+      # DAP
+      vscode-extensions.vadimcn.vscode-lldb
+
       # Nix
+      nil
       nixfmt-rfc-style
       statix
 
@@ -63,6 +73,7 @@
       biome
       nodejs_22
       deno
+      typescript-language-server
 
       # Rust
       cargo-binstall
@@ -83,9 +94,9 @@
       shfmt
 
       # Python
-      pyright
+      basedpyright
       ruff
-      rye
+      uv
 
       # YAML
       yamlfmt
@@ -96,15 +107,19 @@
 
       # Markdown
       markdownlint-cli
+
+      # zig
+      zig
+      zls
     ];
     sessionVariables = {
+      GOPATH = "$HOME/go";
       OPENSSL_DIR = "${pkgs.openssl.bin}/bin";
       OPENSSL_LIB_DIR = "${pkgs.openssl.out}/lib";
       OPENSSL_INCLUDE_DIR = "${pkgs.openssl.out.dev}/include";
     };
 
     sessionPath = [
-      "$HOME/.rye/shims"
       "$HOME/.cargo/bin"
       "$GOPATH/bin"
     ];

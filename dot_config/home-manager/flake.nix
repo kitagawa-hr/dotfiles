@@ -19,12 +19,28 @@
           pkgs = nixpkgs.legacyPackages."aarch64-darwin";
           modules = [
             ./modules/pkgs.nix
-	    ./modules/fonts.nix
+            ./modules/fonts.nix
             {
               programs.home-manager.enable = true;
               home = {
                 inherit username;
                 homeDirectory = "/Users/${username}";
+                stateVersion = "23.11";
+              };
+            }
+          ];
+        };
+
+        "kitagawa@mbp-private" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."x86_64-darwin";
+          modules = [
+            ./modules/pkgs.nix
+            ./modules/fonts.nix
+            {
+              programs.home-manager.enable = true;
+              home = {
+                username = "kitagawa";
+                homeDirectory = "/Users/kitagawa";
                 stateVersion = "23.11";
               };
             }

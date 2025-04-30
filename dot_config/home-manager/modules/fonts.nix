@@ -1,14 +1,10 @@
 { pkgs, ... }:
 {
-
   fonts.fontconfig.enable = true;
   home.packages = with pkgs; [
-    (nerdfonts.override {
-      fonts = [
-        "0xProto"
-        "FiraCode"
-        "Monaspace"
-      ];
-    })
+    font-awesome
+    nerd-fonts._0xproto
+    nerd-fonts.monaspace
+    nerd-fonts.fira-code
   ];
 }
