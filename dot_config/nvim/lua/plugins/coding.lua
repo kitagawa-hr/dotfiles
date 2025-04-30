@@ -168,13 +168,26 @@ return {
   },
   -- file manager
   {
-    "DreamMaoMao/yazi.nvim",
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-      "nvim-lua/plenary.nvim",
-    },
+    "mikavilpas/yazi.nvim",
+    event = "VeryLazy",
     keys = {
-      { "<leader>fe", "<cmd>Yazi<CR>", desc = "Open file explorer (yazi)" },
+      { "<leader>f.", "<cmd>Yazi<cr>", desc = "Open yazi at the current file" },
+      { "<leader>fe", "<cmd>Yazi toggle<cr>", desc = "Toggle yazi" },
+      { "<leader>fE", "<cmd>Yazi cwd<cr>", desc = "Open yazi in cwd" },
+      {
+        "<leader>fl",
+        function()
+          local log_dir = vim.fn.stdpath("log") --[[@as string]]
+          require("yazi").yazi({}, log_dir)
+        end,
+        desc = "Open yazi in log directory",
+      },
+    },
+    opts = {
+      keymaps = {
+        open_file_in_vertical_split = "<C-v>",
+        open_file_in_horizontal_split = "<C-s>",
+      },
     },
   },
   -- Mark
