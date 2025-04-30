@@ -299,6 +299,61 @@ return {
     },
   },
   {
+    "epwalsh/obsidian.nvim",
+    version = "*",
+    ft = "markdown",
+    event = { "BufReadPre " .. vim.fn.expand("~") .. "/obsidian/**.md" },
+    dependencies = {
+      "plenary.nvim",
+    },
+    opts = {
+      workspaces = {
+        {
+          name = "private",
+          path = vim.fn.expand("~") .. "/obsidian/private",
+        },
+      },
+    },
+  },
+  {
+    "monaqa/dial.nvim",
+    dependencies = { "plenary.nvim" },
+    config = function()
+      local augend = require("dial.augend")
+      require("dial.config").augends:register_group({
+        default = {
+          augend.integer.alias.decimal_int,
+          augend.date.alias["%Y-%m-%d"],
+          augend.constant.alias.bool,
+          augend.constant.new({ elements = { "True", "False" }, word = true, cyclic = true }),
+          augend.constant.new({ elements = { "and", "or" }, word = true, cyclic = true }),
+          augend.constant.new({ elements = { "&&", "||" }, word = false, cyclic = true }),
+          augend.constant.new({ elements = { "==", "!=" }, word = false, cyclic = true }),
+        },
+      })
+    end,
+    -- stylua: ignore
+    keys = {
+      { "<C-a>", function() require("dial.map").manipulate("increment", "normal") end },
+      { "<C-x>", function() require("dial.map").manipulate("decrement", "normal") end },
+      { "g<C-a>", function() require("dial.map").manipulate("increment", "gnormal") end },
+      { "g<C-x>", function() require("dial.map").manipulate("decrement", "gnormal") end },
+      { "<C-a>", function() require("dial.map").manipulate("increment", "visual") end, mode="v" },
+      { "<C-x>", function() require("dial.map").manipulate("decrement", "visual") end, mode="v" },
+      { "g<C-a>", function() require("dial.map").manipulate("increment", "gvisual") end, mode="v" },
+      { "g<C-x>", function() require("dial.map").manipulate("decrement", "gvisual") end, mode="v" },
+    },
+  },
+  {
+    "otavioschwanck/arrow.nvim",
+    dependencies = { "mini.icons" },
+    opts = {
+      show_icons = true,
+      leader_key = "M",
+      buffer_leader_key = "m",
+    },
+  },
+  {
     "folke/snacks.nvim",
     priority = 1000,
     lazy = false,
@@ -357,6 +412,35 @@ return {
 			{ "gi", function() Snacks.picker.lsp_implementations() end, desc = "Goto Implementation" },
 			{ "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto T[y]pe Definition" },
 			{ "<leader>ls", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
+    },
+  },
+  {
+    "stevearc/quicker.nvim",
+    event = "FileType qf",
+    ---@module "quicker"
+    ---@type quicker.SetupOptions
+    opts = {
+      keys = {
+        {
+          ">",
+          function()
+            require("quicker").expand({ before = 2, after = 2, add_to_existing = true })
+          end,
+          desc = "Expand quickfix context",
+        },
+        {
+          "<",
+          function()
+            require("quicker").collapse()
+          end,
+          desc = "Collapse quickfix context",
+        },
+      },
+    },
+		-- stylua: ignore
+    keys = {
+      { "<leader>q", function() require("quicker").toggle() end, desc = "Toggle quickfix" },
+      { "<leader>l", function() require("quicker").toggle({ loclist = true }) end, desc = "Toggle loclist" },
     },
   },
 }
