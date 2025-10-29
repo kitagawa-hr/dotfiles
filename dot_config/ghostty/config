@@ -1,7 +1,10 @@
 # UI
-font-family = "UDEV Gothic NFLG Regular"
+font-family = ""
+font-family = "MonaspiceNe Nerd Font Mono"
+font-family = "ヒラギノ丸ゴ ProN W4"
 font-size = 20
 font-feature = -dlig
+
 theme = "nightfox"
 quick-terminal-position = center
 macos-titlebar-style = "tabs"
