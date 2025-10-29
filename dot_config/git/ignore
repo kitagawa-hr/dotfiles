@@ -130,3 +130,6 @@ fabric.properties
 # personal memo
 memo
 
+## claude
+**/.claude/settings.local.json
+
