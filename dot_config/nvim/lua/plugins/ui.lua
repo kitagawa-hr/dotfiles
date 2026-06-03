@@ -317,4 +317,53 @@ return {
       "nvim-tree/nvim-web-devicons",
     },
   },
+  {
+    "rachartier/tiny-inline-diagnostic.nvim",
+    event = "VeryLazy",
+    priority = 1000,
+    opts = {
+      options = {
+        multilines = {
+          enabled = true,
+        },
+        show_source = {
+          enabled = true,
+        },
+      },
+    },
+  },
+  {
+    "esmuellert/codediff.nvim",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    opts = {
+      keymaps = {
+        explorer = {
+          hover = "<C-k>",
+        },
+        conflict = {
+          accept_incoming = "<leader>xh",
+          accept_current = "<leader>xl",
+          accept_both = "<leader>xb",
+          discard = "<leader>xx",
+          next_conflict = "]x",
+          prev_conflict = "[x",
+          diffget_incoming = "2do",
+          diffget_current = "3do",
+        },
+      },
+    },
+  },
+  {
+    "georgeguimaraes/review.nvim",
+    dependencies = {
+      "esmuellert/codediff.nvim",
+      "MunifTanjim/nui.nvim",
+    },
+    cmd = { "Review" },
+    keys = {
+      { "<leader>r", "<cmd>Review<cr>", desc = "Review" },
+      { "<leader>R", "<cmd>Review commits<cr>", desc = "Review commits" },
+    },
+    opts = {},
+  },
 }
