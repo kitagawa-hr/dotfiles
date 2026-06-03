@@ -1,4 +1,6 @@
 function g -d 'find and cd to ghq repo'
     ghq list | fzf | read select
-    [ -n "$select" ]; and cd "$(ghq root)/$select"
+    if test -n "$select"
+        cd "$(ghq root)/$select"
+    end
 end
