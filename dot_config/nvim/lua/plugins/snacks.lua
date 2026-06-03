@@ -32,33 +32,10 @@ return {
           VIMRUNTIME = vim.env.VIMRUNTIME,
           VIM = vim.env.VIM,
         },
+        shell = vim.fn.executable("fish") == 1 and "fish" or vim.opt.shell,
         keys = {
-          gf = function(_)
-            local f = vim.fn.findfile(vim.fn.expand("<cfile>"), "**")
-            if f == "" then
-              Snacks.notify.warn("No file under cursor")
-            else
-              vim.schedule(function()
-                vim.cmd("e " .. f)
-              end)
-            end
-          end,
-          term_normal = {
-            "<esc>",
-            function(self)
-              self.esc_timer = self.esc_timer or vim.uv.new_timer()
-              if self.esc_timer:is_active() then
-                self.esc_timer:stop()
-                return "<esc>"
-              else
-                self.esc_timer:start(200, 0, function() end)
-                vim.cmd("stopinsert")
-              end
-            end,
-            mode = "t",
-            expr = true,
-            desc = "Double escape to send <esc>",
-          },
+          n_esc = { "<Esc>", "<Plug>(esc)<ESC>", mode = "n" },
+          t_esc = { "<Plug>(esc)<ESC>", "i<ESC>", mode = "t" },
         },
       },
     },
@@ -81,6 +58,7 @@ return {
  			{ "<leader>ff", function() Snacks.picker.files() end, desc = "Find files" },
  			{ "<leader>ft", function() Snacks.picker.explorer() end, desc = "File tree" },
  			{ "<leader>fb", function() Snacks.picker.buffers() end, desc = "Find buffers" },
+ 			{ "<leader>fj", function() Snacks.picker.jumps() end, desc = "Find jumps" },
  			{ "<leader>fr", function() Snacks.picker.resume() end, desc = "Resume" },
  			{ "<leader>fq", function() Snacks.picker.qflist() end, desc = "quickfix" },
  			{ "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git status" },
