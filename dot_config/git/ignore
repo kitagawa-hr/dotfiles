@@ -133,3 +133,5 @@ memo
 ## claude
 **/.claude/settings.local.json
 
+## nohup
+nohup.out
