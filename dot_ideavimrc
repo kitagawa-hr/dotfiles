@@ -22,7 +22,7 @@ let mapleader = " "
 nnoremap <esc><esc> :nohlsearch<cr>
 nnoremap <C-n> <A-n>
 vnoremap <C-n> <A-n>
-nnoremap = :action ReformatCode<cr> \| :action OptimizeImports<cr>
+nnoremap = :action ReformatCode<cr> \| :action OptimizeImports<cr> \| :action io.gitlab.arturbosch.detekt.idea.action.AutoCorrect<cr>
 vnoremap = :action ReformatCode<cr>
 nnoremap [b :action PreviousTab<cr>
 nnoremap ]b :action NextTab<cr>
@@ -37,9 +37,12 @@ noremap H ^
 noremap L $
 nnoremap gr :action FindUsages<cr>
 nnoremap gi :action GotoImplementation<cr>
-nnoremap gy :action GotoSuperMethod<cr>
+nnoremap gy :action GotoTypeDeclaration<cr>
+nnoremap gs :action GotoSuperMethod<cr>
 nnoremap gt :action GotoTest<cr>
 vnoremap p "pdP
+nnoremap ]<space> o<esc>k
+nnoremap [<space> O<esc>j
 
 nnoremap <leader>L :action RecentLocations<cr>
 nnoremap <leader>F :action RecentFiles<cr>
@@ -53,6 +56,11 @@ nnoremap <leader>yr :action CopyReference<cr>
 nnoremap <leader>yf :action CopyPathFromRepositoryRootProvider<cr>
 nnoremap <leader>yF :action CopyAbsolutePath<cr>
 nnoremap <leader>yg :action GitHub.Copy.Link<cr>
+nnoremap <leader>tr :action RunClass<cr> 
+nnoremap <leader>tl :action Rerun<cr> 
+nnoremap <leader>B  :action CompileDirty<cr>
+nnoremap <leader>R  :action Gradle.ExecuteTask<cr>
+nnoremap <leader>db :action ToggleLineBreakpoint<cr>
 
 nnoremap mm :action ToggleBookmark<cr>
 nnoremap `  :action ShowBookmarks<cr>
